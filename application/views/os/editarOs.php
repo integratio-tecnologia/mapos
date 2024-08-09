@@ -43,11 +43,12 @@
                     </div>
                     <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'eOs')) {
                         $this->load->model('os_model');
+                        $fonenumber = preg_replace("/[^0-9]/", "", $result->telefone_cliente);
                         $zapnumber = preg_replace("/[^0-9]/", "", $result->celular_cliente);
                         $troca = [$result->nomeCliente, $result->idOs, $result->status, 'R$ ' . ($result->desconto != 0 && $result->valor_desconto != 0 ? number_format($result->valor_desconto, 2, ',', '.') : number_format($totalProdutos + $totalServico, 2, ',', '.')), strip_tags($result->descricaoProduto), ($emitente ? $emitente->nome : ''), ($emitente ? $emitente->telefone : ''), strip_tags($result->observacoes), strip_tags($result->defeito), strip_tags($result->laudoTecnico), date('d/m/Y', strtotime($result->dataFinal)), date('d/m/Y', strtotime($result->dataInicial)), $result->garantia . ' dias'];
                         $texto_de_notificacao = $this->os_model->criarTextoWhats($texto_de_notificacao, $troca);
                         if (!empty($zapnumber)) {
-                            echo '<a title="Via WhatsApp" class="button btn btn-mini btn-success" id="enviarWhatsApp" target="_blank" href="https://wa.me/send?phone=55' . $zapnumber . '&text=' . $texto_de_notificacao . '" ' . ($zapnumber == '' ? 'disabled' : '') . '>
+                            echo '<a title="Via WhatsApp" class="button btn btn-mini btn-success" id="enviarWhatsApp" target="_blank" href="https://wa.me/send?phone=55' . $zapnumber <> "" ? $zapnumber : $fonenumber . '&text=' . $texto_de_notificacao . '" ' . ($zapnumber == '' ? 'disabled' : '') . '>
                                 <span class="button__icon"><i class="bx bxl-whatsapp"></i></span> <span class="button__text">WhatsApp</span>
                             </a>';
                         }
@@ -219,6 +220,7 @@
                                     <table width="100%" class="table table-bordered" id="tblProdutos">
                                         <thead>
                                             <tr>
+                                                <th width="6%">Código</th>
                                                 <th>Produto</th>
                                                 <th width="8%">Quantidade</th>
                                                 <th width="10%">Preço unit.</th>
@@ -232,6 +234,7 @@
                                             foreach ($produtos as $p) {
                                                 $total = $total + $p->subTotal;
                                                 echo '<tr>';
+                                                echo '<td>' . $p->idProdutos . '</td>';
                                                 echo '<td>' . $p->descricao . '</td>';
                                                 echo '<td><div align="center">' . $p->quantidade . '</td>';
                                                 echo '<td><div align="center">R$: ' . ($p->preco ?: $p->precoVenda) . '</td>';
@@ -295,6 +298,7 @@
                                     <table width="100%" class="table table-bordered" id="tblServicos">
                                         <thead>
                                             <tr>
+                                                <th width="6%">Código</th>
                                                 <th>Serviço</th>
                                                 <th width="8%">Quantidade</th>
                                                 <th width="10%">Preço</th>
@@ -310,6 +314,7 @@
                                                 $subtotals = $preco * ($s->quantidade ?: 1);
                                                 $totals = $totals + $subtotals;
                                                 echo '<tr>';
+                                                echo '<td>' . $s->idServicos_os . '</td>';
                                                 echo '<td>' . $s->nome . '</td>';
                                                 echo '<td><div align="center">' . ($s->quantidade ?: 1) . '</div></td>';
                                                 echo '<td><div align="center">R$ ' . $preco . '</div></td>';
@@ -1229,6 +1234,13 @@
                 return false;
             }
         });
+
+        function multiWhats(num1, num2, texto) {
+            if (num1 != "") {var whats1 = 'https://wa.me/send?phone=55' + num1 + '&text=' + texto;};
+            if (num2 != "") {var whats2 = 'https://wa.me/send?phone=55' + num2 + '&text=' + texto;};
+            window.open(whats1, "_self");
+            window.open(whats2, "_self");
+        }
 
         $(".datepicker").datepicker({
             dateFormat: 'dd/mm/yy'
