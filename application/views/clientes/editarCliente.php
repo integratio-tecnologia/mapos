@@ -106,6 +106,12 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label for="nomeFantasia" class="control-label">Nome Fantasia</label>
+                            <div class="controls">
+                                <input id="nomeFantasia" type="text" name="nomeFantasia" value="<?php echo $result->nomeFantasia; ?>" />
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label for="contato" class="control-label">Contato:</label>
                             <div class="controls">
                                 <input class="contato" type="text" name="contato" value="<?php echo $result->contato; ?>" />
