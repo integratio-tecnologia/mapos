@@ -182,6 +182,7 @@ class Os_model extends CI_Model
         $this->db->like('idProdutos', $q);
         $this->db->or_like('codDeBarra', $q);
         $this->db->or_like('descricao', $q);
+        $this->db->or_like('idProdutos', $q);
         $query = $this->db->get('produtos');
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
@@ -212,16 +213,14 @@ class Os_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->limit(25);
-        $this->db->like('idClientes', $q);
-        $this->db->or_like('nomeCliente', $q);
-        $this->db->or_like('nomeFantasia', $q);
+        $this->db->like('nomeCliente', $q);
         $this->db->or_like('telefone', $q);
         $this->db->or_like('celular', $q);
         $this->db->or_like('documento', $q);
         $query = $this->db->get('clientes');
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $row_set[] = ['label' => $row['idClientes'] . ' | ' . $row['nomeCliente'] . ' | Nome/Fantasia: ' . $row['nomeFantasia'] . ' | Telefone: ' . $row['telefone'] . ' | Celular: ' . $row['celular'] . ' | Documento: ' . $row['documento'], 'id' => $row['idClientes']];
+                $row_set[] = ['label' => $row['nomeCliente'] . ' | Telefone: ' . $row['telefone'] . ' | Celular: ' . $row['celular'] . ' | Documento: ' . $row['documento'], 'id' => $row['idClientes']];
             }
             echo json_encode($row_set);
         }
