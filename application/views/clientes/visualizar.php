@@ -23,9 +23,21 @@
                             <table class="table table-bordered" style="border: 1px solid #ddd">
                                 <tbody>
                                 <tr>
+                                    <td style="text-align: right; width: 30%"><strong>Código</strong></td>
+                                    <td>
+                                        <?php echo $result->idClientes ?>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td style="text-align: right; width: 30%"><strong>Nome</strong></td>
                                     <td>
                                         <?php echo $result->nomeCliente ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right; width: 30%"><strong>Nome/Fantasia</strong></td>
+                                    <td>
+                                        <?php echo $result->nomeFantasia ?>
                                     </td>
                                 </tr>
                                 <tr>
