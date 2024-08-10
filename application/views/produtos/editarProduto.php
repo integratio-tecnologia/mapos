@@ -42,6 +42,7 @@
                         <label for="codDeBarra" class="control-label">Código de Barra<span class=""></span></label>
                         <div class="controls">
                             <input id="codDeBarra" type="text" name="codDeBarra" value="<?php echo $result->codDeBarra; ?>" />
+                            <button type="button" class="btn btn-outline-light" onclick="atualizarCodigoDeBarra()"> <i class="icon-refresh tip-right" title="Alterar código de barras automático no formato EAN-13."></i></button>
                         </div>
                     </div>
                     <div class="control-group">
@@ -135,31 +136,12 @@
 <script src="<?php echo base_url() ?>assets/js/jquery.validate.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/maskmoney.js"></script>
 <script type="text/javascript">
-    function calcLucro(precoCompra, Lucro) {
-        var lucroTipo = $('#selectLucro').val();
-        var precoVenda;
-        
-        if (lucroTipo === 'markup') {
-            precoVenda = (precoCompra * (1 + Lucro / 100)).toFixed(2);
-        } else if (lucroTipo === 'margemLucro') {
-            precoVenda = (precoCompra / (1 - (Lucro / 100))).toFixed(2);
-        }
-        
-        return precoVenda;
-    }
-    
-    function atualizarPrecoVenda() {
-        var precoCompra = Number($("#precoCompra").val());
-        var lucro = Number($("#Lucro").val());
-        
-        if (precoCompra > 0 && lucro >= 0) {
-            $('#precoVenda').val(calcLucro(precoCompra, lucro));
-        }
-    }
-    
-    $("#precoCompra, #Lucro, #selectLucro").on('input change', atualizarPrecoVenda);
+    function calcLucro(precoCompra, margemLucro) {
+    var precoVenda = (precoCompra / (100 - margemLucro) * 100).toFixed(2);
+    return precoVenda;
 
-    $("#precoCompra, #Lucro").on('input change', function() {
+}
+    $("#precoCompra").focusout(function() {
         if ($("#precoCompra").val() == '0.00' && $('#precoVenda').val() != '') {
             $('#errorAlert').text('Você não pode preencher valor de compra e depois apagar.').css("display", "inline").fadeOut(6000);
             $('#precoVenda').val('');
@@ -169,7 +151,7 @@
         }
     });
 
-    $("#Lucro").keyup(function() {
+   $("#margemLucro").keyup(function() {
         this.value = this.value.replace(/[^0-9.]/g, '');
         if ($("#precoCompra").val() == null || $("#precoCompra").val() == '') {
             $('#errorAlert').text('Preencher valor da compra primeiro.').css("display", "inline").fadeOut(5000);
@@ -186,11 +168,11 @@
         }
     });
 
-    $('#precoVenda').focusout(function () {
+    $('#precoVenda').focusout(function() {
         if (Number($('#precoVenda').val()) < Number($("#precoCompra").val())) {
             $('#errorAlert').text('Preço de venda não pode ser menor que o preço de compra.').css("display", "inline").fadeOut(6000);
             $('#precoVenda').val('');
-            if($("#margemLucro").val() != "" || $("#margemLucro").val() != null){
+            if ($("#margemLucro").val() != "" || $("#margemLucro").val() != null) {
                 $('#precoVenda').val(calcLucro(Number($("#precoCompra").val()), Number($("#margemLucro").val())));
             }
         }
@@ -251,4 +233,30 @@
             }
         });
     });
+    
+    function calcularDigitoVerificador(codigoParcial) {
+        let soma = codigoParcial.reduce((acc, digit, index) => {
+            return acc + ((index % 2 === 0) ? digit : digit * 3);
+        }, 0);
+
+        const digitoVerificador = (10 - (soma % 10)) % 10;
+        return digitoVerificador;
+    }
+
+    function atualizarCodigoDeBarra() {
+        // Gere 12 números aleatórios
+        let novoCodigoParcial = [];
+        for (let i = 0; i < 12; i++) {
+            novoCodigoParcial.push(Math.floor(Math.random() * 10));
+        }
+
+        // Calcular o dígito verificador
+        const digitoVerificador = calcularDigitoVerificador(novoCodigoParcial);
+
+        // Adicionar o dígito verificador ao código parcial
+        novoCodigoParcial.push(digitoVerificador);
+
+        // Atualizar o valor no campo de entrada
+        document.getElementById('codDeBarra').value = novoCodigoParcial.join('');
+    }
 </script>

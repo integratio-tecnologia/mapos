@@ -91,7 +91,7 @@
                                         <div class="span3">
                                             <label for="status">Status<span class="required">*</span></label>
                                             <select class="span12" name="status" id="status" value="">
-                                                <option <?php if ($result->status == 'Aberto') { echo 'selected'; } ?> value="Aberto">Aberto</option>
+                                            <option <?php if ($result->status == 'Aberto') { echo 'selected'; } ?> value="Aberto">Aberto</option>
                                                 <option <?php if ($result->status == 'Orçamento') { echo 'selected'; } ?> value="Orçamento">Orçamento</option>
                                                 <option <?php if ($result->status == 'Negociação') { echo 'selected'; } ?> value="Negociação">Negociação</option>
                                                 <option <?php if ($result->status == 'Aprovado') { echo 'selected'; } ?> value="Aprovado">Aprovado</option>
@@ -1234,13 +1234,6 @@
                 return false;
             }
         });
-
-        function multiWhats(num1, num2, texto) {
-            if (num1 != "") {var whats1 = 'https://wa.me/send?phone=55' + num1 + '&text=' + texto;};
-            if (num2 != "") {var whats2 = 'https://wa.me/send?phone=55' + num2 + '&text=' + texto;};
-            window.open(whats1, "_self");
-            window.open(whats2, "_self");
-        }
 
         $(".datepicker").datepicker({
             dateFormat: 'dd/mm/yy'
