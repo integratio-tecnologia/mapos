@@ -58,10 +58,10 @@
                         <th>Nº</th>
                         <th>Cliente</th>
                         <th>Data da Venda</th>
-                        <th>Venc. da Garantia</th>
-                        <th>Status</th>
+                        <th>Vencimento da Garantia</th>
                         <th>Faturado</th>
-                        <th style="text-align:center">Ações</th>
+                        <th>Status</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
             <tbody>
@@ -69,7 +69,7 @@
 
                     if (!$results) {
                         echo '<tr>
-                                <td colspan="5">Nenhuma Venda Cadastrada</td>
+                                <td colspan="7">Nenhuma Venda Cadastrada</td>
                             </tr>';
                     }
                     foreach ($results as $r) {
@@ -140,8 +140,8 @@
                                     echo '<td><a href="' . base_url() . 'index.php/clientes/visualizar/' . $r->idClientes . '">' . $r->nomeCliente . '</a></td>';
                                     echo '<td>' . $dataVenda . '</td>';
                                     echo '<td class="ph3"><span class="badge" style="background-color: ' . $corGarantia . '; border-color: ' . $corGarantia . '">' . $vencGarantia . '</span> </td>';
-                                    echo '<td><span class="badge" style="background-color: ' . $cor . '; border-color: ' . $cor . '">' . $r->status . '</span> </td>';
                                     echo '<td>' . $faturado . '</td>';
+                                    echo '<td><span class="badge" style="background-color: ' . $cor . '; border-color: ' . $cor . '">' . $r->status . '</span> </td>';
                                     echo '<td style="text-align:right">';
                                 if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vVenda')) {
                                     echo '<a style="margin-right: 1%" href="' . base_url() . 'index.php/vendas/visualizar/' . $r->idVendas . '" class="btn-nwe" title="Ver mais detalhes"><i class="bx bx-show bx-xs"></i></a>';
