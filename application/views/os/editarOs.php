@@ -1262,13 +1262,6 @@
             }
         });
 
-        function multiWhats(num1, num2, texto) {
-            if (num1 != "") {var whats1 = 'https://wa.me/send?phone=55' + num1 + '&text=' + texto;};
-            if (num2 != "") {var whats2 = 'https://wa.me/send?phone=55' + num2 + '&text=' + texto;};
-            window.open(whats1, "_self");
-            window.open(whats2, "_self");
-        }
-
         $(".datepicker").datepicker({
             dateFormat: 'dd/mm/yy'
         });
