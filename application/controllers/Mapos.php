@@ -425,7 +425,10 @@ class Mapos extends MY_Controller {
         $this->form_validation->set_rules('pix_key', 'Chave Pix', 'trim|valid_pix_key', [
             'valid_pix_key' => 'Chave Pix inválida!',
         ]);
-
+        $this->form_validation->set_rules('obs_geral1', 'Observações Gerais', 'trim');
+        $this->form_validation->set_rules('obs_geral2', 'Observações AVCB/CLCB', 'trim');
+        $this->form_validation->set_rules('obs_geral3', 'Observações Laudos', 'trim');
+        
         if ($this->form_validation->run() == false) {
             $this->data['custom_error'] = (validation_errors() ? '<div class="alert">' . validation_errors() . '</div>' : false);
         } else {
@@ -453,7 +456,10 @@ class Mapos extends MY_Controller {
                 'EMAIL_SMTP_CRYPTO' => $this->input->post('EMAIL_SMTP_CRYPTO'),
                 'EMAIL_SMTP_PORT' => $this->input->post('EMAIL_SMTP_PORT'),
                 'EMAIL_SMTP_USER' => $this->input->post('EMAIL_SMTP_USER'),
-                'EMAIL_SMTP_PASS' => $this->input->post('EMAIL_SMTP_PASS'),
+                'EMAIL_SMTP_PASS' => '"' . $this->input->post('EMAIL_SMTP_PASS') . '"',
+                //'OBS_GERAL1_OS' => ($this->input->post('obs_geral1') != '' ? TRUE : FALSE),
+                //'OBS_GERAL1_OS' => ($this->input->post('obs_geral2') != '' ? TRUE : FALSE),
+                //'OBS_GERAL1_OS' => ($this->input->post('obs_geral3') != '' ? TRUE : FALSE),
             ];
 
             if (!$this->editDontEnv($dataDotEnv)) {
@@ -476,6 +482,9 @@ class Mapos extends MY_Controller {
                 'pix_key' => $this->input->post('pix_key'),
                 'os_status_list' => json_encode($this->input->post('os_status_list')),
                 'control_2vias' => $this->input->post('control_2vias'),
+                'obs_geral1' => $this->input->post('obs_geral1'),
+                'obs_geral2' => $this->input->post('obs_geral2'),
+                'obs_geral3' => $this->input->post('obs_geral3'),
             ];
             if ($this->mapos_model->saveConfiguracao($data) == true) {
                 $this->session->set_flashdata('success', 'Configurações do sistema atualizadas com sucesso!');
