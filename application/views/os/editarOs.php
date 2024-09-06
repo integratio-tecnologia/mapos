@@ -124,6 +124,28 @@
                                             <input id="garantias_id" class="span12" type="hidden" name="garantias_id" value="<?php echo $result->garantias_id ?>" />
                                         </div>
                                     </div>
+                                    <?php if ($configuration['obs_geral1'] != '' || $configuration['obs_geral2'] != '' || $configuration['obs_geral3'] != '') : ?>
+                                        <div class="span12" style="padding: 1%; margin-left: 0; display: flex;">
+                                            <?php if ($configuration['obs_geral1'] != '') : ?>
+                                                <a class="button btn btn-mini btn-success getObs" id="obs_geral1" style="max-width: 160px">
+                                                    <span class="button__icon"><i class='fas fa-plus-square'></i></span>
+                                                    <span class="button__text2">Obs. Gerais</span>
+                                                </a>
+                                            <?php endif; ?>
+                                            <?php if ($configuration['obs_geral2'] != '') : ?>
+                                                <a class="button btn btn-mini btn-success getObs" id="obs_geral2" style="max-width: 160px">
+                                                    <span class="button__icon"><i class='fas fa-plus-square'></i></span>
+                                                    <span class="button__text2">Obs. AVCB/CLCB</span>
+                                                </a>
+                                            <?php endif; ?>
+                                            <?php if ($configuration['obs_geral3'] != '') : ?>
+                                                <a class="button btn btn-mini btn-success getObs" id="obs_geral3" style="max-width: 160px">
+                                                    <span class="button__icon"><i class='fas fa-plus-square'></i></span>
+                                                    <span class="button__text2">Obs. Vistorias</span>
+                                                </a>
+                                            <?php endif; ?>
+                                        </div>                                        
+                                    <?php endif; ?>
                                     <div class="span6" style="padding: 1%; margin-left: 0">
                                         <label for="descricaoProduto"><h4>Descrição Produto/Serviço</h4></label>
                                         <textarea class="span12 editor" name="descricaoProduto" id="descricaoProduto" cols="30" rows="5"><?php echo $result->descricaoProduto ?></textarea>
@@ -1247,6 +1269,36 @@
         $('.editor').trumbowyg({
             lang: 'pt_br',
             semantic: { 'strikethrough': 's', }
+        });
+    });
+    
+    $(document).on('click', '.getObs', function (event) {
+        var obs = $(this).attr('id');
+        var url = '<?= base_url() ?>index.php/os/getObs/';
+        var content = $('#observacoes').trumbowyg('html');
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: 'json',
+            data: "obs=" + obs,
+            success: function (data) {
+                if (data.result == true) {
+                    // alert(data.obs)
+                    // $('#observacoes').val($('#observacoes').val() + data.obs);
+                    if (content.length > 0) {
+                        $('#observacoes').trumbowyg('html', content+'<br>'+data.obs);
+                    } else {
+                        $('#observacoes').trumbowyg('html', data.obs);
+                    }
+                } else {
+                    Swal.fire({
+                        type: "error",
+                        title: "Atenção",
+                        text: data.mensagem
+                    });
+                }
+            }
         });
     });
 </script>

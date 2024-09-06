@@ -1189,4 +1189,10 @@ class Os extends MY_Controller
             echo json_encode(['result' => false]);
         }
     }
+
+    public function getObs()
+    {
+        $obs = $this->input->post('obs');
+        echo json_encode(['result' => true, 'obs' => $this->data['configuration'][$obs]]);
+    }
 }
