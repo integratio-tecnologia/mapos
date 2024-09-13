@@ -43,11 +43,6 @@
         border-bottom: 1px solid #ffffff;
     }
 
-    .controls {
-        /*margin-left: 20px;*/
-        /*padding-bottom: 8px;*/
-    }
-
     .control-label {
         text-align: left;
         padding-bottom: 8px;
@@ -145,37 +140,24 @@
                                         </div>
                                     </div>
                                     <?php if ($configuration['obs_geral1'] != '' || $configuration['obs_geral2'] != '' || $configuration['obs_geral3'] != '') : ?>
-                                        <div class="span12" style="padding: 1%; margin-left: 0;">
-                                            <label class="control-label">Observações</label>
+                                        <div class="span12" style="padding: 1%; margin-left: 0; display: flex;">
                                             <?php if ($configuration['obs_geral1'] != '') : ?>
-                                                <div class="span4 control-group">
-                                                    <div class="controls">
-                                                        <label for="obs_geral1" class="span12 btn btn-default">Obs. Gerais
-                                                            <input type="checkbox" id="obs_geral1" name="obs_geral1" class="badgebox" <?= !filter_var($_ENV['OBS_GERAL1_OS'] ?? false, FILTER_VALIDATE_BOOLEAN) ? '' : 'checked'; ?> value="<?php echo $configuration['obs_geral1'] ?>">
-                                                            <span class="badge">&check;</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                                <a class="button btn btn-mini btn-success getObs" id="obs_geral1" style="max-width: 160px">
+                                                    <span class="button__icon"><i class='fas fa-plus-square'></i></span>
+                                                    <span class="button__text2">Obs. Gerais</span>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if ($configuration['obs_geral2'] != '') : ?>
-                                                <div class="span4 control-group">
-                                                    <div class="controls">
-                                                        <label for="obs_geral2" class="span12 btn btn-default">Obs. AVCB/CLCB
-                                                            <input type="checkbox" id="obs_geral2" name="obs_geral2" class="badgebox" <?= !filter_var($_ENV['OBS_GERAL2_OS'] ?? false, FILTER_VALIDATE_BOOLEAN) ? '' : 'checked'; ?> value="<?php echo $configuration['obs_geral2'] ?>">
-                                                            <span class="badge">&check;</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                                <a class="button btn btn-mini btn-success getObs" id="obs_geral2" style="max-width: 160px">
+                                                    <span class="button__icon"><i class='fas fa-plus-square'></i></span>
+                                                    <span class="button__text2">Obs. AVCB/CLCB</span>
+                                                </a>
                                             <?php endif; ?>
                                             <?php if ($configuration['obs_geral3'] != '') : ?>
-                                                <div class="span4 control-group">
-                                                    <div class="controls">
-                                                        <label for="obs_geral3" class="span12 btn btn-default">Obs. Vistorias
-                                                            <input type="checkbox" id="obs_geral3" name="obs_geral3" class="badgebox" <?= !filter_var($_ENV['OBS_GERAL3_OS'] ?? false, FILTER_VALIDATE_BOOLEAN) ? '' : 'checked'; ?> value="<?php echo $configuration['obs_geral3'] ?>">
-                                                            <span class="badge">&check;</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
+                                                <a class="button btn btn-mini btn-success getObs" id="obs_geral3" style="max-width: 160px">
+                                                    <span class="button__icon"><i class='fas fa-plus-square'></i></span>
+                                                    <span class="button__text2">Obs. Vistorias</span>
+                                                </a>
                                             <?php endif; ?>
                                         </div>                                        
                                     <?php endif; ?>
@@ -292,19 +274,34 @@
             semantic: { 'strikethrough': 's', }
         });
     });
-    $(document).on('change', 'input:checkbox', function() { 
-        if (this.checked) {
-            var obs = $(this).text();
-            if(!obs.includes($(this).text())){
-                obs += $(this).text()+"\n";
-            }
-            else {
-                if(obs.includes($(this).text())){
-                    obs = obs.replace($(this).text(),"");
+
+    $(document).on('click', '.getObs', function (event) {
+        var obs = $(this).attr('id');
+        var url = '<?= base_url() ?>index.php/os/getObs/';
+        var content = $('#observacoes').trumbowyg('html');
+
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: 'json',
+            data: "obs=" + obs,
+            success: function (data) {
+                if (data.result == true) {
+                    // alert(data.obs)
+                    // $('#observacoes').val($('#observacoes').val() + data.obs);
+                    if (content.length > 0) {
+                        $('#observacoes').trumbowyg('html', content+'<br>'+data.obs);
+                    } else {
+                        $('#observacoes').trumbowyg('html', data.obs);
+                    }
+                } else {
+                    Swal.fire({
+                        type: "error",
+                        title: "Atenção",
+                        text: data.mensagem
+                    });
                 }
             }
-            $('#observacoes').text() = obs;
-        }
-       console.log($(this).text())
+        });
     });
 </script>
