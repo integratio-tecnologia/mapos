@@ -10,6 +10,11 @@ $config = [
             'rules' => 'required|trim',
         ],
         [
+            'field' => 'nomeFantasia',
+            'label' => 'Nome Fantasia',
+            'rules' => 'trim',
+        ],
+        [
             'field' => 'documento',
             'label' => 'CPF/CNPJ',
             'rules' => 'trim|verific_cpf_cnpj|unique[clientes.documento.' . get_instance()->uri->segment(3) . '.idClientes]',
@@ -77,8 +82,13 @@ $config = [
     ],
     'produtos' => [
         [
+            'field' => 'nome',
+            'label' => 'Nome do Produto',
+            'rules' => 'required|trim',
+        ],
+        [
             'field' => 'descricao',
-            'label' => '',
+            'label' => 'Descrição do Produto',
             'rules' => 'required|trim',
         ],
         [
