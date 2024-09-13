@@ -19,6 +19,12 @@
                             </td>
                         </tr>
                         <tr>
+                            <td style="text-align: right; width: 30%"><strong>Nome</strong></td>
+                            <td>
+                                <?php echo $result->nome ?>
+                            </td>
+                        </tr>
+                        <tr>
                             <td style="text-align: right; width: 30%"><strong>Descrição</strong></td>
                             <td>
                                 <?php echo $result->descricao ?>

@@ -41,6 +41,7 @@
                     <th>Cod.</th>
                     <th>Cod. Barra</th>
                     <th>Nome</th>
+                    <th>Descrição</th>
                     <th>Estoque</th>
                     <th>Preço</th>
                     <th>Ações</th>
@@ -58,6 +59,7 @@
                     echo '<tr>';
                     echo '<td>' . $r->idProdutos . '</td>';
                     echo '<td>' . $r->codDeBarra . '</td>';
+                    echo '<td>' . $r->nome . '</td>';
                     echo '<td>' . $r->descricao . '</td>';
                     echo '<td>' . $r->estoque . '</td>';
                     echo '<td>' . number_format($r->precoVenda, 2, ',', '.') . '</td>';

@@ -66,6 +66,7 @@ class Produtos extends MY_Controller
             $precoVenda = str_replace(',', '', $precoVenda);
             $data = [
                 'codDeBarra' => set_value('codDeBarra'),
+                'nome' => set_value('nome'),
                 'descricao' => set_value('descricao'),
                 'unidade' => set_value('unidade'),
                 'precoCompra' => $precoCompra,
@@ -112,6 +113,7 @@ class Produtos extends MY_Controller
             $precoVenda = str_replace(',', '', $precoVenda);
             $data = [
                 'codDeBarra' => set_value('codDeBarra'),
+                'nome' => $this->input->post('nome'),
                 'descricao' => $this->input->post('descricao'),
                 'unidade' => $this->input->post('unidade'),
                 'precoCompra' => $precoCompra,
