@@ -84,3 +84,27 @@ if (! function_exists('getAmount')) {
         return floatval(str_replace(',', '.', $removedThousandSeparator));
     }
 }
+
+if (! function_exists('editDotEnv')) {
+    function editDotEnv(array $data)
+    {
+        $env_file_path = dirname(__FILE__, 2) . DIRECTORY_SEPARATOR . '.env';
+        $env_file = file_get_contents($env_file_path);
+
+        foreach ($data as $constante => $valor) {
+            if ($constante == 'API_JWT_KEY' && $valor == 'sim') {
+                $base64 = base64_encode(openssl_random_pseudo_bytes(32));
+                $valor = '"' . $base64 . '"';
+                $env_file = str_replace("$constante=" . '"' . $_ENV[$constante] . '"', "$constante={$valor}", $env_file);
+            } else {
+                if (isset($_ENV[$constante])) {
+                    $env_file = str_replace("$constante={$_ENV[$constante]}", "$constante={$valor}", $env_file);
+                } else {
+                    file_put_contents($env_file_path, $env_file . "\n{$constante}={$valor}\n");
+                    $env_file = file_get_contents($env_file_path);
+                }
+            }
+        }
+        return file_put_contents($env_file_path, $env_file) ? true : false;
+    }
+}

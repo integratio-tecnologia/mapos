@@ -71,6 +71,7 @@ class Clientes extends MY_Controller
         } else {
             $data = [
                 'nomeCliente' => set_value('nomeCliente'),
+                'nomeFantasia' => set_value('nomeFantasia'),
                 'contato' => set_value('contato'),
                 'pessoa_fisica' => $pessoa_fisica,
                 'documento' => set_value('documento'),
@@ -127,6 +128,7 @@ class Clientes extends MY_Controller
 
                 $data = [
                     'nomeCliente' => $this->input->post('nomeCliente'),
+                    'nomeFantasia' => $this->input->post('nomeFantasia'),
                     'contato' => $this->input->post('contato'),
                     'documento' => $this->input->post('documento'),
                     'telefone' => $this->input->post('telefone'),
@@ -145,6 +147,7 @@ class Clientes extends MY_Controller
             } else {
                 $data = [
                     'nomeCliente' => $this->input->post('nomeCliente'),
+                    'nomeFantasia' => $this->input->post('nomeFantasia'),
                     'contato' => $this->input->post('contato'),
                     'documento' => $this->input->post('documento'),
                     'telefone' => $this->input->post('telefone'),

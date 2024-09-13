@@ -43,6 +43,7 @@
                     <tr>
                         <th>Cod.</th>
                         <th>Nome</th>
+                        <th>Nome/Fantasia</th>
                         <th>Contato</th>
                         <th>CPF/CNPJ</th>
                         <th>Telefone</th>
@@ -63,6 +64,7 @@
                         echo '<tr>';
                         echo '<td>' . $r->idClientes . '</td>';
                         echo '<td><a href="' . base_url() . 'index.php/clientes/visualizar/' . $r->idClientes . '" style="margin-right: 1%">' . $r->nomeCliente . '</a></td>';
+                        echo '<td>' . $r->nomeFantasia . '</td>';
                         echo '<td>' . $r->contato . '</td>';
                         echo '<td>' . $r->documento . '</td>';
                         echo '<td>' . $r->telefone . '</td>';

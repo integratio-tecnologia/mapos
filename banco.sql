@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `idClientes` INT(11) NOT NULL AUTO_INCREMENT,
   `asaas_id` VARCHAR(255) DEFAULT NULL,
   `nomeCliente` VARCHAR(255) NOT NULL,
+  `nomeFantasia` VARCHAR(100) NOT NULL,
   `sexo` VARCHAR(20) NULL,
   `pessoa_fisica` BOOLEAN NOT NULL DEFAULT 1,
   `documento` VARCHAR(20) NOT NULL,
@@ -31,16 +32,33 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `email` VARCHAR(100) NOT NULL,
   `senha` VARCHAR(200) NOT NULL,
   `dataCadastro` DATE NULL DEFAULT NULL,
-  `rua` VARCHAR(70) NULL DEFAULT NULL,
+  `rua` VARCHAR(100) NULL DEFAULT NULL,
   `numero` VARCHAR(15) NULL DEFAULT NULL,
-  `bairro` VARCHAR(45) NULL DEFAULT NULL,
-  `cidade` VARCHAR(45) NULL DEFAULT NULL,
+  `bairro` VARCHAR(100) NULL DEFAULT NULL,
+  `cidade` VARCHAR(100) NULL DEFAULT NULL,
   `estado` VARCHAR(20) NULL DEFAULT NULL,
   `cep` VARCHAR(20) NULL DEFAULT NULL,
-  `contato` varchar(45) DEFAULT NULL,
+  `contato` varchar(100) DEFAULT NULL,
   `complemento` varchar(45) DEFAULT NULL,
   `fornecedor` BOOLEAN NOT NULL DEFAULT 0,
   PRIMARY KEY (`idClientes`))
+ENGINE = InnoDB
+AUTO_INCREMENT = 100
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `contatos` (
+  `idContatos` INT NOT NULL AUTO_INCREMENT,
+  `nomeContato` VARCHAR(255) NOT NULL,
+  `telefone` VARCHAR(20) NULL DEFAULT NULL,
+  `celular` VARCHAR(20) NOT NULL,
+  `clientes_id` INT NOT NULL,
+  PRIMARY KEY (`idContatos`),
+  INDEX `fk_contatos_clientes_idx` (`clientes_id` ASC),
+  CONSTRAINT `fk_contatos_clientes`
+    FOREIGN KEY (`clientes_id`)
+    REFERENCES `clientes` (`idClientes`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
@@ -108,10 +126,10 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `rg` VARCHAR(20) NULL DEFAULT NULL,
   `cpf` VARCHAR(20) NOT NULL,
   `cep` VARCHAR(9) NOT NULL,
-  `rua` VARCHAR(70) NULL DEFAULT NULL,
+  `rua` VARCHAR(100) NULL DEFAULT NULL,
   `numero` VARCHAR(15) NULL DEFAULT NULL,
-  `bairro` VARCHAR(45) NULL DEFAULT NULL,
-  `cidade` VARCHAR(45) NULL DEFAULT NULL,
+  `bairro` VARCHAR(100) NULL DEFAULT NULL,
+  `cidade` VARCHAR(100) NULL DEFAULT NULL,
   `estado` VARCHAR(20) NULL DEFAULT NULL,
   `email` VARCHAR(80) NOT NULL,
   `senha` VARCHAR(200) NOT NULL,
@@ -250,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `os` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
-AUTO_INCREMENT = 1
+AUTO_INCREMENT = 1000
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 
@@ -260,7 +278,7 @@ DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 CREATE TABLE IF NOT EXISTS `produtos` (
   `idProdutos` INT(11) NOT NULL AUTO_INCREMENT,
   `codDeBarra` VARCHAR(70) NOT NULL,
-  `descricao` VARCHAR(80) NOT NULL,
+  `descricao` VARCHAR(255) NOT NULL,
   `unidade` VARCHAR(10) NULL DEFAULT NULL,
   `precoCompra` DECIMAL(10,2) NULL DEFAULT NULL,
   `precoVenda` DECIMAL(10,2) NOT NULL,
@@ -307,8 +325,8 @@ DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `servicos` (
   `idServicos` INT(11) NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  `descricao` VARCHAR(45) NULL DEFAULT NULL,
+  `nome` VARCHAR(100) NOT NULL,
+  `descricao` VARCHAR(255) NULL DEFAULT NULL,
   `preco` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (`idServicos`))
 ENGINE = InnoDB
@@ -580,10 +598,10 @@ CREATE  TABLE IF NOT EXISTS `emitente` (
   `nome` VARCHAR(255) NULL ,
   `cnpj` VARCHAR(45) NULL ,
   `ie` VARCHAR(50) NULL ,
-  `rua` VARCHAR(70) NULL ,
+  `rua` VARCHAR(100) NULL ,
   `numero` VARCHAR(15) NULL ,
-  `bairro` VARCHAR(45) NULL ,
-  `cidade` VARCHAR(45) NULL ,
+  `bairro` VARCHAR(100) NULL ,
+  `cidade` VARCHAR(100) NULL ,
   `uf` VARCHAR(20) NULL ,
   `telefone` VARCHAR(20) NULL ,
   `email` VARCHAR(255) NULL ,
@@ -649,7 +667,10 @@ INSERT IGNORE INTO `configuracoes` (`idConfig`, `config`, `valor`) VALUES
 (12, 'os_status_list', '[\"Aberto\",\"Faturado\",\"Negocia\\u00e7\\u00e3o\",\"Em Andamento\",\"Or\\u00e7amento\",\"Finalizado\",\"Cancelado\",\"Aguardando Pe\\u00e7as\",\"Aprovado\"]'),
 (13, 'control_edit_vendas', '1'),
 (14, 'email_automatico', '1'),
-(15, 'control_2vias', '0');
+(15, 'control_2vias', '0'),
+(16, 'obs_geral1', ''),
+(17, 'obs_geral2', ''),
+(18, 'obs_geral3', ''),
 
 INSERT IGNORE INTO `permissoes` (`idPermissao`, `nome`, `permissoes`, `situacao`, `data`) VALUES
 (1, 'Administrador', 'a:53:{s:8:"aCliente";s:1:"1";s:8:"eCliente";s:1:"1";s:8:"dCliente";s:1:"1";s:8:"vCliente";s:1:"1";s:8:"aProduto";s:1:"1";s:8:"eProduto";s:1:"1";s:8:"dProduto";s:1:"1";s:8:"vProduto";s:1:"1";s:8:"aServico";s:1:"1";s:8:"eServico";s:1:"1";s:8:"dServico";s:1:"1";s:8:"vServico";s:1:"1";s:3:"aOs";s:1:"1";s:3:"eOs";s:1:"1";s:3:"dOs";s:1:"1";s:3:"vOs";s:1:"1";s:6:"aVenda";s:1:"1";s:6:"eVenda";s:1:"1";s:6:"dVenda";s:1:"1";s:6:"vVenda";s:1:"1";s:9:"aGarantia";s:1:"1";s:9:"eGarantia";s:1:"1";s:9:"dGarantia";s:1:"1";s:9:"vGarantia";s:1:"1";s:8:"aArquivo";s:1:"1";s:8:"eArquivo";s:1:"1";s:8:"dArquivo";s:1:"1";s:8:"vArquivo";s:1:"1";s:10:"aPagamento";N;s:10:"ePagamento";N;s:10:"dPagamento";N;s:10:"vPagamento";N;s:11:"aLancamento";s:1:"1";s:11:"eLancamento";s:1:"1";s:11:"dLancamento";s:1:"1";s:11:"vLancamento";s:1:"1";s:8:"cUsuario";s:1:"1";s:9:"cEmitente";s:1:"1";s:10:"cPermissao";s:1:"1";s:7:"cBackup";s:1:"1";s:10:"cAuditoria";s:1:"1";s:6:"cEmail";s:1:"1";s:8:"cSistema";s:1:"1";s:8:"rCliente";s:1:"1";s:8:"rProduto";s:1:"1";s:8:"rServico";s:1:"1";s:3:"rOs";s:1:"1";s:6:"rVenda";s:1:"1";s:11:"rFinanceiro";s:1:"1";s:9:"aCobranca";s:1:"1";s:9:"eCobranca";s:1:"1";s:9:"dCobranca";s:1:"1";s:9:"vCobranca";s:1:"1";}', 1, 'admin_created_at');
