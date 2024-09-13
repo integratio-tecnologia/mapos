@@ -278,7 +278,8 @@ DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 CREATE TABLE IF NOT EXISTS `produtos` (
   `idProdutos` INT(11) NOT NULL AUTO_INCREMENT,
   `codDeBarra` VARCHAR(70) NOT NULL,
-  `descricao` VARCHAR(80) NOT NULL,
+  `nome` VARCHAR(100) NOT NULL,
+  `descricao` VARCHAR(255) NOT NULL,
   `unidade` VARCHAR(10) NULL DEFAULT NULL,
   `precoCompra` DECIMAL(10,2) NULL DEFAULT NULL,
   `precoVenda` DECIMAL(10,2) NOT NULL,
@@ -325,8 +326,8 @@ DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `servicos` (
   `idServicos` INT(11) NOT NULL AUTO_INCREMENT,
-  `nome` VARCHAR(45) NOT NULL,
-  `descricao` VARCHAR(45) NULL DEFAULT NULL,
+  `nome` VARCHAR(100) NOT NULL,
+  `descricao` VARCHAR(255) NULL DEFAULT NULL,
   `preco` DECIMAL(10,2) NOT NULL,
   PRIMARY KEY (`idServicos`))
 ENGINE = InnoDB
