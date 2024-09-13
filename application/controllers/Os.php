@@ -89,6 +89,16 @@ class Os extends MY_Controller
         if ($this->form_validation->run('os') == false) {
             $this->data['custom_error'] = (validation_errors() ? true : false);
         } else {
+            $dataDotEnv = [
+                'OBS_GERAL1_OS' => $this->input->post('obs_geral1') == 0 ? false : true,
+                'OBS_GERAL2_OS' => $this->input->post('obs_geral2') == 0 ? false : true,
+                'OBS_GERAL3_OS' => $this->input->post('obs_geral3') == 0 ? false : true,
+            ];
+
+            if (!editDotEnv($dataDotEnv)) {
+                $this->data['custom_error'] = '<div class="alert">Falha ao editar o .env</div>';
+            }
+
             $dataInicial = $this->input->post('dataInicial');
             $dataFinal = $this->input->post('dataFinal');
             $termoGarantiaId = $this->input->post('termoGarantia');

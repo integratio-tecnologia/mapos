@@ -8,6 +8,78 @@
 
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/custom.css" />
 
+<style>
+
+    /* Hiding the checkbox, but allowing it to be focused */
+    .badgebox {
+        opacity: 0;
+    }
+
+    .badgebox+.badge {
+        /* Move the check mark away when unchecked */
+        text-indent: -999999px;
+        /* Makes the badge's width stay the same checked and unchecked */
+        width: 27px;
+    }
+
+    .badgebox:focus+.badge {
+        /* Set something to make the badge looks focused */
+        /* This really depends on the application, in my case it was: */
+        /* Adding a light border */
+        box-shadow: inset 0px 0px 5px;
+        /* Taking the difference out of the padding */
+    }
+
+    .badgebox:checked+.badge {
+        /* Move the check mark back when checked */
+        text-indent: 0;
+    }
+
+    .control-group.error .help-inline {
+        display: flex;
+    }
+
+    .control-group {
+        border-bottom: 1px solid #ffffff;
+    }
+
+    .controls {
+        /*margin-left: 20px;*/
+        /*padding-bottom: 8px;*/
+    }
+
+    .control-label {
+        text-align: left;
+        padding-bottom: 8px;
+    }
+
+    .nopadding {
+        padding: 0 20px !important;
+        margin-right: 20px;
+    }
+
+    .widget-title h5 {
+        padding-bottom: 30px;
+        text-align-last: left;
+        font-size: 2em;
+        font-weight: 500;
+    }
+
+    @media (max-width: 480px) {
+        form {
+            display: contents !important;
+        }
+
+        .control-label {
+            margin-bottom: -6px;
+        }
+
+        .btn-xs {
+            position: initial !important;
+        }
+    }
+</style>
+
 <div class="row-fluid" style="margin-top:0">
     <div class="span12">
         <div class="widget-box">
@@ -72,6 +144,41 @@
                                             <input id="garantias_id" class="span12" type="hidden" name="garantias_id" value="" />
                                         </div>
                                     </div>
+                                    <?php if ($configuration['obs_geral1'] != '' || $configuration['obs_geral2'] != '' || $configuration['obs_geral3'] != '') : ?>
+                                        <div class="span12" style="padding: 1%; margin-left: 0;">
+                                            <label class="control-label">Observações</label>
+                                            <?php if ($configuration['obs_geral1'] != '') : ?>
+                                                <div class="span4 control-group">
+                                                    <div class="controls">
+                                                        <label for="obs_geral1" class="span12 btn btn-default">Obs. Gerais
+                                                            <input type="checkbox" id="obs_geral1" name="obs_geral1" class="badgebox" <?= !filter_var($_ENV['OBS_GERAL1_OS'] ?? false, FILTER_VALIDATE_BOOLEAN) ? '' : 'checked'; ?> value="<?php echo $configuration['obs_geral1'] ?>">
+                                                            <span class="badge">&check;</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ($configuration['obs_geral2'] != '') : ?>
+                                                <div class="span4 control-group">
+                                                    <div class="controls">
+                                                        <label for="obs_geral2" class="span12 btn btn-default">Obs. AVCB/CLCB
+                                                            <input type="checkbox" id="obs_geral2" name="obs_geral2" class="badgebox" <?= !filter_var($_ENV['OBS_GERAL2_OS'] ?? false, FILTER_VALIDATE_BOOLEAN) ? '' : 'checked'; ?> value="<?php echo $configuration['obs_geral2'] ?>">
+                                                            <span class="badge">&check;</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if ($configuration['obs_geral3'] != '') : ?>
+                                                <div class="span4 control-group">
+                                                    <div class="controls">
+                                                        <label for="obs_geral3" class="span12 btn btn-default">Obs. Vistorias
+                                                            <input type="checkbox" id="obs_geral3" name="obs_geral3" class="badgebox" <?= !filter_var($_ENV['OBS_GERAL3_OS'] ?? false, FILTER_VALIDATE_BOOLEAN) ? '' : 'checked'; ?> value="<?php echo $configuration['obs_geral3'] ?>">
+                                                            <span class="badge">&check;</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>                                        
+                                    <?php endif; ?>
                                     <div class="span6" style="padding: 1%; margin-left: 0">
                                         <label for="descricaoProduto">
                                             <h4>Descrição Produto/Serviço</h4>
@@ -137,7 +244,6 @@
                 $("#garantias_id").val(ui.item.id);
             }
         });
-
         $("#formOs").validate({
             rules: {
                 cliente: {
@@ -185,5 +291,20 @@
             lang: 'pt_br',
             semantic: { 'strikethrough': 's', }
         });
+    });
+    $(document).on('change', 'input:checkbox', function() { 
+        if (this.checked) {
+            var obs = $(this).text();
+            if(!obs.includes($(this).text())){
+                obs += $(this).text()+"\n";
+            }
+            else {
+                if(obs.includes($(this).text())){
+                    obs = obs.replace($(this).text(),"");
+                }
+            }
+            $('#observacoes').text() = obs;
+        }
+       console.log($(this).text())
     });
 </script>

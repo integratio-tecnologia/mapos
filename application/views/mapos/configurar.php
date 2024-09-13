@@ -390,6 +390,24 @@
                                     <span class="help-inline">Gostaria de imprimir os Anexos na impressão A4?</span>
                                 </div>
                             </div>
+                            <div class="span8">
+                                <label for="obs_geral1" class="control-label">Observações Gerais</label>
+                                <div class="controls">
+                                    <textarea rows="5" cols="20" name="obs_geral1" id="obs_geral1" placeholder="Observações para incluir opcionalmente nas O.S." style="margin: 0px; width: 580px; height: 86px;"><?php echo $configuration['obs_geral1']; ?></textarea>
+                                </div>
+                            </div>
+                            <div class="span8">
+                                <label for="obs_geral2" class="control-label">Observações AVCB/CLCB</label>
+                                <div class="controls">
+                                    <textarea rows="5" cols="20" name="obs_geral2" id="obs_geral2" placeholder="Observações AVCB/CLCB para incluir opcionalmente nas O.S." style="margin: 0px; width: 580px; height: 86px;"><?php echo $configuration['obs_geral2']; ?></textarea>
+                                </div>
+                            </div>
+                            <div class="span8">
+                                <label for="obs_geral3" class="control-label">Observações Laudos</label>
+                                <div class="controls">
+                                    <textarea rows="5" cols="20" name="obs_geral3" id="obs_geral3" placeholder="Observações Vistorias para incluir opcionalmente nas O.S." style="margin: 0px; width: 580px; height: 86px;"><?php echo $configuration['obs_geral3']; ?></textarea>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-actions">
                             <div class="span8">
