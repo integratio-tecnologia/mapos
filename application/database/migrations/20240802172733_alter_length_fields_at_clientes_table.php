@@ -5,7 +5,7 @@ class Migration_alter_length_fields_at_clientes_table extends CI_Migration {
 
     public function up()
     {
-        // Altera o comprimento do campo rua
+        // Altera o comprimento do campo rua, bairro, cidade e contato
         $this->db->query('ALTER TABLE `mapos`.`clientes` CHANGE COLUMN `rua` `rua` VARCHAR(100) NULL DEFAULT NULL ;');
         $this->db->query('ALTER TABLE `mapos`.`clientes` CHANGE COLUMN `bairro` `bairro` VARCHAR(100) DEFAULT NULL ;');
         $this->db->query('ALTER TABLE `mapos`.`clientes` CHANGE COLUMN `cidade` `cidade` VARCHAR(100) DEFAULT NULL ;');
