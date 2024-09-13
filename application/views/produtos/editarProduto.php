@@ -46,6 +46,12 @@
                         </div>
                     </div>
                     <div class="control-group">
+                        <label for="nome" class="control-label">Nome<span class="required">*</span></label>
+                        <div class="controls">
+                            <input id="nome" type="text" name="nome" value="<?php echo $result->nome; ?>" />
+                        </div>
+                    </div>
+                    <div class="control-group">
                         <label for="descricao" class="control-label">Descrição<span class="required">*</span></label>
                         <div class="controls">
                             <input id="descricao" type="text" name="descricao" value="<?php echo $result->descricao; ?>" />
