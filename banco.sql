@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `sexo` VARCHAR(20) NULL,
   `pessoa_fisica` BOOLEAN NOT NULL DEFAULT 1,
   `documento` VARCHAR(20) NOT NULL,
+  `ie` VARCHAR(20) NULL DEFAULT NULL,
   `telefone` VARCHAR(20) NOT NULL,
   `celular` VARCHAR(20) NULL DEFAULT NULL,
   `email` VARCHAR(100) NOT NULL,
@@ -40,6 +41,7 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `cep` VARCHAR(20) NULL DEFAULT NULL,
   `contato` varchar(100) DEFAULT NULL,
   `complemento` varchar(45) DEFAULT NULL,
+  `observacoes` varchar(200) DEFAULT NULL,
   `fornecedor` BOOLEAN NOT NULL DEFAULT 0,
   PRIMARY KEY (`idClientes`))
 ENGINE = InnoDB
@@ -51,10 +53,43 @@ CREATE TABLE IF NOT EXISTS `contatos` (
   `nomeContato` VARCHAR(255) NOT NULL,
   `telefone` VARCHAR(20) NULL DEFAULT NULL,
   `celular` VARCHAR(20) NOT NULL,
+  `email` VARCHAR(100) NOT NULL,
   `clientes_id` INT NOT NULL,
   PRIMARY KEY (`idContatos`),
   INDEX `fk_contatos_clientes_idx` (`clientes_id` ASC),
   CONSTRAINT `fk_contatos_clientes`
+    FOREIGN KEY (`clientes_id`)
+    REFERENCES `clientes` (`idClientes`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+AUTO_INCREMENT = 1
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `filiais` (
+  `idFiliais` INT NOT NULL AUTO_INCREMENT,
+  `asaas_id` VARCHAR(255) DEFAULT NULL,
+  `nome` VARCHAR(255) NOT NULL,
+  `cnpj` VARCHAR(20) NOT NULL,
+  `ie` VARCHAR(20) NULL DEFAULT NULL,
+  `telefone` VARCHAR(20) NULL DEFAULT NULL,
+  `celular` VARCHAR(20) NULL DEFAULT NULL,
+  `email` VARCHAR(100) NOT NULL,
+  `senha` VARCHAR(200) NOT NULL,
+  `dataCadastro` DATE NULL DEFAULT NULL,
+  `rua` VARCHAR(100) NULL DEFAULT NULL,
+  `numero` VARCHAR(15) NULL DEFAULT NULL,
+  `bairro` VARCHAR(100) NULL DEFAULT NULL,
+  `cidade` VARCHAR(100) NULL DEFAULT NULL,
+  `estado` VARCHAR(20) NULL DEFAULT NULL,
+  `cep` VARCHAR(20) NULL DEFAULT NULL,
+  `complemento` VARCHAR(45) NULL DEFAULT NULL,
+  `observacoes` VARCHAR(200) NULL DEFAULT NULL,
+  `fornecedor` BOOLEAN NOT NULL DEFAULT 0,
+  `clientes_id` INT NOT NULL,
+  PRIMARY KEY(`idFiliais`),
+  INDEX `fk_filiais_clientes_idx` (`clientes_id` ASC),
+  CONSTRAINT `fk_filiais_clientes`
     FOREIGN KEY (`clientes_id`)
     REFERENCES `clientes` (`idClientes`)
     ON DELETE NO ACTION
