@@ -99,6 +99,12 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label for="ie" class="control-label">Inscr.Est.</label>
+                            <div class="controls">
+                                <input id="ie" type="text" name="ie" value="<?php echo set_value('ie'); ?>" />
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label for="nomeCliente" class="control-label">Nome/Razão Social<span class="required">*</span></label>
                             <div class="controls">
                                 <input id="nomeCliente" type="text" name="nomeCliente" value="<?php echo set_value('nomeCliente'); ?>" />
@@ -111,9 +117,9 @@
                             </div>
                         </div>
                         <div class="control-group">
-                            <label for="contato" class="control-label">Contato:</label>
+                            <label for="contato" class="control-label">Contato</label>
                             <div class="controls">
-                                <input class="contato" type="text" name="contato" value="<?php echo set_value('contato'); ?>" />
+                                <input id="contato" type="text" name="contato" value="<?php echo set_value('contato'); ?>" />
                             </div>
                         </div>
                         <div class="control-group">
@@ -131,35 +137,25 @@
                         <div class="control-group">
                             <label for="email" class="control-label">Email</label>
                             <div class="controls">
-                                <input id="email" type="text" name="email" value="<?php echo set_value('email'); ?>" />
+                                <input id="email" type="text" autocomplete="off" aria-autocomplete="none" name="email" value="<?php echo set_value('email'); ?>" />
                             </div>
                         </div>
                         <div class="control-group">
                             <label for="senha" class="control-label">Senha</label>
                             <div class="controls">
-                                <input class="form-control" id="senha" type="password" name="senha" value="<?php echo set_value('senha'); ?>" />
+                                <input class="form-control" id="senha" type="password" autocomplete="off" aria-autocomplete="none" name="senha" value="<?php echo set_value('senha'); ?>" />
                                 <img id="imgSenha" src="<?php echo base_url() ?>assets/img/eye.svg" alt="">
                             </div>
                         </div>
-                        <div class="control-group">
-                            <label class="control-label">Tipo de Cliente</label>
-                            <div class="controls">
-                                <label for="fornecedor" class="btn btn-default">Fornecedor
-                                    <input type="checkbox" id="fornecedor" name="fornecedor" class="badgebox" value="0">
-                                    <span class="badge">&check;</span>
-                                </label>
-                            </div>
-                        </div>
                     </div>
-
                     <div class="span6">
-                        <div class="control-group" class="control-label">
+                        <div class="control-group">
                             <label for="cep" class="control-label">CEP</label>
                             <div class="controls">
                                 <input id="cep" type="text" name="cep" value="<?php echo set_value('cep'); ?>" />
                             </div>
                         </div>
-                        <div class="control-group" class="control-label">
+                        <div class="control-group">
                             <label for="rua" class="control-label">Rua</label>
                             <div class="controls">
                                 <input id="rua" type="text" name="rua" value="<?php echo set_value('rua'); ?>" />
@@ -177,19 +173,19 @@
                                 <input id="complemento" type="text" name="complemento" value="<?php echo set_value('complemento'); ?>" />
                             </div>
                         </div>
-                        <div class="control-group" class="control-label">
+                        <div class="control-group">
                             <label for="bairro" class="control-label">Bairro</label>
                             <div class="controls">
                                 <input id="bairro" type="text" name="bairro" value="<?php echo set_value('bairro'); ?>" />
                             </div>
                         </div>
-                        <div class="control-group" class="control-label">
+                        <div class="control-group">
                             <label for="cidade" class="control-label">Cidade</label>
                             <div class="controls">
                                 <input id="cidade" type="text" name="cidade" value="<?php echo set_value('cidade'); ?>" />
                             </div>
                         </div>
-                        <div class="control-group" class="control-label">
+                        <div class="control-group">
                             <label for="estado" class="control-label">Estado</label>
                             <div class="controls">
                                 <select id="estado" name="estado">
@@ -197,12 +193,26 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="control-group">
+                            <label for="observacoes" class="control-label">Observações</label>
+                            <div class="controls">
+                                <input id="observacoes" type="text" name="observacoes" value="<?php echo set_value('observacoes'); ?>" />
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label class="control-label">Tipo de Cliente</label>
+                            <div class="controls">
+                                <label for="fornecedor" class="btn btn-default">Fornecedor
+                                    <input type="checkbox" id="fornecedor" name="fornecedor" class="badgebox" value="0">
+                                    <span class="badge">&check;</span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                </div>
                 <div class="form-actions">
                     <div class="span12">
                         <div class="span6 offset3" style="display:flex;justify-content: center">
-                            <button type="submit" class="button btn btn-mini btn-success"><span class="button__icon"><i class='bx bx-save'></i></span> <span class="button__text2">Salvar</span></a></button>
+                            <button type="submit" class="button btn btn-mini btn-success"><span class="button__icon"><i class='bx bx-save'></i></span><span class="button__text2">Salvar</span></button>
                             <a title="Voltar" class="button btn btn-warning" href="<?php echo site_url() ?>/clientes"><span class="button__icon"><i class="bx bx-undo"></i></span> <span class="button__text2">Voltar</span></a>
                         </div>
                     </div>

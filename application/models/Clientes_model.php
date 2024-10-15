@@ -16,8 +16,56 @@ class Clientes_model extends CI_Model
         if ($where) {
             $this->db->like('nomeCliente', $where);
             $this->db->or_like('documento', $where);
+            $this->db->or_like('ie', $where);
             $this->db->or_like('email', $where);
             $this->db->or_like('telefone', $where);
+        }
+
+        $query = $this->db->get();
+
+        $result = ! $one ? $query->result() : $query->row();
+
+        return $result;
+    }
+
+    public function getContatos($table, $fields, $where = '', $perpage = 0, $start = 0, $one = false, $array = 'array')
+    {
+        $this->db->select($fields);
+        $this->db->from($table);
+        $this->db->order_by('idContatos', 'desc');
+        $this->db->limit($perpage, $start);
+        if ($where) {
+            $this->db->like('nomeContato', $where);
+            $this->db->or_like('telefone', $where);
+            $this->db->or_like('email', $where);
+            $this->db->or_like('celular', $where);
+        }
+
+        $query = $this->db->get();
+
+        $result = ! $one ? $query->result() : $query->row();
+
+        return $result;
+    }
+
+    public function getFiliais($table, $fields, $where = '', $perpage = 0, $start = 0, $one = false, $array = 'array')
+    {
+        $this->db->select($fields);
+        $this->db->from($table);
+        $this->db->order_by('idFiliais', 'desc');
+        $this->db->limit($perpage, $start);
+        if ($where) {
+            $this->db->like('nome', $where);
+            $this->db->or_like('cnpj', $where);
+            $this->db->or_like('ie', $where);
+            $this->db->or_like('telefone', $where);
+            $this->db->or_like('celular', $where);
+            $this->db->or_like('email', $where);
+            $this->db->or_like('rua', $where);
+            $this->db->or_like('bairro', $where);
+            $this->db->or_like('cidade', $where);
+            $this->db->or_like('estado', $where);
+            $this->db->or_like('cep', $where);
         }
 
         $query = $this->db->get();
@@ -35,11 +83,23 @@ class Clientes_model extends CI_Model
         return $this->db->get('clientes')->row();
     }
 
-    public function add($table, $data)
+    public function getFilialByCnpj($cnpj)
+    {
+        $this->db->where('cnpj', $cnpj);
+        $this->db->limit(1);
+
+        return $this->db->get('filiais')->row();
+    }
+
+    public function add($table, $data, $returnId = false)
     {
         $this->db->insert($table, $data);
         if ($this->db->affected_rows() == '1') {
-            return $this->db->insert_id($table);
+            if ($returnId == true) {
+                return $this->db->insert_id($table);
+            }
+
+            return true;
         }
 
         return false;
@@ -149,6 +209,72 @@ class Clientes_model extends CI_Model
 
                 $this->db->where('idVendas', $v->idVendas);
                 $this->db->delete('vendas');
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Retorna todos os contatos por cliente
+     * 
+     * @param array $id
+     * @return array
+     */
+    public function getAllContatosByClient($id)
+    {
+        $this->db->where('clientes_id', $id);
+
+        return $this->db->get('contatos')->result();
+    }
+
+    /**
+     * Remover todos os contatos por cliente
+     *
+     * @param  array  $contatos
+     * @return bool
+     */
+    public function removeClientContatos($contatos)
+    {
+        try {
+            foreach ($contatos as $c) {
+                $this->db->where('clientes_id', $c->idContatos);
+                $this->db->delete('contatos');
+            }
+        } catch (Exception $e) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Retorna todas as filiais por cliente
+     * 
+     * @param array $id
+     * @return array
+     */
+    public function getAllFiliaisByClient($id)
+    {
+        $this->db->where('clientes_id', $id);
+
+        return $this->db->get('filiais')->result();
+    }
+
+    /**
+     * Remover todas as filiais por cliente
+     *
+     * @param  array  $filiais
+     * @return bool
+     */
+    public function removeClientFiliais($filiais)
+    {
+        try {
+            foreach ($filiais as $f) {
+                $this->db->where('clientes_id', $f->idFiliais);
+                $this->db->delete('filiais');
             }
         } catch (Exception $e) {
             return false;

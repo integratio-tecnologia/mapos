@@ -34,12 +34,14 @@
                                         <?php echo $result->nomeCliente ?>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td style="text-align: right; width: 30%"><strong>Nome/Fantasia</strong></td>
-                                    <td>
-                                        <?php echo $result->nomeFantasia ?>
-                                    </td>
-                                </tr>
+                                <?php if ($result->nomeFantasia != null) { ?>
+                                    <tr>
+                                        <td style="text-align: right; width: 30%"><strong>Nome/Fantasia</strong></td>
+                                        <td>
+                                            <?php echo $result->nomeFantasia ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                                 <tr>
                                     <td style="text-align: right"><strong>Documento</strong></td>
                                     <td>
@@ -75,31 +77,58 @@
                     <div class="collapse accordion-body" id="collapseGTwo">
                         <div class="widget-content">
                             <table class="table table-bordered" style="border: 1px solid #ddd">
+                                
+                                <thead>
+                                    <tr>
+                                        <th>Contato</th>
+                                        <th width="10%">Telefone</th>
+                                        <th width="10%">Celular</th>
+                                        <th width="20%">Email</th>
+                                    </tr>
+                                </thead>
                                 <tbody>
-                                <tr>
-                                    <td style="text-align: right; width: 30%"><strong>Contato:</strong></td>
-                                    <td>
-                                        <?php echo $result->contato ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right; width: 30%"><strong>Telefone</strong></td>
-                                    <td>
-                                        <?php echo $result->telefone ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right"><strong>Celular</strong></td>
-                                    <td>
-                                        <?php echo $result->celular ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td style="text-align: right"><strong>Email</strong></td>
-                                    <td>
-                                        <?php echo $result->email ?>
-                                    </td>
-                                </tr>
+                                    <?php if ($result->contato != null) { ?>
+                                        <tr>
+                                            <td>
+                                                <?php echo $result->contato; ?>
+                                            </td>
+                                            <?php if ($result->telefone != null) { ?>
+                                                <td>
+                                                    <a target="_blank" title="Enviar mensagem WhatsApp para o Telefone" href="https://wa.me/send?phone=55<?php echo preg_replace("/[^0-9]/", "", $result->telefone); ?>&text=Prezado <?php echo $result->contato; ?>,"><?php echo $result->telefone; ?></a>
+                                                </td>
+                                            <?php } ?>
+                                            <?php if ($result->celular != null) { ?>
+                                                <td>
+                                                    <a target="_blank" title="Enviar mensagem WhatsApp para o Celular" href="https://wa.me/send?phone=55<?php echo preg_replace("/[^0-9]/", "", $result->celular) ; ?>&text=Prezado <?php echo $result->contato; ?>"><?php echo $result->celular; ?></a>
+                                                </td>
+                                            <?php } ?>
+                                            <?php if ($result->email != null) { ?>
+                                                <td>
+                                                    <a title="Enviar e-mail para o contato" href="mailto:<?php echo $result->email; ?>?subject=Assunto do email&body=Prezado <?php echo $result->contato; ?>,"><?php echo $result->email; ?></a>
+                                                </td>
+                                            <?php } ?>
+                                        </tr>
+                                    <?php } ?>
+                                    <?php foreach ($result_contatos as $r) { ?>
+                                        <tr>
+                                            <td><?php echo $r->nomeContato; ?></td>
+                                            <?php if ($r->telefone != null) { ?>
+                                                <td>
+                                                    <a target="_blank" title="Enviar mensagem WhatsApp para o Telefone" href="https://wa.me/send?phone=55<?php echo preg_replace("/[^0-9]/", "", $r->telefone); ?>&text=Prezado <?php echo $r->nomeContato; ?>,"><?php echo $r->telefone; ?></a>
+                                                </td>
+                                            <?php } ?>
+                                            <?php if ($r->celular != null) { ?>
+                                                <td>
+                                                    <a target="_blank" title="Enviar mensagem WhatsApp para o Celular" href="https://wa.me/send?phone=55<?php echo preg_replace("/[^0-9]/", "", $r->celular) ; ?>&text=Prezado <?php echo $r->nomeContato; ?>"><?php echo $r->celular; ?></a>
+                                                </td>
+                                            <?php } ?>
+                                            <?php if ($r->email != null) { ?>
+                                                <td>
+                                                    <a title="Enviar e-mail para o contato" href="mailto:<?php echo $r->email; ?>?subject=Assunto do email&body=Prezado <?php echo $r->nomeContato; ?>,"><?php echo $r->email; ?></a>
+                                                </td>
+                                            <?php } ?>
+                                        </tr>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -164,7 +193,7 @@
         </div>
         <!--Tab 2-->
         <div id="tab2" class="tab-pane" style="min-height: 300px">
-            <?php if (!$results) { ?>
+            <?php if (!$result_os) { ?>
                 <table class="table table-bordered ">
                     <thead>
                     <tr>
@@ -197,7 +226,7 @@
                     </thead>
                     <tbody>
                     <?php
-                    foreach ($results as $r) {
+                    foreach ($result_os as $r) {
                         $dataInicial = date(('d/m/Y'), strtotime($r->dataInicial));
                         $dataFinal = date(('d/m/Y'), strtotime($r->dataFinal));
                         echo '<tr>';

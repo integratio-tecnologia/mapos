@@ -23,6 +23,11 @@ $config = [
             ],
         ],
         [
+            'field' => 'ie',
+            'label' => 'I.E.',
+            'rules' => 'trim',
+        ],
+        [
             'field' => 'telefone',
             'label' => 'Telefone',
             'rules' => 'trim',
@@ -61,6 +66,125 @@ $config = [
             'field' => 'cep',
             'label' => 'CEP',
             'rules' => 'trim',
+        ],
+        [
+            'field' => 'observacoes',
+            'label' => 'Observações',
+            'rules' => 'trim',
+        ],
+    ],
+    'adicionar_contato_clientes' => [
+        [
+            'field' => 'nomeContato',
+            'label' => 'Nome',
+            'rules' => 'required|trim',
+        ],
+        [
+            'field' => 'telefoneContato',
+            'label' => 'Telefone',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'celularContato',
+            'label' => 'Celular',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'emailContato',
+            'label' => 'Email',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'idClientes',
+            'label' => 'idClientes',
+            'rules' => 'trim|required',
+        ],
+    ],
+    'adicionar_filial_clientes' => [
+        [
+            'field' => 'nomeFilial',
+            'label' => 'Nome',
+            'rules' => 'required|trim',
+        ],
+        [
+            'field' => 'nomeFantasiaFilial',
+            'label' => 'Nome Fantasia',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'cnpjFilial',
+            'label' => 'CNPJ',
+            'rules' => 'required|trim|verific_cpf_cnpj|unique[clientes.documento.' . get_instance()->uri->segment(3) . '.idClientes]', //|is_unique[filiais.cnpj]
+            'errors' => [
+                'verific_cpf_cnpj' => 'O campo %s não é um CNPJ válido.',
+                'unique' => 'Já existe um CLIENTE cadastrado com o CNPJ %s.',
+                //'is_unique' => 'Já existe uma FILIAL cadastrada com o CNPJ %s',
+            ],
+        ],
+        [
+            'field' => 'ieFilial',
+            'label' => 'I.E.',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'telefoneFilial',
+            'label' => 'Telefone',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'celularFilial',
+            'label' => 'Celular',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'emailFilial',
+            'label' => 'Email',
+            'rules' => 'trim|valid_email',
+        ],
+        [
+            'field' => 'ruaFilial',
+            'label' => 'Rua',
+            'rules' => 'trim'
+        ],
+        [
+            'field' => 'numeroFilial',
+            'label' => 'Número',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'complementoFilial',
+            'label' => 'Complemento',
+            'rules'=> 'trim',
+        ],
+        [
+            'field' => 'bairroFilial',
+            'label' => 'Bairro',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'cidadeFilial',
+            'label' => 'Cidade',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'estadoFilial',
+            'label' => 'Estado',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'cepFilial',
+            'label' => 'CEP',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'observacoesFilial',
+            'label' => 'Observações',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'idClientes',
+            'label' => 'idClientes',
+            'rules' => 'trim|required',
         ],
     ],
     'servicos' => [
