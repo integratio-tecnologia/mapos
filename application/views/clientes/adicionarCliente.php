@@ -222,12 +222,8 @@
                             <label for="sexo" class="control-label">Sexo</label>
                             <div class="controls">
                                 <select id="sexo" name="sexo">
-                                    <option value="Masculino" <?php if (set_value('sexo') == "Masculino") {
-                                                            echo 'selected';
-                                                        } ?>>Masculino</option>
-                                    <option value="Feminino" <?php if (set_value('sexo') == "Feminino") {
-                                                            echo 'selected';
-                                                        } ?>>Feminino</option>
+                                    <option value="Masculino" selected aria-selected="true">Masculino</option>
+                                    <option value="Feminino">Feminino</option>
                                 </select>
                             </div>
                         </div>
@@ -241,12 +237,8 @@
                             <label for="situacao" class="control-label">Situação</label>
                             <div class="controls">
                                 <select id="situacao" name="situacao">
-                                    <option value="1" <?php if (set_value('situacao') == 1) {
-                                                            echo 'selected';
-                                                        } ?>>Ativo</option>
-                                    <option value="0" <?php if (set_value('situacao') == 0) {
-                                                            echo 'selected';
-                                                        } ?>>Inativo</option>
+                                    <option value="1" selected aria-selected="true">Ativo</option>
+                                    <option value="0">Inativo</option>
                                 </select>
                             </div>
                         </div>
