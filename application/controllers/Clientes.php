@@ -58,9 +58,9 @@ class Clientes extends MY_Controller
 
         $senhaCliente = $this->input->post('senha') ? $this->input->post('senha') : preg_replace('/[^\p{L}\p{N}\s]/', '', set_value('documento'));
 
-        $cpf_cnpj = preg_replace('/[^\p{L}\p{N}\s]/', '', set_value('documento'));
+        //$cpf_cnpj = preg_replace('/[^\p{L}\p{N}\s]/', '', set_value('documento'));
 
-        if (strlen($cpf_cnpj) == 11) {
+        if (set_value('tipoCliente') == 1) {
             $pessoa_fisica = true;
         } else {
             $pessoa_fisica = false;
