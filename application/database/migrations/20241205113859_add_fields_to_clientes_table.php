@@ -37,8 +37,8 @@ class Migration_add_fields_to_clientes_table extends CI_Migration
         //Adiciona campo situacao.
         $this->dbforge->add_column('clientes', array(
             'situacao' => array(
-                'type' => 'TINYINT',
-                'constraint' => 1,
+                'type' => 'BOOLEAN',
+                'null' => false,
                 'default' => 1,
                 'after' => 'fornecedor'
             )
