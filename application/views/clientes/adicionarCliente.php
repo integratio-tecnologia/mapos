@@ -328,8 +328,6 @@
             };
             $("#documento").val("");
             $("#documento").mask(mascara, inputOptions);
-
-            
         });
 
         $('#formCliente').validate({
