@@ -71,9 +71,12 @@ class Clientes extends MY_Controller
         } else {
             $data = [
                 'nomeCliente' => set_value('nomeCliente'),
+                'nomeFantasia' => set_value('nomeFantasia'),
+                'sexo' => set_value('sexo'),
                 'contato' => set_value('contato'),
                 'pessoa_fisica' => $pessoa_fisica,
                 'documento' => set_value('documento'),
+                'rg_ie' => set_value('rg_ie'),
                 'telefone' => set_value('telefone'),
                 'celular' => set_value('celular'),
                 'email' => set_value('email'),
@@ -85,8 +88,11 @@ class Clientes extends MY_Controller
                 'cidade' => set_value('cidade'),
                 'estado' => set_value('estado'),
                 'cep' => set_value('cep'),
+                'obsCliente' => set_value('obsCliente'),
                 'dataCadastro' => date('Y-m-d'),
                 'fornecedor' => (set_value('fornecedor') == true ? 1 : 0),
+                'situacao' => (set_value('situacao') == true ? 1 : 0),
+                'dataNascimento' => implode('-', array_reverse(explode('/', $this->input->post('dataNascimento'))))
             ];
 
             if ($this->clientes_model->add('clientes', $data) == true) {
