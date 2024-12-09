@@ -131,19 +131,19 @@
                                 <tr>
                                     <td style="text-align: right; width: 30%"><strong>Telefone</strong></td>
                                     <td>
-                                        <?php echo $result->telefone ?>
+                                        <a href="tel:+55<?= preg_replace('/[^0-9]/', '', $result->telefone) ;?>" title="Iniciar ligação telefônica" aria-placeholder="Iniciar ligação telefônica"><?php echo $result->telefone ?></a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right"><strong>Celular</strong></td>
                                     <td>
-                                        <?php echo $result->celular ?>
+                                        <a href="https://wa.me/55<?= preg_replace('/[^0-9]/', '', $result->celular) ;?>" target="_blank" title="Iniciar conversa no WhatsApp" aria-placeholder="Iniciar conversa no WhatsApp"><?php echo $result->celular ?></a>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td style="text-align: right"><strong>Email</strong></td>
                                     <td>
-                                        <?php echo $result->email ?>
+                                        <a href="mailto:<?= $result->email ;?>" title="Enviar e-mail" aria-placeholder="Enviar e-mail"><?php echo $result->email ?></a>
                                     </td>
                                 </tr>
                                 </tbody>
