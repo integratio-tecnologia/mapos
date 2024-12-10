@@ -862,6 +862,18 @@ class Mine extends CI_Controller
         $this->data['custom_error'] = '';
         $id = 0;
 
+        if (set_value('tipoCliente') == 1) {
+            $pessoa_fisica = true;
+        } else {
+            $pessoa_fisica = false;
+        }
+
+        if ($this->input->post('dataNascimento')) {
+            $nascimentoData = implode('-', array_reverse(explode('/', $this->input->post('dataNascimento'))));
+        } else {
+            $nascimentoData = null;
+        }
+
         if ($this->form_validation->run('clientes') == false) {
             $this->data['custom_error'] = (validation_errors() ? '<div class="form_error">' . validation_errors() . '</div>' : false);
         } elseif (strtolower($this->input->post('captcha')) != strtolower($this->session->userdata('captchaWord'))) {
@@ -869,7 +881,13 @@ class Mine extends CI_Controller
         } else {
             $data = [
                 'nomeCliente' => set_value('nomeCliente'),
+                'nomeFantasia' => set_value('nomeFantasia'),
+                'sexo' => set_value('sexo'),
+                'dataNascimento' => $nascimentoData,
+                'contato' => set_value('contato'),
+                'pessoa_fisica' => $pessoa_fisica,
                 'documento' => set_value('documento'),
+                'rg_ie' => set_value('rg_ie'),
                 'telefone' => set_value('telefone'),
                 'celular' => $this->input->post('celular'),
                 'email' => set_value('email'),
@@ -881,6 +899,7 @@ class Mine extends CI_Controller
                 'cidade' => set_value('cidade'),
                 'estado' => set_value('estado'),
                 'cep' => set_value('cep'),
+                'obsCliente' => set_value('obsCliente'),
                 'dataCadastro' => date('Y-m-d'),
             ];
 
