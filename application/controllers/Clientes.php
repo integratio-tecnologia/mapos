@@ -66,16 +66,15 @@ class Clientes extends MY_Controller
             $pessoa_fisica = false;
         }
 
+        if ($this->input->post('dataNascimento')) {
+            $nascimentoData = implode('-', array_reverse(explode('/', $this->input->post('dataNascimento'))));
+        } else {
+            $nascimentoData = null;
+        }
+
         if ($this->form_validation->run('clientes') == false) {
             $this->data['custom_error'] = (validation_errors() ? '<div class="form_error">' . validation_errors() . '</div>' : false);
         } else {
-            $nascimentoData = $this->input->post('dataNascimento');
-            if ($nascimentoData) {
-                $nascimentoData = implode('-', array_reverse(explode('/', $nascimentoData)));
-            } else {
-                $nascimentoData = null;
-            }
-
             $data = [
                 'nomeCliente' => set_value('nomeCliente'),
                 'nomeFantasia' => set_value('nomeFantasia'),
