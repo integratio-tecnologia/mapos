@@ -59,9 +59,9 @@
                         <th>Responsável</th>
                         <th>Data Inicial</th>
                         <th>Data Final</th>
-                        <th>Venc. da Garantia</th>
+                        <th>Garantia</th>
                         <th>Status</th>
-                        <th style="text-align:right">Visualizar / Imprimir</th>
+                        <th style="text-align:right">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -131,8 +131,8 @@
                             echo '<td><span class="badge" style="background-color: ' . $corGarantia . '; border-color: ' . $corGarantia . '">' . $vencGarantia . '</span> </td>';
                             echo '<td><span class="badge" style="background-color: ' . $cor . '; border-color: ' . $cor . '">' . $o->status . '</span> </td>';
                             echo '<td style="text-align:right">';
-                            echo '<a href="' . base_url() . 'index.php/mine/visualizarOs/' . $o->idOs . '" class="btn"> <i class="fas fa-eye" ></i></a> ';
-                            echo '<a href="' . base_url('index.php/mine/imprimirOs/' . $o->idOs) . '" class="btn" target="_blank"> <i class="fas fa-print"></i></a>';
+                            echo '<a href="' . base_url() . 'index.php/mine/visualizarOs/' . $o->idOs . '" style="margin-right:1%" class="btn-nwe" title="Visualizar OS"><i class="bx bx-show bx-xs"></i></a> ';
+                            echo '<a href="' . base_url('index.php/mine/imprimirOs/' . $o->idOs) . '" style="margin-right:1%" class="btn-nwe6" title="Imprimir OS" target="_blank"><i class="bx bx-printer bx-xs"></i></a>';
                             echo '</td>';
                             echo '</tr>';
                         }
@@ -157,11 +157,11 @@
                     <tr>
                         <th>#</th>
                         <th>Responsável</th>
-                        <th>Data da Venda</th>
+                        <th>Data</th>
                         <th>Faturado</th>
-                        <th>Venc. da Garantia</th>
+                        <th>Garantia</th>
                         <th>Status</th>
-                        <th style="text-align:right">Visualizar / Imprimir</th>
+                        <th style="text-align:right">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -235,8 +235,8 @@
                     echo '<td><span class="badge" style="background-color: ' . $corGarantia . '; border-color: ' . $corGarantia . '">' . $vencGarantia . '</span> </td>';
                     echo '<td><span class="badge" style="background-color: ' . $cor . '; border-color: ' . $cor . '">' . $c->status . '</span> </td>';
                     echo '<td style="text-align:right">';
-                    echo '<a href="' . base_url() . 'index.php/mine/visualizarCompra/' . $c->idVendas . '" class="btn"> <i class="fas fa-eye" ></i> </a> ';
-                    echo '<a href="' . base_url() . 'index.php/mine/imprimirCompra/' . $c->idVendas . '" class="btn"> <i class="fas fa-print" ></i> </a>';
+                    echo '<a href="' . base_url() . 'index.php/mine/visualizarCompra/' . $c->idVendas . '" style="margin-right:1%" class="btn-nwe" title="Visualizar Venda"><i class="bx bx-show bx-xs"></i></a> ';
+                    echo '<a href="' . base_url() . 'index.php/mine/imprimirCompra/' . $c->idVendas . '" style="margin-right:1%" class="btn-nwe6" title="Imprimir Venda" target="_blank"><i class="bx bx-printer bx-xs"></i></a>';
                     echo '</td>';
                     echo '</tr>';
                 }
