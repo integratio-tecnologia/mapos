@@ -4030,6 +4030,7 @@ form {
 
   #user-nav>ul>li>a {
     padding: 0px 2px;
+    width: max-content;
   }
 
   .navbar-inverse .nav>li>a {
