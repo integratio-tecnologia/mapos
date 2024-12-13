@@ -3866,9 +3866,11 @@ form {
   }
 
   .cardBox .card {
+    font-size: 1em;
     padding        : 15px 20px;
     box-shadow     : none;
-    justify-content: space-between;
+    justify-content: normal;
+    grid-gap: 5px;
   }
 
   .span4S {
