@@ -34,7 +34,7 @@
                         );
 
                         echo '<tr>';
-                        echo '<td>' . $r->charge_id . '</td>';
+                        echo '<td>' . $r->idCobranca . '</td>';
                         echo '<td>' . $dataVenda . '</td>';
 
                         if ($r->os_id != '') {

@@ -3866,9 +3866,11 @@ form {
   }
 
   .cardBox .card {
+    font-size: 1em;
     padding        : 15px 20px;
     box-shadow     : none;
-    justify-content: space-between;
+    justify-content: normal;
+    grid-gap: 5px;
   }
 
   .span4S {
@@ -3984,6 +3986,8 @@ form {
 
   #user-nav {
     margin-left: 7px;
+    min-width: 200px;
+    width: max-content;
   }
 
   .navbar>.nav {
@@ -4010,9 +4014,9 @@ form {
   }
 
   #user-nav>ul>li>a>i {
-    margin-top: 3px;
     font-size : 1.1em;
     opacity   : 0.9 !important;
+    padding-right: 5px;
   }
 
   #user-nav>ul {
@@ -4028,6 +4032,7 @@ form {
 
   #user-nav>ul>li>a {
     padding: 0px 2px;
+    width: max-content;
   }
 
   .navbar-inverse .nav>li>a {
