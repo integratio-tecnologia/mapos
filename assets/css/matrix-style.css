@@ -3921,6 +3921,7 @@ form {
   }
 
   #header {
+    background-color: var(--bodycolor);
     margin-top      : -7px;
   }
 
