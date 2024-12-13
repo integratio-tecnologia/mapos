@@ -3984,6 +3984,8 @@ form {
 
   #user-nav {
     margin-left: 7px;
+    min-width: 200px;
+    width: max-content;
   }
 
   .navbar>.nav {
@@ -4010,9 +4012,9 @@ form {
   }
 
   #user-nav>ul>li>a>i {
-    margin-top: 3px;
     font-size : 1.1em;
     opacity   : 0.9 !important;
+    padding-right: 5px;
   }
 
   #user-nav>ul {
