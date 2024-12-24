@@ -3,8 +3,8 @@
         <ul class="nav nav-tabs">
             <li class="active"><a data-toggle="tab" href="#tab1">Meus Dados</a></li>
 
-            <div>
-                <a title="Editar" class="button btn btn-success" style="max-width: 140px;margin: 5px" href="<?php echo base_url() ?>index.php/mine/editarDados/<?php echo $result->idClientes ?>">
+            <div class="buttons" style="float: inline-start; margin: 5px 0 0 10px;">
+                <a title="Editar" class="button btn btn-success" style="max-width: 140px;" href="<?php echo base_url() ?>index.php/mine/editarDados/<?php echo $result->idClientes ?>">
                   <span class="button__icon"><i class="bx bx-edit"></i> </span> <span class="button__text2">Editar</span></a>
             </div>
         </ul>
@@ -36,7 +36,7 @@
                                         <tr>
                                             <td style="text-align: right; width: 30%"><strong>Nome Fantasia:</strong></td>
                                             <td>
-                                                <?php echo $result->nome_fantasia ?>
+                                                <?php echo $result->nomeFantasia ?>
                                             </td>
                                         </tr>
                                     <?php endif; ?>
