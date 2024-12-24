@@ -50,11 +50,7 @@
             padding-top: 0;
         }
 
-        .form-horizontal input {
-            background-color: #fff;
-        }
-
-        .form-horizontal select {
+        .form-horizontal input, select {
             background-color: #fff;
         }
 

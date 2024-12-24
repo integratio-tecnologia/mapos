@@ -2,6 +2,13 @@
 <script src="<?php echo base_url() ?>assets/js/sweetalert2.all.min.js"></script>
 <script src="<?php echo base_url() ?>assets/js/funcoes.js"></script>
 
+<style>
+    .form-horizontal input,
+    .form-horizontal select {
+        background-color: #fff;
+    }
+</style>
+
 <div class="row-fluid" style="margin-top:0">
     <div class="span12">
         <div class="widget-box">
@@ -193,13 +200,32 @@
 
         $("#email").focus();
         $(function() {
-            $("#documento").mask("000.000.000-00", {
-                onpaste: function (e) {
-                    e.preventDefault();
-                    var clipboardCurrentData = (e.originalEvent || e).clipboardData.getData('text/plain');
-                    $("#documento").val(clipboardCurrentData);
-                }
-            });
+            var pessoa_fisica = <?php echo $result->pessoa_fisica ; ?>;
+            if (pessoa_fisica) {
+                $("#documento").mask("000.000.000-00", {
+                    onpaste: function (e) {
+                        e.preventDefault();
+                        var clipboardCurrentData = (e.originalEvent || e).clipboardData.getData('text/plain');
+                        $("#documento").val(clipboardCurrentData);
+                    }
+                });
+            } else {
+                $("#documento").mask("00.000.000/0000-00", {
+                    onpaste: function (e) {
+                        e.preventDefault();
+                        var clipboardCurrentData = (e.originalEvent || e).clipboardData.getData('text/plain');
+                        $("#documento").val(clipboardCurrentData);
+                    }
+                });
+                $("#documento").parent().prev(".control-label").text("CNPJ");
+                $("#buscar_info_cnpj").css("display", "inline-block");
+                $("#rg_ie").parent().prev(".control-label").text("IE");
+                $("#nomeCliente").parent().prev(".control-label").text("Razão Social");
+                $("#nomeFantasia").parent().parent().css("display", "block");
+                $("#dataNascimento").val("");
+                $("#dataNascimento").parent().parent().css("display", "none");
+                $("#sexo").parent().parent().css("display", "none");
+            }
         });
 
         $("#tipoCliente").change(function() {
