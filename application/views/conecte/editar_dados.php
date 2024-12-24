@@ -169,7 +169,7 @@
         $.getJSON('<?= base_url() ?>assets/json/estados.json', function(data) {
             for (i in data.estados) {
                 $('#estado').append(new Option(data.estados[i].nome, data.estados[i].sigla));
-                var curState = '<?= set_value('estado'); ?>';
+                var curState = '<?= $result->estado; ?>';
                 if (curState) {
                     $("#estado option[value=" + curState + "]").prop("selected", true);
                 }
