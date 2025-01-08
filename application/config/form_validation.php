@@ -58,6 +58,80 @@ $config = [
             'rules' => 'trim',
         ],
     ],
+    'marcas' => [
+        [
+            'field' => 'marca',
+            'label' => 'Marca',
+            'rules' => 'required|trim',
+        ],
+        [
+            'field' => 'situacao',
+            'label' => 'Situação',
+            'rules' => 'trim',
+        ],
+    ],
+    'equipamentos' => [
+        [
+            'field' => 'equipamento',
+            'label' => 'Equipamento',
+            'rules' => 'required|trim',
+        ],
+        [
+            'field' => 'num_serie',
+            'label' => 'Número de Série',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'descricao',
+            'label' => 'Descrição',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'modelo',
+            'label' => 'Modelo',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'cor',
+            'label' => 'Cor',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'tensao',
+            'label' => 'Tensão',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'voltagem',
+            'label' => 'Voltagem',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'potencia',
+            'label' => 'Potência',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'data_fabricacao',
+            'label' => 'Data de Fabricação',
+            'rules' => 'trim',
+        ],
+        [
+            'observacoes' => 'observacoes',
+            'label' => 'Observações',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'marcas_id',
+            'label' => 'Marca',
+            'rules' => 'trim',
+        ],
+        [
+            'field' => 'clientes_id',
+            'label' => 'Cliente',
+            'rules' => 'required|trim',
+        ],
+    ],
     'servicos' => [
         [
             'field' => 'nome',

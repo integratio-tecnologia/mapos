@@ -29,13 +29,29 @@
         <li class="card">
             <div class="grid-blak">
                 <a href="<?= site_url('clientes') ?>">
-                    <div class="numbers">Clientes</div>
+                    <div class="numbers N-tittle">Clientes</div>
                     <div class="cardName">F1</div>
                 </a>
             </div>
             <a href="<?= site_url('clientes') ?>">
-                <div class="lord-icon02">
+                <div class="lord-icon01">
                     <i class='bx bx-user iconBx02'></i>
+                </div>
+            </a>
+        </li>
+    <?php endif ?>
+
+    <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vEquipamento')) : ?>
+        <li class="card">
+            <div class="grid-blak">
+                <a href="<?= site_url('equipamentos') ?>">
+                    <div class="numbers N-tittle">Equipamentos</div>
+                    <div class="cardName">F2</div>
+                </a>
+            </div>
+            <a href="<?= site_url('equipamentos') ?>">
+                <div class="lord-icon02">
+                    <i class='bx bxs-devices iconBx02'></i>
                 </div>
             </a>
         </li>
@@ -45,12 +61,12 @@
         <li class="card">
             <div class="grid-blak">
                 <a href="<?= site_url('produtos') ?>">
-                    <div class="numbers">Produtos</div>
-                    <div class="cardName">F2</div>
+                    <div class="numbers N-tittle">Produtos</div>
+                    <div class="cardName">F3</div>
                 </a>
             </div>
             <a href="<?= site_url('produtos') ?>">
-                <div class="lord-icon02">
+                <div class="lord-icon03">
                     <i class='bx bx-basket iconBx02'></i>
                 </div>
             </a>
@@ -61,12 +77,12 @@
         <li class="card">
             <div class="grid-blak">
                 <a href="<?= site_url('servicos') ?>">
-                    <div class="numbers">Serviços</div>
-                    <div class="cardName">F3</div>
+                    <div class="numbers N-tittle">Serviços</div>
+                    <div class="cardName">F4</div>
                 </a>
             </div>
             <a href="<?= site_url('servicos') ?>">
-                <div class="lord-icon03">
+                <div class="lord-icon04">
                     <i class='bx bx-wrench iconBx03'></i>
                 </div>
             </a>
@@ -78,11 +94,11 @@
             <div class="grid-blak">
                 <a href="<?= site_url('os') ?>">
                     <div class="numbers N-tittle">Ordens</div>
-                    <div class="cardName">F4</div>
+                    <div class="cardName">F6</div>
                 </a>
             </div>
             <a href="<?= site_url('os') ?>">
-                <div class="lord-icon04">
+                <div class="lord-icon05">
                     <i class='bx bx-file iconBx04'></i>
                 </div>
             </a>
@@ -94,11 +110,11 @@
             <div class="grid-blak">
                 <a href="<?= site_url('vendas/') ?>">
                     <div class="numbers N-tittle">Vendas</div>
-                    <div class="cardName">F6</div>
+                    <div class="cardName">F7</div>
                 </a>
             </div>
             <a href="<?= site_url('vendas/') ?>">
-            <div class="lord-icon05">
+            <div class="lord-icon06">
                 <i class='bx bx-cart-alt iconBx05'></i></span>
             </div>
             </a>
@@ -110,11 +126,11 @@
             <div class="grid-blak">
                 <a href="<?= site_url('financeiro/lancamentos') ?>">
                     <div class="numbers N-tittle">Lançamentos</div>
-                    <div class="cardName">F7</div>
+                    <div class="cardName">F8</div>
                 </a>
             </div>
             <a href="<?= site_url('financeiro/lancamentos') ?>">
-            <div class="lord-icon06">
+            <div class="lord-icon07">
                 <i class="bx bx-bar-chart-alt-2 iconBx06"></i>
             </div>
             </a>
@@ -160,11 +176,19 @@
                 </div>
 
                 <div class="new-bottons">
-                    <a href="<?php echo base_url(); ?>index.php/clientes/adicionar" class="card tip-top" title="Add Clientes e Fornecedores">
+                    <a href="<?php echo base_url(); ?>index.php/clientes/adicionar" class="card tip-top" title="Adicionar Clientes ou Fornecedores">
                         <div><i class='bx bxs-group iconBx'></i></div>
                         <div>
                             <div class="cardName2"><?= $this->db->count_all('clientes'); ?></div>
                             <div class="cardName">Clientes</div>
+                        </div>
+                    </a>
+
+                    <a href="<?php echo base_url(); ?>index.php/equipamentos/adicionar" class="card tip-top" title="Adicionar Equipamentos">
+                        <div><i class='bx bxs-devices iconBx6'></i></div>
+                        <div>
+                            <div class="cardName2"><?= $this->db->count_all('equipamentos'); ?></div>
+                            <div class="cardName">Equipamentos</div>
                         </div>
                     </a>
 
@@ -189,14 +213,6 @@
                         <div>
                             <div class="cardName2"><?= $this->db->count_all('os'); ?></div>
                             <div class="cardName">Ordens</div>
-                        </div>
-                    </a>
-
-                    <a href="<?php echo base_url(); ?>index.php/garantias" class="card tip-top" title="Adicionar garantia">
-                        <div><i class='bx bxs-receipt iconBx6'></i></div>
-                        <div>
-                            <div class="cardName2"><?= $this->db->count_all('garantias'); ?></div>
-                            <div class="cardName">Garantias</div>
                         </div>
                     </a>
 
@@ -927,7 +943,7 @@
                         <?php endforeach ?>
                     <?php else : ?>
                         <tr>
-                            <td colspan="5">Nenhuma OS em Orçamento.</td>
+                            <td colspan="5">Nenhuma OS em Andamento ou Aguardando Peça.</td>
                         </tr>
                     <?php endif ?>
                 </tbody>

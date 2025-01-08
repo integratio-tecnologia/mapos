@@ -38,30 +38,28 @@
             <table id="tabela" class="table table-bordered ">
                 <thead>
                 <tr>
-                    <th>Cod.</th>
-                    <th>Cod. Barra</th>
+                    <th width="5%">Cod.</th>
+                    <th width="20%" class="ph1">Cod. Barra</th>
                     <th>Nome</th>
-                    <th>Estoque</th>
-                    <th>Preço</th>
-                    <th>Ações</th>
+                    <th style="width: 10%; text-align: center;">Estoque</th>
+                    <th style="width: 10%; text-align: right;">Preço</th>
+                    <th style="width: 10%; text-align: center;">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
 
                 if (!$results) {
-                    echo '<tr>
-                                    <td colspan="6">Nenhum Produto Cadastrado</td>
-                                    </tr>';
+                    echo '<tr><td colspan="6">Nenhum Produto Cadastrado</td></tr>';
                 }
                 foreach ($results as $r) {
                     echo '<tr>';
                     echo '<td>' . $r->idProdutos . '</td>';
-                    echo '<td>' . $r->codDeBarra . '</td>';
+                    echo '<td class="ph1">' . $r->codDeBarra . '</td>';
                     echo '<td>' . $r->descricao . '</td>';
-                    echo '<td>' . $r->estoque . '</td>';
-                    echo '<td>' . number_format($r->precoVenda, 2, ',', '.') . '</td>';
-                    echo '<td>';
+                    echo '<td style="text-align:center">' . $r->estoque . '</td>';
+                    echo '<td style="text-align:right">R$ ' . number_format($r->precoVenda, 2, ',', '.') . '</td>';
+                    echo '<td style="text-align:center">';
                     if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vProduto')) {
                         echo '<a style="margin-right: 1%" href="' . base_url() . 'index.php/produtos/visualizar/' . $r->idProdutos . '" class="btn-nwe" title="Visualizar Produto"><i class="bx bx-show bx-xs"></i></a>  ';
                     }

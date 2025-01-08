@@ -34,7 +34,7 @@
   <?php } ?>
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
   <link href='https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;500;700&display=swap' rel='stylesheet' type='text/css'>
-  <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/jquery-1.12.4.min.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/shortcut.js"></script>
   <script type="text/javascript" src="<?= base_url(); ?>assets/js/funcoesGlobal.js"></script>
@@ -49,26 +49,30 @@
       location.href = '<?= site_url('clientes'); ?>';
     });
     shortcut.add("F2", function() {
-      location.href = '<?= site_url('produtos'); ?>';
+      location.href = '<?= site_url('equipamentos'); ?>';
     });
     shortcut.add("F3", function() {
-      location.href = '<?= site_url('servicos'); ?>';
+      location.href = '<?= site_url('produtos'); ?>';
     });
     shortcut.add("F4", function() {
-      location.href = '<?= site_url('os'); ?>';
+      location.href = '<?= site_url('servicos'); ?>';
     });
     //shortcut.add("F5", function() {});
     shortcut.add("F6", function() {
-      location.href = '<?= site_url('vendas/adicionar'); ?>';
+      location.href = '<?= site_url('os'); ?>';
     });
     shortcut.add("F7", function() {
+      location.href = '<?= site_url('vendas'); ?>';
+    });
+    shortcut.add("F8", function() {
       location.href = '<?= site_url('financeiro/lancamentos'); ?>';
     });
-    shortcut.add("F8", function() {});
-    shortcut.add("F9", function() {});
-    shortcut.add("F10", function() {});
+    shortcut.add("F9", function() {
+      location.href = '<?= site_url('relatorios'); ?>';
+    });
+    //shortcut.add("F10", function() {});
     //shortcut.add("F11", function() {});
-    shortcut.add("F12", function() {});
+    //shortcut.add("F12", function() {});
     window.BaseUrl = "<?= base_url() ?>";
   </script>
 </head>

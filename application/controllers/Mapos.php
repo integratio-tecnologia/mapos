@@ -71,11 +71,15 @@ class Mapos extends MY_Controller {
     {
         $termo = $this->input->get('termo');
 
-        $data['results'] = $this->mapos_model->pesquisar($termo);
-        $this->data['produtos'] = $data['results']['produtos'];
-        $this->data['servicos'] = $data['results']['servicos'];
-        $this->data['os'] = $data['results']['os'];
-        $this->data['clientes'] = $data['results']['clientes'];
+        $data = $this->mapos_model->pesquisar($termo);
+
+        $this->data['termo'] = $termo;
+        $this->data['produtos'] = $data['produtos'];
+        $this->data['servicos'] = $data['servicos'];
+        $this->data['os'] = $data['os'];
+        $this->data['clientes'] = $data['clientes'];
+        $this->data['vendas'] = $data['vendas'];
+        $this->data['equipamentos'] = $data['equipamentos'];
         $this->data['view'] = 'mapos/pesquisa';
 
         return $this->layout();

@@ -61,6 +61,16 @@ class Permissoes extends MY_Controller
                 'dCliente' => $this->input->post('dCliente'),
                 'vCliente' => $this->input->post('vCliente'),
 
+                'aMarca' => $this->input->post('aMarca'),
+                'eMarca' => $this->input->post('eMarca'),
+                'dMarca' => $this->input->post('dMarca'),
+                'vMarca' => $this->input->post('vMarca'),
+
+                'aEquipamento' => $this->input->post('aEquipamento'),
+                'eEquipamento' => $this->input->post('eEquipamento'),
+                'dEquipamento' => $this->input->post('dEquipamento'),
+                'vEquipamento' => $this->input->post('vEquipamento'),
+
                 'aProduto' => $this->input->post('aProduto'),
                 'eProduto' => $this->input->post('eProduto'),
                 'dProduto' => $this->input->post('dProduto'),
@@ -161,6 +171,16 @@ class Permissoes extends MY_Controller
                 'eCliente' => $this->input->post('eCliente'),
                 'dCliente' => $this->input->post('dCliente'),
                 'vCliente' => $this->input->post('vCliente'),
+
+                'aMarca' => $this->input->post('aMarca'),
+                'eMarca' => $this->input->post('eMarca'),
+                'dMarca' => $this->input->post('dMarca'),
+                'vMarca' => $this->input->post('vMarca'),
+
+                'aEquipamento' => $this->input->post('aEquipamento'),
+                'eEquipamento' => $this->input->post('eEquipamento'),
+                'dEquipamento' => $this->input->post('dEquipamento'),
+                'vEquipamento' => $this->input->post('vEquipamento'),
 
                 'aProduto' => $this->input->post('aProduto'),
                 'eProduto' => $this->input->post('eProduto'),

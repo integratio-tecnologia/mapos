@@ -116,6 +116,7 @@ class Os extends MY_Controller
                 'dataInicial' => $dataInicial,
                 'clientes_id' => $this->input->post('clientes_id'), //set_value('idCliente'),
                 'usuarios_id' => $this->input->post('usuarios_id'), //set_value('idUsuario'),
+                'equipamentos_id' => $this->input->post('equipamentos_id'),
                 'dataFinal' => $dataFinal,
                 'garantia' => set_value('garantia'),
                 'garantias_id' => $termoGarantiaId,
@@ -227,6 +228,7 @@ class Os extends MY_Controller
                 'laudoTecnico' => $this->input->post('laudoTecnico'),
                 'usuarios_id' => $this->input->post('usuarios_id'),
                 'clientes_id' => $this->input->post('clientes_id'),
+                'equipamentos_id' => $this->input->post('equipamentos_id'),
             ];
             $os = $this->os_model->getById($this->input->post('idOs'));
 
@@ -658,6 +660,14 @@ class Os extends MY_Controller
         if (isset($_GET['term'])) {
             $q = strtolower($_GET['term']);
             $this->os_model->autoCompleteUsuario($q);
+        }
+    }
+
+    public function autoCompleteEquipamento()
+    {
+        if (isset($_GET['term'])) {
+            $q = strtolower($_GET['term']);
+            $this->os_model->autoCompleteEquipamento($q);
         }
     }
 

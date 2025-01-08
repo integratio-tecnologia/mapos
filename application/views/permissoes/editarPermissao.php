@@ -192,6 +192,131 @@
                 <div class="accordion-group widget-box">
                     <div class="accordion-heading">
                         <div class="widget-title">
+                            <a data-parent="#collapse-group" href="#collapseGOne1" data-toggle="collapse">
+                                <span><i class='bx bx-registered icon-cli' ></i></span>
+                                <h5 style="padding-left: 28px">Marcas</h5>
+                                <span><i class='bx bx-chevron-right icon-clic'></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="collapse in accordion-body" id="collapseGOne1">
+                        <div class="widget-content">
+                        <table class="table table-bordered">
+                                <tr>
+                                    <td colspan="4"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label......>
+                                            <input <?php if (isset($permissoes['vMarca'])) {
+                                                if ($permissoes['vMarca'] == '1') {
+                                                    echo 'checked';
+                                                }
+                                            }?> name="vMarca" class="marcar" type="checkbox" value="1" />
+                                            <span class="lbl"> Visualizar Marca</span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input <?php if (isset($permissoes['aMarca'])) {
+                                                if ($permissoes['aMarca'] == '1') {
+                                                    echo 'checked';
+                                                }
+                                            }?> name="aMarca" class="marcar" type="checkbox" value="1" />
+                                            <span class="lbl"> Adicionar Marca</span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input <?php if (isset($permissoes['eMarca'])) {
+                                                if ($permissoes['eMarca'] == '1') {
+                                                    echo 'checked';
+                                                }
+                                            }?> name="eMarca" class="marcar" type="checkbox" value="1" />
+                                            <span class="lbl"> Editar Marca</span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input <?php if (isset($permissoes['dMarca'])) {
+                                                if ($permissoes['dMarca'] == '1') {
+                                                    echo 'checked';
+                                                }
+                                            }?> name="dMarca" class="marcar" type="checkbox" value="1" />
+                                            <span class="lbl"> Excluir Marca</span>
+                                        </label>
+                                    </td>
+                                </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="accordion-group widget-box">
+                    <div class="accordion-heading">
+                        <div class="widget-title">
+                            <a data-parent="#collapse-group" href="#collapseGOne2" data-toggle="collapse">
+                                <span><i class='bx bxs-devices icon-cli'></i></span>
+                                <h5 style="padding-left: 28px">Equipamentos</h5>
+                                <span><i class='bx bx-chevron-right icon-clic'></i></span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="collapse accordion-body" id="collapseGOne2">
+                        <div class="widget-content">
+                        <table class="table table-bordered">
+                        <tr>
+                            <td colspan="4"></td>
+                        </tr>
+                            <tr>
+                                <td>
+                                    <label>
+                                        <input <?php if (isset($permissoes['vEquipamento'])) {
+                                            if ($permissoes['vEquipamento'] == '1') {
+                                                echo 'checked';
+                                            }
+                                        }?> name="vEquipamento" class="marcar" type="checkbox" value="1" />
+                                            <span class="lbl"> Visualizar Equipamento</span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input <?php if (isset($permissoes['aEquipamento'])) {
+                                                if ($permissoes['aEquipamento'] == '1') {
+                                                    echo 'checked';
+                                                }
+                                            }?> name="aEquipamento" class="marcar" type="checkbox" value="1" />
+                                            <span class="lbl"> Adicionar Equipamento</span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input <?php if (isset($permissoes['eEquipamento'])) {
+                                                if ($permissoes['eEquipamento'] == '1') {
+                                                    echo 'checked';
+                                                }
+                                            }?> name="eEquipamento" class="marcar" type="checkbox" value="1" />
+                                            <span class="lbl"> Editar Equipamento</span>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <label>
+                                            <input <?php if (isset($permissoes['dEquipamento'])) {
+                                                if ($permissoes['dEquipamento'] == '1') {
+                                                    echo 'checked';
+                                                }
+                                            }?> name="dEquipamento" class="marcar" type="checkbox" value="1" />
+                                            <span class="lbl"> Excluir Equipamento</span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-group widget-box">
+                    <div class="accordion-heading">
+                        <div class="widget-title">
                             <a data-parent="#collapse-group" href="#collapseGTwo" data-toggle="collapse">
                                 <span><i class='bx bx-package icon-cli'></i></span>
                                 <h5 style="padding-left: 28px">Produtos</h5>

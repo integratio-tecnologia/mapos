@@ -28,14 +28,14 @@
                 <select name="status" class="span12">
                     <option value="">Selecione status</option>
                     <option value="Aberto">Aberto</option>
-                    <option value="Faturado">Faturado</option>
-                    <option value="Negociação">Negociação</option>
-                    <option value="Em Andamento">Em Andamento</option>
                     <option value="Orçamento">Orçamento</option>
-                    <option value="Finalizado">Finalizado</option>
-                    <option value="Cancelado">Cancelado</option>
-                    <option value="Aguardando Peças">Aguardando Peças</option>
+                    <option value="Negociação">Negociação</option>
                     <option value="Aprovado">Aprovado</option>
+                    <option value="Aguardando Peças">Aguardando Peças</option>
+                    <option value="Em Andamento">Em Andamento</option>
+                    <option value="Finalizado">Finalizado</option>
+                    <option value="Faturado">Faturado</option>
+                    <option value="Cancelado">Cancelado</option>
                 </select>
             </div>
             <div class="span3">
@@ -51,30 +51,29 @@
     </div>
 
     <div class="widget-box">
+        <h5 style="padding: 3px 0"></h5>
         <div class="widget-content nopadding tab-content">
             <table id="tabela" class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Nº</th>
+                        <th width="5%">Nº</th>
                         <th>Cliente</th>
-                        <th>Vendedor</th>
-                        <th>Data da Venda</th>
-                        <th>Venc. da Garantia</th>
+                        <th class="ph1">Vendedor</th>
+                        <th style="width: 10%; text-align: center;">Data da Venda</th>
+                        <th style="width: 10%; text-align: center;">Venc. da Garantia</th>
                         <th>Valor Total</th>
-                        <th>Desconto</th>
-                        <th>Valor com Desconto</th>
+                        <th class="ph1">Desconto</th>
+                        <th class="ph1">Valor com Desconto</th>
                         <th>V. T. (Faturado)</th>
-                        <th>Status</th>
-                        <th>Faturado</th>
+                        <th style="text-align: center;">Status</th>
+                        <th style="text-align: center;">Faturado</th>
                         <th style="text-align:center">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
                         if (!$results) {
-                            echo '<tr>
-                                    <td colspan="12">Nenhuma Venda Cadastrada</td>
-                                </tr>';
+                            echo '<tr><td colspan="12">Nenhuma Venda Cadastrada</td></tr>';
                         }
                         foreach ($results as $r) {
                             $dataVenda = date(('d/m/Y'), strtotime($r->dataVenda));
@@ -95,14 +94,14 @@
                             $faturado = ($r->faturado == 1) ? 'Sim' : 'Não';
                             $corStatus = match($r->status) {
                                 'Aberto' => '#00cd00',
-                                'Em Andamento' => '#436eee',
                                 'Orçamento' => '#CDB380',
                                 'Negociação' => '#AEB404',
-                                'Cancelado' => '#CD0000',
+                                'Aprovado' => '#808080',
+                                'Aguardando Peças' => '#FF7F00',
+                                'Em Andamento' => '#436eee',
                                 'Finalizado' => '#256',
                                 'Faturado' => '#B266FF',
-                                'Aguardando Peças' => '#FF7F00',
-                                'Aprovado' => '#808080',
+                                'Cancelado' => '#CD0000',
                                 default => '#E0E4CC',
                             };
 
@@ -110,28 +109,27 @@
                             echo '<td>' . $r->idVendas . '</td>';
                             echo '<td><a href="' . base_url() . 'index.php/clientes/visualizar/' . $r->idClientes . '">' . $r->nomeCliente . '</a></td>';
                             echo '<td class="ph1">' . $r->nome . '</td>';
-                            echo '<td>' . $dataVenda . '</td>';
-                            echo '<td class="ph3"><span class="badge" style="background-color: ' . $corGarantia . '; border-color: ' . $corGarantia . '">' . $vencGarantia . '</span> </td>';
+                            echo '<td style="text-align:center">' . $dataVenda . '</td>';
+                            echo '<td style="text-align:center"><span class="badge" style="background-color: ' . $corGarantia . '; border-color: ' . $corGarantia . '">' . $vencGarantia . '</span> </td>';
 
                             if ($r->faturado == 1) {
                                 echo '<td>R$ ' . number_format($r->valorTotal, 2, ',', '.') . '</td>';
-                                echo '<td>R$ ' . number_format($r->desconto, 2, ',', '.') . '</td>';
-                                echo '<td>R$ ' . number_format($r->valor_desconto, 2, ',', '.') . '</td>';
+                                echo '<td class="ph1">R$ ' . number_format($r->desconto, 2, ',', '.') . '</td>';
+                                echo '<td class="ph1">R$ ' . number_format($r->valor_desconto, 2, ',', '.') . '</td>';
                                 echo '<td>R$ ' . number_format($r->valor_desconto, 2, ',', '.') . '</td>'; 
                             } else {
                                 $valorProdutos = isset($r->totalProdutos) ? $r->totalProdutos : 0.00;
-                                $desconto = isset($r->desconto) ? $r->desconto : 0.00;
-                                $valorComDesconto = $valorProdutos - $desconto;
+                                $desconto = $r->tipo_desconto == 'porcento' ? $r->desconto . '%' : 'R$ ' . number_format($r->desconto, 2, ',', '.');
                             
                                 echo '<td>R$ ' . number_format($valorProdutos, 2, ',', '.') . '</td>';
-                                echo '<td>R$ ' . number_format($desconto, 2, ',', '.') . '</td>';
-                                echo '<td>R$ ' . number_format($valorComDesconto, 2, ',', '.') . '</td>';
+                                echo '<td class="ph1">' . $desconto . '</td>';
+                                echo '<td class="ph1">R$ ' . number_format($r->valor_desconto, 2, ',', '.') . '</td>';
                                 echo '<td>R$ 0,00</td>';
                             }
 
-                            echo '<td><span class="badge" style="background-color: ' . $corStatus . '; border-color: ' . $corStatus . '">' . $r->status . '</span> </td>';
-                            echo '<td>' . $faturado . '</td>';
-                            echo '<td style="text-align:left">';
+                            echo '<td style="text-align:center"><span class="badge" style="background-color: ' . $corStatus . '; border-color: ' . $corStatus . '">' . $r->status . '</span> </td>';
+                            echo '<td style="text-align:center">' . $faturado . '</td>';
+                            echo '<td style="text-align:center">';
 
                             if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vVenda')) {
                                 echo '<a style="margin-right: 1%" href="' . base_url() . 'index.php/vendas/visualizar/' . $r->idVendas . '" class="btn-nwe" title="Ver mais detalhes"><i class="bx bx-show bx-xs"></i></a>';

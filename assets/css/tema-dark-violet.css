@@ -8,7 +8,8 @@ input[type="text"],
 .row-fluid input[class*="span"],
 input[type="number"],
 select[class*="span"],
-.row-fluid select[class*="span"] {
+.row-fluid select[class*="span"],
+div.dropzone {
   background  : var(--dark-violet-cont);
   border-color: var(--dark-viol);
   color: var(--branco);
@@ -435,7 +436,7 @@ hr {
 .btn-nwe5,
 .btn-nwe6 {
   text-shadow: 1 1 3px rgba(66, 62, 62, 0.549);
-  font-size: ;
+  /* font-size: ; */
 }
 
 .btn-nwe {

@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/js/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.css" />
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/jquery-ui/js/jquery-ui-1.9.2.custom.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/jquery.validate.js"></script>
-
+<script type="text/javascript" src="<?php echo base_url() ?>assets/js/jquery.mask.min.js"></script>
+<script src="<?php echo base_url() ?>assets/js/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/trumbowyg/ui/trumbowyg.css">
 <script type="text/javascript" src="<?php echo base_url() ?>assets/trumbowyg/trumbowyg.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/trumbowyg/langs/pt_br.js"></script>
@@ -72,6 +73,13 @@
                                             <input id="garantias_id" class="span12" type="hidden" name="garantias_id" value="" />
                                         </div>
                                     </div>
+                                    <div class="span12" style="padding: 1%; margin-left: 0">
+                                        <div class="span6">
+                                            <label for="equipamento">Equipamento</label>
+                                            <input id="equipamento" class="span12" type="text" name="equipamento" value="" />
+                                            <input id="equipamentos_id" class="span12" type="hidden" name="equipamentos_id" value="" />
+                                        </div>
+                                    </div>
                                     <div class="span6" style="padding: 1%; margin-left: 0">
                                         <label for="descricaoProduto">
                                             <h4>Descrição Produto/Serviço</h4>
@@ -137,6 +145,13 @@
                 $("#garantias_id").val(ui.item.id);
             }
         });
+        $("#equipamento").autocomplete({
+            source: "<?php echo base_url(); ?>index.php/os/autoCompleteEquipamento",
+            minLength: 1,
+            select: function(event, ui) {
+                $("#equipamentos_id").val(ui.item.id);
+            }
+        });
 
         $("#formOs").validate({
             rules: {
@@ -180,7 +195,7 @@
         });
         $(".datepicker").datepicker({
             dateFormat: 'dd/mm/yy'
-        });
+        }).mask('00/00/0000');
         $('.editor').trumbowyg({
             lang: 'pt_br',
             semantic: { 'strikethrough': 's', }

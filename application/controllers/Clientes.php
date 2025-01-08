@@ -60,17 +60,9 @@ class Clientes extends MY_Controller
 
         //$cpf_cnpj = preg_replace('/[^\p{L}\p{N}\s]/', '', set_value('documento'));
 
-        if (set_value('tipoCliente') == 1) {
-            $pessoa_fisica = true;
-        } else {
-            $pessoa_fisica = false;
-        }
+        $pessoa_fisica = set_value('tipoCliente') == 1 ? true : false;
 
-        if ($this->input->post('dataNascimento')) {
-            $nascimentoData = implode('-', array_reverse(explode('/', $this->input->post('dataNascimento'))));
-        } else {
-            $nascimentoData = null;
-        }
+        $nascimentoData = set_value('dataNascimento') != '' ? implode('-', array_reverse(explode('/', $this->input->post('dataNascimento')))) : null;
 
         if ($this->form_validation->run('clientes') == false) {
             $this->data['custom_error'] = (validation_errors() ? '<div class="form_error">' . validation_errors() . '</div>' : false);
@@ -132,21 +124,12 @@ class Clientes extends MY_Controller
 
         //$cpf_cnpj = preg_replace('/[^\p{L}\p{N}\s]/', '', set_value('documento'));
 
-        if ($this->input->post('tipoCliente') == 1) {
-            $pessoa_fisica = true;
-        } else {
-            $pessoa_fisica = false;
-        }
-
         if ($this->form_validation->run('clientes') == false) {
             $this->data['custom_error'] = (validation_errors() ? '<div class="form_error">' . validation_errors() . '</div>' : false);
         } else {
-            $nascimentoData = $this->input->post('dataNascimento');
-            if ($nascimentoData) {
-                $nascimentoData = implode('-', array_reverse(explode('/', $nascimentoData)));
-            } else {
-                $nascimentoData = null;
-            }
+            
+            $pessoa_fisica = set_value('tipoCliente') == 1 ? true : false;
+            $nascimentoData = set_value('dataNascimento') != '' ? implode('-', array_reverse(explode('/', $this->input->post('dataNascimento')))) : null;
 
             $senha = $this->input->post('senha');
             if ($senha != null) {
@@ -231,8 +214,11 @@ class Clientes extends MY_Controller
 
         $this->data['custom_error'] = '';
         $this->data['result'] = $this->clientes_model->getById($this->uri->segment(3));
-        $this->data['results'] = $this->clientes_model->getOsByCliente($this->uri->segment(3));
+        $this->data['result_os'] = $this->clientes_model->getAllOsByClient($this->uri->segment(3));
         $this->data['result_vendas'] = $this->clientes_model->getAllVendasByClient($this->uri->segment(3));
+        $this->data['result_equipamentos'] = $this->clientes_model->getAllEquipamentosByClient($this->uri->segment(3));
+        $this->data['result_cobrancas'] = $this->clientes_model->getAllCobrancasByClient($this->uri->segment(3));
+        $this->load->config('payment_gateways');
         $this->data['view'] = 'clientes/visualizar';
 
         return $this->layout();

@@ -51,29 +51,66 @@ class Mapos_model extends CI_Model
     {
         $data = [];
         // buscando clientes
-        $this->db->like('nomeCliente', $termo);
+        $this->db->like('idClientes', $termo);
+        $this->db->or_like('nomeCliente', $termo);
+        $this->db->or_like('nomeFantasia', $termo);
+        $this->db->or_like('contato', $termo);
         $this->db->or_like('telefone', $termo);
         $this->db->or_like('celular', $termo);
+        $this->db->or_like('email', $termo);
+        $this->db->or_like('bairro', $termo);
+        $this->db->or_like('cidade', $termo);
         $this->db->or_like('documento', $termo);
         $this->db->limit(15);
         $data['clientes'] = $this->db->get('clientes')->result();
-
+        
         // buscando os
         $this->db->like('idOs', $termo);
         $this->db->or_like('descricaoProduto', $termo);
+        $this->db->or_like('defeito', $termo);
+        $this->db->or_like('laudoTecnico', $termo);
+        $this->db->or_like('status', $termo);
+        $this->db->or_like('dataInicial', $termo);
+        $this->db->or_like('dataFinal', $termo);
         $this->db->limit(15);
         $data['os'] = $this->db->get('os')->result();
 
         // buscando produtos
         $this->db->like('codDeBarra', $termo);
         $this->db->or_like('descricao', $termo);
-        $this->db->limit(50);
+        $this->db->limit(15);
         $data['produtos'] = $this->db->get('produtos')->result();
 
         //buscando serviços
         $this->db->like('nome', $termo);
         $this->db->limit(15);
         $data['servicos'] = $this->db->get('servicos')->result();
+
+        //buscando vendas
+        $this->db->select('vendas.*, clientes.nomeCliente, usuarios.nome');
+        $this->db->from('vendas');
+        $this->db->join('clientes', 'clientes.idClientes = vendas.clientes_id');
+        $this->db->join('usuarios', 'usuarios.idUsuarios = vendas.usuarios_id');
+        $this->db->like('idVendas', $termo);
+        $this->db->or_like('dataVenda', $termo);
+        $this->db->or_like('nomeCliente', $termo);
+        $this->db->or_like('nome', $termo);
+        $this->db->or_like('status', $termo);
+        $this->db->limit(15);
+        $data['vendas'] = $this->db->get()->result();
+
+        //buscando equipamentos
+        $this->db->select('equipamentos.*, marcas.marca, clientes.nomeCliente');
+        $this->db->from('equipamentos');
+        $this->db->join('marcas', 'marcas.idMarcas = equipamentos.marcas_id');
+        $this->db->join('clientes', 'clientes.idClientes = equipamentos.clientes_id');
+        $this->db->like('idEquipamentos', $termo);
+        $this->db->or_like('equipamento', $termo);
+        $this->db->or_like('num_serie', $termo);
+        $this->db->or_like('marca', $termo);
+        $this->db->or_like('nomeCliente', $termo);
+        $this->db->limit(15);
+        $data['equipamentos'] = $this->db->get()->result();
 
         return $data;
     }

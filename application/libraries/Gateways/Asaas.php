@@ -106,27 +106,52 @@ class Asaas extends BasePaymentGateway
             throw new Exception('Devido à limitação da Asaas, somente é possível atualizar cobranças com boletos!');
         }
 
-        // Cobrança foi paga ou foi confirmada de forma manual, então damos baixa
-        if ($result->status == 'RECEIVED' || $result->status == 'CONFIRMED' || $result->status == 'DUNNING_RECEIVED') {
-            // TODO: dar baixa no lançamento caso exista
+        if ($result->deleted == false) {
+            // Cobrança foi paga ou foi confirmada de forma manual, então damos baixa
+            if ($result->status == 'RECEIVED' || $result->status == 'CONFIRMED' || $result->status == 'DUNNING_RECEIVED') {
+                // TODO: dar baixa no lançamento caso exista
+            } elseif ($result->status == 'OVERDUE') {
+                // TODO: enviar notificação de cobrança vencida para o cliente
+            } elseif ($result->status == 'REFUNDED') {
+                // TODO: dar baixa no lançamento caso exista e estornar o valor
+            }
+
+            $databaseResult = $this->ci->cobrancas_model->edit(
+                'cobrancas',
+                [
+                    'status' => $result->status,
+                ],
+                'idCobranca',
+                $id
+            );
+
+            if ($databaseResult == true) {
+                $this->ci->session->set_flashdata('success', 'Cobrança atualizada com sucesso!');
+                log_info('Alterou um status de cobrança. ID' . $id);
+            } else {
+                $this->ci->session->set_flashdata('error', 'Erro ao atualizar cobrança!');
+                throw new \Exception('Erro ao atualizar cobrança!');
+            }
+        } elseif ($result->deleted == true) {
+            // Atualiza o status da cobrança para cancelado
+            $databaseResult = $this->ci->cobrancas_model->edit(
+                'cobrancas',
+                [
+                    'status' => 'CANCELLED',
+                ],
+                'idCobranca',
+                $id
+            );
+
+            if ($databaseResult == true) {
+                log_info('Cancelou uma cobrança já exluída no Asass. ID' . $id);
+            } else {
+                $this->ci->session->set_flashdata('error', 'Erro ao cancelar cobrança já excluída no Asass!');
+                throw new \Exception('Erro ao cancelar cobrança!');
+            }
         }
 
-        $databaseResult = $this->ci->cobrancas_model->edit(
-            'cobrancas',
-            [
-                'status' => $result->status,
-            ],
-            'idCobranca',
-            $id
-        );
-
-        if ($databaseResult == true) {
-            $this->ci->session->set_flashdata('success', 'Cobrança atualizada com sucesso!');
-            log_info('Alterou um status de cobrança. ID' . $id);
-        } else {
-            $this->ci->session->set_flashdata('error', 'Erro ao atualizar cobrança!');
-            throw new \Exception('Erro ao atualizar cobrança!');
-        }
+        return $result;
     }
 
     public function confirmarPagamento($id)

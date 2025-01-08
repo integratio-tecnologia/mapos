@@ -163,23 +163,7 @@ input[type="color"],
 .btn-group>.btn:last-child,
 .btn-group>.btn:last-child,
 .btn-group>.dropdown-toggle,
-.btn,
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-.uneditable-input {
+.dropzone {
   box-shadow  : none;
 }
 
@@ -202,7 +186,8 @@ select,
 input[type="text"],
 .row-fluid input[class*="span"],
 input[type="number"],
-select[class*="span"] {
+select[class*="span"],
+.dropzone {
   background  : #e6e9f3;
   border-color: #b1b9be;
 }
@@ -473,7 +458,7 @@ hr {
   margin               : auto;
   padding              : 0px;
   display              : grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   grid-gap             : 19px;
   margin-bottom        : 15px;
   margin-top           : 10px;
@@ -513,6 +498,14 @@ hr {
   background: linear-gradient(270deg, #f1b50c, #f5da56);
 }
 
+.cardBox .card:nth-child(7) {
+  background: linear-gradient(270deg, #9ba6a5, #aeccc6);
+}
+
+.cardBox .card:nth-child(8) {
+  background: linear-gradient(270deg, #5476a6, #548edf);
+}
+
 .cardBox .card .numbers {
   position   : relative;
   font-weight: 500;
@@ -524,7 +517,7 @@ hr {
   font-weight: 400;
 }
 
-.cardBox .card .iconBx01, .iconBx02, .iconBx03, .iconBx04, .iconBx05, .iconBx06, .iconBx07 {
+.cardBox .card .iconBx01, .iconBx02, .iconBx03, .iconBx04, .iconBx05, .iconBx06, .iconBx07, .iconBx08 {
   font-size: 2.5em;
   text-decoration: none;
 }
@@ -598,12 +591,12 @@ hr {
 }
 End hora certa */
 
-.cardBox .card .lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07 {
+.cardBox .card .lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     border    : none !important;
     background: #ffffff54 !important;
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07 {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     padding        : 3px;
     border-radius  : 35%;
     width          : 40px;
@@ -1544,7 +1537,9 @@ section .profile .profile-img {
 .btn-nwe3,
 .btn-nwe4,
 .btn-nwe5,
-.btn-nwe6 {
+.btn-nwe6,
+.btn.nwe7,
+.btn-nwe8 {
   padding    : 2px 6px 2px 6px;
   text-shadow: 1 1 3px rgb(255 255 255 / 100%);
   align-items: center;
@@ -1583,6 +1578,16 @@ section .profile .profile-img {
   text-shadow: 0 0 3px rgba(28, 65, 92, 0.8);
 }
 
+.btn-nwe7 {
+  color: #585a5f;
+  text-shadow: 0 0 3px rgba(121, 42, 211, 0.8);
+}
+
+.btn-nwe8 {
+  color: #585a5f;
+  text-shadow: 0 0 3px rgba(149, 197, 252, 0.8);
+}
+
 .btn-nwe:hover,
 .btn-nwe.hovered {
   color      : #0386eb;
@@ -1617,6 +1622,18 @@ section .profile .profile-img {
 .btn-nwe6.hovered {
   color      : #2b3135;
   text-shadow: 0 0 3px rgba(41, 73, 94, 0.5);
+}
+
+.btn-nwe7:hover,
+.btn-nwe7:hovered {
+  color: #792ad3cc;
+  text-shadow: 0 0 3px rgba(121, 42, 233, 0.5);
+}
+
+.btn-nwe8:hover,
+.btn-nwe8:hovered {
+  color: #95c5fccc;
+  text-shadow: rgba(149, 197, 252, 0.5);
 }
 
 /* Botoes calendar*/
@@ -2473,7 +2490,7 @@ div.dataTables_wrapper .ui-widget-header {
 
 .dataTables_filter input {
   margin-bottom: 11px;
-  margin-left  : 5px;
+  /* margin-left  : 5px; */
 }
 
 .table td {
@@ -2848,6 +2865,23 @@ form {
   padding-left         : 5px;
 }
 
+/**********dropzone plugin*************/
+
+.dropzone {
+  display              : flex;
+  align-content        : center;
+  justify-content      : center;
+  align-items          : center;
+  border               : 2px dashed #ccc !important;
+  border-radius        : 5px !important;
+  margin               : 20px 0;
+}
+
+.dz-message {
+  text-align           : center;
+  font-size            : 1.5em;
+}
+
 /* Responsive design */
 @media (min-width: 2001px) {
   body {
@@ -3191,7 +3225,7 @@ form {
 
   .cardBox {
     margin-bottom        : 0;
-    grid-template-columns: repeat(3, 1fr) !important;
+    grid-template-columns: repeat(4, 1fr) !important;
   }
 
   .cardBox .card {
@@ -3512,7 +3546,7 @@ form {
   }
 
   .cardBox {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-gap             : 12px;
     margin-bottom        : 0px;
   }
@@ -3892,11 +3926,12 @@ form {
 
   .dataTables_filter {
     top: 10px;
+    left: 10px; /* Melhoria na estilização */
   }
 
   .dataTables_length {
     width : 100%;
-    margin: -8px 2px;
+    margin: 30px 2px; /* Melhoria na estilização */
   }
 
   .btn-xs {
@@ -4250,8 +4285,8 @@ form {
 		font-size: 0.9em;
 	}
 	.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07 {
-		width: 30px;
-		height: 30px;
+		width: 30px !important;
+		height: 30px !important;
 	}
   .cardBox .card .numbers {
     font-size: 1.2em !important;

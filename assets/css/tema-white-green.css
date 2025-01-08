@@ -8,7 +8,8 @@ input[type="text"],
 .row-fluid input[class*="span"],
 input[type="number"],
 select[class*="span"],
-.row-fluid select[class*="span"] {
+.row-fluid select[class*="span"],
+div.dropzone {
   background  : var(--white);
   border-color: var(--white-gre0);
   color: var(--white-gre2);

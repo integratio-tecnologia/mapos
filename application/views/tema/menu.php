@@ -51,6 +51,28 @@
                     </li>
                 <?php } ?>
 
+                <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vMarca')) { ?>
+                    <li class="<?php if (isset($menuMarcas)) {
+                        echo 'active';
+                    }; ?>">
+                        <a class="tip-bottom" title="" href="<?= site_url('marcas') ?>"><i class='bx bx-registered iconX'></i>
+                            <span class="title">Marcas</span>
+                            <span class="title-tooltip">Marcas</span>
+                        </a>
+                    </li>
+                <?php } ?>
+
+                <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vEquipamento')) { ?>
+                    <li class="<?php if (isset($menuEquipamentos)) {
+                        echo 'active';
+                    }; ?>">
+                        <a class="tip-bottom" title="" href="<?= site_url('equipamentos') ?>"><i class='bx bxs-devices iconX'></i>
+                            <span class="title">Equipamentos</span>
+                            <span class="title-tooltip">Equipamentos</span>
+                        </a>
+                    </li>
+                <?php } ?>
+
                 <?php if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vProduto')) { ?>
                     <li class="<?php if (isset($menuProdutos)) {
                         echo 'active';

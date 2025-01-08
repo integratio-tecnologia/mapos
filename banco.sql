@@ -139,6 +139,46 @@ AUTO_INCREMENT = 1
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 
+-- -----------------------------------------------------
+-- Table `marcas`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `marcas` (
+  `idMarcas` INT NOT NULL AUTO_INCREMENT,
+  `marca` VARCHAR(100) NULL,
+  `cadastro` DATE NULL,
+  `situacao` TINYINT(1) NULL,
+  PRIMARY KEY (`idMarcas`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `equipamentos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `equipamentos` (
+  `idEquipamentos` INT NOT NULL AUTO_INCREMENT,
+  `equipamento` VARCHAR(150) NOT NULL,
+  `num_serie` VARCHAR(80) NULL,
+  `modelo` VARCHAR(80) NULL,
+  `cor` VARCHAR(45) NULL,
+  `descricao` VARCHAR(150) NULL,
+  `tensao` VARCHAR(45) NULL,
+  `potencia` VARCHAR(45) NULL,
+  `voltagem` VARCHAR(45) NULL,
+  `data_fabricacao` DATE NULL,
+  `observacoes` TEXT NULL DEFAULT NULL,
+  `marcas_id` INT NULL,
+  `clientes_id` INT(11) NULL,
+  PRIMARY KEY (`idEquipamentos`),
+  INDEX `fk_equipanentos_clientes1_idx` (`clientes_id` ASC),
+  CONSTRAINT `fk_equipanentos_clientes1`
+    FOREIGN KEY (`clientes_id`)
+    REFERENCES `clientes` (`idClientes`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
 
 -- -----------------------------------------------------
 -- Table `lancamentos`
@@ -231,12 +271,14 @@ CREATE TABLE IF NOT EXISTS `os` (
   `tipo_desconto` varchar(8) NULL DEFAULT NULL,
   `clientes_id` INT(11) NOT NULL,
   `usuarios_id` INT(11) NOT NULL,
+  `equipamentos_id` INT(11) NULL DEFAULT NULL,
   `lancamento` INT(11) NULL DEFAULT NULL,
   `faturado` TINYINT(1) NOT NULL,
   `garantias_id` int(11) NULL,
   PRIMARY KEY (`idOs`),
   INDEX `fk_os_clientes1` (`clientes_id` ASC),
   INDEX `fk_os_usuarios1` (`usuarios_id` ASC),
+  INDEX `fk_os_equipamentos1` (`equipamentos_id` ASC),
   INDEX `fk_os_lancamentos1` (`lancamento` ASC),
   INDEX `fk_os_garantias1` (`garantias_id` ASC),
   CONSTRAINT `fk_os_clientes1`
@@ -252,6 +294,11 @@ CREATE TABLE IF NOT EXISTS `os` (
   CONSTRAINT `fk_os_usuarios1`
     FOREIGN KEY (`usuarios_id`)
     REFERENCES `usuarios` (`idUsuarios`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_os_equipamentos1`
+    FOREIGN KEY (`equipamentos_id`)
+    REFERENCES `equipamentos` (`idEquipamentos`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -450,6 +497,7 @@ CREATE TABLE IF NOT EXISTS `itens_de_vendas` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
+
 -- -----------------------------------------------------
 -- Table `anexos`
 -- -----------------------------------------------------
@@ -491,52 +539,6 @@ DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 
 
 -- -----------------------------------------------------
--- Table `marcas`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `marcas` (
-  `idMarcas` INT NOT NULL AUTO_INCREMENT,
-  `marca` VARCHAR(100) NULL,
-  `cadastro` DATE NULL,
-  `situacao` TINYINT(1) NULL,
-  PRIMARY KEY (`idMarcas`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
-
--- -----------------------------------------------------
--- Table `equipamentos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `equipamentos` (
-  `idEquipamentos` INT NOT NULL AUTO_INCREMENT,
-  `equipamento` VARCHAR(150) NOT NULL,
-  `num_serie` VARCHAR(80) NULL,
-  `modelo` VARCHAR(80) NULL,
-  `cor` VARCHAR(45) NULL,
-  `descricao` VARCHAR(150) NULL,
-  `tensao` VARCHAR(45) NULL,
-  `potencia` VARCHAR(45) NULL,
-  `voltagem` VARCHAR(45) NULL,
-  `data_fabricacao` DATE NULL,
-  `marcas_id` INT NULL,
-  `clientes_id` INT(11) NULL,
-  PRIMARY KEY (`idEquipamentos`),
-  INDEX `fk_equipanentos_marcas1_idx` (`marcas_id` ASC),
-  INDEX `fk_equipanentos_clientes1_idx` (`clientes_id` ASC),
-  CONSTRAINT `fk_equipanentos_marcas1`
-    FOREIGN KEY (`marcas_id`)
-    REFERENCES `marcas` (`idMarcas`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_equipanentos_clientes1`
-    FOREIGN KEY (`clientes_id`)
-    REFERENCES `clientes` (`idClientes`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-
-
--- -----------------------------------------------------
 -- Table `equipamentos_os`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `equipamentos_os` (
@@ -557,6 +559,28 @@ CREATE TABLE IF NOT EXISTS `equipamentos_os` (
   CONSTRAINT `fk_equipamentos_os_os1`
     FOREIGN KEY (`os_id`)
     REFERENCES `os` (`idOs`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+-- -----------------------------------------------------
+-- Table `fotos_equipamentos`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `fotos_equipamentos` (
+  `idFotosEquipamentos` INT NOT NULL AUTO_INCREMENT,
+  `blob` LONGBLOB NULL DEFAULT NULL,
+  `foto` VARCHAR(45) NULL DEFAULT NULL,
+  `thumb` VARCHAR(45) NULL DEFAULT NULL,
+  `url` VARCHAR(300) NULL DEFAULT NULL,
+  `path` VARCHAR(300) NULL DEFAULT NULL,
+  `equipamentos_id` INT NULL,
+  PRIMARY KEY (`idFotosEquipamentos`),
+  INDEX `fk_fotos_equipamentos_equipamentos1_idx` (`equipamentos_id` ASC),
+  CONSTRAINT `fk_fotos_equipamentos_equipamentos1`
+    FOREIGN KEY (`equipamentos_id`)
+    REFERENCES `equipamentos` (`idEquipamentos`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
@@ -657,7 +681,7 @@ INSERT IGNORE INTO `configuracoes` (`idConfig`, `config`, `valor`) VALUES
 (15, 'control_2vias', '0');
 
 INSERT IGNORE INTO `permissoes` (`idPermissao`, `nome`, `permissoes`, `situacao`, `data`) VALUES
-(1, 'Administrador', 'a:53:{s:8:"aCliente";s:1:"1";s:8:"eCliente";s:1:"1";s:8:"dCliente";s:1:"1";s:8:"vCliente";s:1:"1";s:8:"aProduto";s:1:"1";s:8:"eProduto";s:1:"1";s:8:"dProduto";s:1:"1";s:8:"vProduto";s:1:"1";s:8:"aServico";s:1:"1";s:8:"eServico";s:1:"1";s:8:"dServico";s:1:"1";s:8:"vServico";s:1:"1";s:3:"aOs";s:1:"1";s:3:"eOs";s:1:"1";s:3:"dOs";s:1:"1";s:3:"vOs";s:1:"1";s:6:"aVenda";s:1:"1";s:6:"eVenda";s:1:"1";s:6:"dVenda";s:1:"1";s:6:"vVenda";s:1:"1";s:9:"aGarantia";s:1:"1";s:9:"eGarantia";s:1:"1";s:9:"dGarantia";s:1:"1";s:9:"vGarantia";s:1:"1";s:8:"aArquivo";s:1:"1";s:8:"eArquivo";s:1:"1";s:8:"dArquivo";s:1:"1";s:8:"vArquivo";s:1:"1";s:10:"aPagamento";N;s:10:"ePagamento";N;s:10:"dPagamento";N;s:10:"vPagamento";N;s:11:"aLancamento";s:1:"1";s:11:"eLancamento";s:1:"1";s:11:"dLancamento";s:1:"1";s:11:"vLancamento";s:1:"1";s:8:"cUsuario";s:1:"1";s:9:"cEmitente";s:1:"1";s:10:"cPermissao";s:1:"1";s:7:"cBackup";s:1:"1";s:10:"cAuditoria";s:1:"1";s:6:"cEmail";s:1:"1";s:8:"cSistema";s:1:"1";s:8:"rCliente";s:1:"1";s:8:"rProduto";s:1:"1";s:8:"rServico";s:1:"1";s:3:"rOs";s:1:"1";s:6:"rVenda";s:1:"1";s:11:"rFinanceiro";s:1:"1";s:9:"aCobranca";s:1:"1";s:9:"eCobranca";s:1:"1";s:9:"dCobranca";s:1:"1";s:9:"vCobranca";s:1:"1";}', 1, 'admin_created_at');
+(1, 'Administrador', 'a:61:{s:8:"aCliente";s:1:"1";s:8:"eCliente";s:1:"1";s:8:"dCliente";s:1:"1";s:8:"vCliente";s:1:"1";s:6:"aMarca";s:1:"1";s:6:"eMarca";s:1:"1";s:6:"dMarca";s:1:"1";s:6:"vMarca";s:1:"1";s:12:"aEquipamento";s:1:"1";s:12:"eEquipamento";s:1:"1";s:12:"dEquipamento";s:1:"1";s:12:"vEquipamento";s:1:"1";s:8:"aProduto";s:1:"1";s:8:"eProduto";s:1:"1";s:8:"dProduto";s:1:"1";s:8:"vProduto";s:1:"1";s:8:"aServico";s:1:"1";s:8:"eServico";s:1:"1";s:8:"dServico";s:1:"1";s:8:"vServico";s:1:"1";s:3:"aOs";s:1:"1";s:3:"eOs";s:1:"1";s:3:"dOs";s:1:"1";s:3:"vOs";s:1:"1";s:6:"aVenda";s:1:"1";s:6:"eVenda";s:1:"1";s:6:"dVenda";s:1:"1";s:6:"vVenda";s:1:"1";s:9:"aGarantia";s:1:"1";s:9:"eGarantia";s:1:"1";s:9:"dGarantia";s:1:"1";s:9:"vGarantia";s:1:"1";s:8:"aArquivo";s:1:"1";s:8:"eArquivo";s:1:"1";s:8:"dArquivo";s:1:"1";s:8:"vArquivo";s:1:"1";s:10:"aPagamento";N;s:10:"ePagamento";N;s:10:"dPagamento";N;s:10:"vPagamento";N;s:11:"aLancamento";s:1:"1";s:11:"eLancamento";s:1:"1";s:11:"dLancamento";s:1:"1";s:11:"vLancamento";s:1:"1";s:8:"cUsuario";s:1:"1";s:9:"cEmitente";s:1:"1";s:10:"cPermissao";s:1:"1";s:7:"cBackup";s:1:"1";s:10:"cAuditoria";s:1:"1";s:6:"cEmail";s:1:"1";s:8:"cSistema";s:1:"1";s:8:"rCliente";s:1:"1";s:8:"rProduto";s:1:"1";s:8:"rServico";s:1:"1";s:3:"rOs";s:1:"1";s:6:"rVenda";s:1:"1";s:11:"rFinanceiro";s:1:"1";s:9:"aCobranca";s:1:"1";s:9:"eCobranca";s:1:"1";s:9:"dCobranca";s:1:"1";s:9:"vCobranca";s:1:"1";}', 1, 'admin_created_at');
 
 INSERT IGNORE INTO `usuarios` (`idUsuarios`, `nome`, `rg`, `cpf`, `cep`, `rua`, `numero`, `bairro`, `cidade`, `estado`, `email`, `senha`, `telefone`, `celular`, `situacao`, `dataCadastro`, `permissoes_id`,`dataExpiracao`) VALUES
 (1, 'admin_name', '', '', '', '', '', '', '', '', 'admin_email', 'admin_password', '000000-0000', '', 1, 'admin_created_at', 1, '2100-01-01');

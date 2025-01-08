@@ -88,10 +88,11 @@ class Os_model extends CI_Model
 
     public function getById($id)
     {
-        $this->db->select('os.*, clientes.*, clientes.celular as celular_cliente, clientes.telefone as telefone_cliente, clientes.contato as contato_cliente, garantias.refGarantia, garantias.textoGarantia, usuarios.telefone as telefone_usuario, usuarios.email as email_usuario, usuarios.nome');
+        $this->db->select('os.*, clientes.*, clientes.celular as celular_cliente, clientes.telefone as telefone_cliente, clientes.contato as contato_cliente, garantias.refGarantia, garantias.textoGarantia, usuarios.telefone as telefone_usuario, usuarios.email as email_usuario, usuarios.nome, equipamentos.equipamento, equipamentos.num_serie, equipamentos.descricao as descricao_equipamento');
         $this->db->from('os');
         $this->db->join('clientes', 'clientes.idClientes = os.clientes_id');
         $this->db->join('usuarios', 'usuarios.idUsuarios = os.usuarios_id');
+        $this->db->join('equipamentos', 'equipamentos.idEquipamentos = os.equipamentos_id');
         $this->db->join('garantias', 'garantias.idGarantias = os.garantias_id', 'left');
         $this->db->where('os.idOs', $id);
         $this->db->limit(1);
@@ -210,14 +211,21 @@ class Os_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->limit(25);
-        $this->db->like('nomeCliente', $q);
+        $this->db->like('idClientes', $q);
+        $this->db->or_like('nomeCliente', $q);
+        $this->db->or_like('nomeFantasia', $q);
+        $this->db->or_like('contato', $q);
         $this->db->or_like('telefone', $q);
         $this->db->or_like('celular', $q);
+        $this->db->or_like('email', $q);
+        $this->db->or_like('bairro', $q);
+        $this->db->or_like('cidade', $q);
+        $this->db->or_like('cep', $q);
         $this->db->or_like('documento', $q);
         $query = $this->db->get('clientes');
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $row_set[] = ['label' => $row['nomeCliente'] . ' | Telefone: ' . $row['telefone'] . ' | Celular: ' . $row['celular'] . ' | Documento: ' . $row['documento'], 'id' => $row['idClientes']];
+                $row_set[] = ['label' => 'Cód.: ' . $row['idClientes'] . ' | ' . $row['nomeCliente'] . ' | Telefone: ' . $row['telefone'] . ' | Documento: ' . $row['documento'], 'id' => $row['idClientes']];
             }
             echo json_encode($row_set);
         }
@@ -232,7 +240,21 @@ class Os_model extends CI_Model
         $query = $this->db->get('usuarios');
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
-                $row_set[] = ['label' => $row['nome'] . ' | Telefone: ' . $row['telefone'], 'id' => $row['idUsuarios']];
+                $row_set[] = ['label' => 'Cód.: ' . $row['idUsuarios'] . ' | ' . $row['nome'] . ' | Telefone: ' . $row['telefone'], 'id' => $row['idUsuarios']];
+            }
+            echo json_encode($row_set);
+        }
+    }
+
+    public function autoCompleteEquipamento($q)
+    {
+        $this->db->select('*');
+        $this->db->limit(25);
+        $this->db->like('equipamento', $q);
+        $query = $this->db->get('equipamentos');
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $row_set[] = ['label' => 'Cód.: ' . $row['idEquipamentos'] . ' | ' . $row['equipamento'] . ' | N.S.: ' . $row['num_serie'] . ' | ' . $row['descricao'], 'id' => $row['idEquipamentos']];
             }
             echo json_encode($row_set);
         }

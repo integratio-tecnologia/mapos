@@ -1,6 +1,7 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/js/jquery-ui/css/smoothness/jquery-ui-1.9.2.custom.css" />
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/jquery-ui/js/jquery-ui-1.9.2.custom.js"></script>
 <script type="text/javascript" src="<?php echo base_url() ?>assets/js/jquery.validate.js"></script>
+<script type="text/javascript" src="<?php echo base_url() ?>assets/js/jquery.mask.min.js"></script>
 <script src="<?php echo base_url() ?>assets/js/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" href="<?php echo base_url() ?>assets/trumbowyg/ui/trumbowyg.css">
 <script type="text/javascript" src="<?php echo base_url() ?>assets/trumbowyg/trumbowyg.js"></script>
@@ -76,13 +77,13 @@
                                         <h3>N° OS: <?php echo $result->idOs; ?></h3>
                                         <div class="span6" style="margin-left: 0">
                                             <label for="cliente">Cliente<span class="required">*</span></label>
-                                            <input id="cliente" class="span12" type="text" name="cliente" value="<?php echo $result->nomeCliente ?>" />
+                                            <input id="cliente" class="span12" type="text" name="cliente" value="<?php echo 'Cód.: ' . $result->idClientes . ' | ' . $result->nomeCliente . ' | Telefone: ' . $result->telefone_cliente . ' | Documento: ' . $result->documento ?>" />
                                             <input id="clientes_id" class="span12" type="hidden" name="clientes_id" value="<?php echo $result->clientes_id ?>" />
                                             <input id="valor" type="hidden" name="valor" value="" />
                                         </div>
                                         <div class="span6">
                                             <label for="tecnico">Técnico / Responsável<span class="required">*</span></label>
-                                            <input id="tecnico" class="span12" type="text" name="tecnico" value="<?php echo $result->nome ?>" />
+                                            <input id="tecnico" class="span12" type="text" name="tecnico" value="<?php echo 'Cód.: ' . $result->usuarios_id . ' | ' . $result->nome . ' | Telefone: ' . $result->telefone_usuario ?>" />
                                             <input id="usuarios_id" class="span12" type="hidden" name="usuarios_id" value="<?php echo $result->usuarios_id ?>" />
                                         </div>
                                     </div>
@@ -116,6 +117,13 @@
                                             <label for="termoGarantia">Termo Garantia</label>
                                             <input id="termoGarantia" class="span12" type="text" name="termoGarantia" value="<?php echo $result->refGarantia ?>" />
                                             <input id="garantias_id" class="span12" type="hidden" name="garantias_id" value="<?php echo $result->garantias_id ?>" />
+                                        </div>
+                                    </div>
+                                    <div class="span12" style="padding: 1%; margin-left: 0">
+                                        <div class="span6">
+                                            <label for="equipamento">Equipamento</label>
+                                            <input id="equipamento" class="span12" type="text" name="equipamento" value="<?php echo 'Cód.: ' . $result->equipamentos_id . ' | N.S.: ' . $result->num_serie . ' | Descrição: ' . $result->descricao_equipamento ?>" />
+                                            <input id="equipamentos_id" class="span12" type="hidden" name="equipamentos_id" value="<?php echo $result->equipamentos_id ?>" />
                                         </div>
                                     </div>
                                     <div class="span6" style="padding: 1%; margin-left: 0">
@@ -868,6 +876,14 @@
             }
         });
 
+        $("#equipamento").autocomplete({
+            source: "<?php echo base_url(); ?>index.php/os/autoCompleteEquipamento",
+            minLength: 1,
+            select: function(event, ui) {
+                $("#equipamentos_id").val(ui.item.id);
+            }
+        });
+
         $('#termoGarantia').on('change', function () {
             if (!$(this).val() && $("#garantias_id").val()) {
                 $("#garantias_id").val('');
@@ -1232,7 +1248,7 @@
 
         $(".datepicker").datepicker({
             dateFormat: 'dd/mm/yy'
-        });
+        }).mask('00/00/0000');
 
         $('.editor').trumbowyg({
             lang: 'pt_br',

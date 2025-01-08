@@ -41,15 +41,15 @@
             <table id="tabela" class="table table-bordered ">
                 <thead>
                     <tr>
-                        <th>Cod.</th>
+                        <th width="5%">Cod.</th>
                         <th>Nome</th>
-                        <th>Contato</th>
-                        <th>CPF/CNPJ</th>
-                        <th>Telefone</th>
-                        <th>Celular</th>
+                        <th width="5%">Contato</th>
+                        <th width="10%">CPF/CNPJ</th>
+                        <th width="10%">Telefone</th>
+                        <th width="10%">Celular</th>
                         <th>Email</th>
-                        <th>Tipo</th> <!-- Nova coluna para Fornecedor/Cliente -->
-                        <th>Ações</th>
+                        <th style="width:10%; text-align: center;">Tipo</th> <!-- Nova coluna para Fornecedor/Cliente -->
+                        <th style="width:10%; text-align: center;">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -71,12 +71,12 @@
 
                         // Verifica se é Fornecedor ou Cliente
                         if ($r->fornecedor == 1) {
-                            echo '<td><span class="label label-primary">Fornecedor</span></td>';
+                            echo '<td style="text-align:center"><span class="label label-primary">Fornecedor</span></td>';
                         } else {
-                            echo '<td><span class="label label-success">Cliente</span></td>';
+                            echo '<td style="text-align:center"><span class="label label-success">Cliente</span></td>';
                         }
 
-                        echo '<td>';
+                        echo '<td style="text-align:center">';
                         if ($this->permission->checkPermission($this->session->userdata('permissao'), 'vCliente')) {
                             echo '<a href="' . base_url() . 'index.php/clientes/visualizar/' . $r->idClientes . '" style="margin-right: 1%" class="btn-nwe" title="Ver mais detalhes"><i class="bx bx-show bx-xs"></i></a>';
                             echo '<a href="' . base_url() . 'index.php/mine?e=' . $r->email . '" target="new" style="margin-right: 1%" class="btn-nwe2" title="Área do cliente"><i class="bx bx-key bx-xs"></i></a>';

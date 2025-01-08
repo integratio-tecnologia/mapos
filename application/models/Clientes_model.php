@@ -73,6 +73,13 @@ class Clientes_model extends CI_Model
         return $this->db->count_all($table);
     }
 
+    /**
+     * Retorna todas as OS vinculados ao cliente
+     * @param  int  $id
+     * @return array
+     * 
+     * Obs.: Este método deve ser removido e substituído pelo método getAllOsByClient()
+     */
     public function getOsByCliente($id)
     {
         $this->db->where('clientes_id', $id);
@@ -82,17 +89,62 @@ class Clientes_model extends CI_Model
         return $this->db->get('os')->result();
     }
 
+    public function getAllEquipamentosByClient($id)
+    {
+        $this->db->select('equipamentos.*, marcas.marca as marca');
+        $this->db->from('equipamentos');
+        $this->db->join('marcas', 'marcas.idMarcas = equipamentos.marcas_id');
+        $this->db->where('clientes_id', $id);
+
+        return $this->db->get()->result();
+    }
+
+    public function getAllCobrancasByClient($id)
+    {
+        $this->db->where('clientes_id', $id);
+
+        return $this->db->get('cobrancas')->result();
+    }
+
     /**
      * Retorna todas as OS vinculados ao cliente
      *
      * @param  int  $id
+     * @param  string  $order default null
+     * @param  int  $limit default null
      * @return array
      */
-    public function getAllOsByClient($id)
+    public function getAllOsByClient($id, $order = null, $limit = null)
     {
         $this->db->where('clientes_id', $id);
+        if ($order) {
+            $this->db->order_by('idOs', 'desc');
+        }
+        if ($limit) {
+            $this->db->limit(10);
+        }
 
         return $this->db->get('os')->result();
+    }
+
+    /**
+     * Retorna todas as Vendas vinculados ao cliente
+     *
+     * @param  int  $id
+     * @return array
+     */
+    public function getAllVendasByClient($id)
+    {
+        // Pesquisar itens de venda e somá-los para atribuir aos resultados das vendas
+        $this->db->select('vendas.*, usuarios.nome as vendedor, SUM(itens_de_vendas.subTotal) as totalVenda');
+        $this->db->from('itens_de_vendas');
+        $this->db->join('vendas', 'vendas.idVendas = itens_de_vendas.vendas_id');
+        $this->db->join('usuarios', 'usuarios.idUsuarios = vendas.usuarios_id');
+        $this->db->where('vendas.clientes_id', $id);
+        $this->db->order_by('vendas.idVendas', 'asc');
+        $this->db->group_by('vendas.idVendas');
+
+        return $this->db->get()->result();
     }
 
     /**
@@ -119,19 +171,6 @@ class Clientes_model extends CI_Model
         }
 
         return true;
-    }
-
-    /**
-     * Retorna todas as Vendas vinculados ao cliente
-     *
-     * @param  int  $id
-     * @return array
-     */
-    public function getAllVendasByClient($id)
-    {
-        $this->db->where('clientes_id', $id);
-
-        return $this->db->get('vendas')->result();
     }
 
     /**

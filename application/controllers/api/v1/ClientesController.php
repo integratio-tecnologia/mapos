@@ -47,7 +47,7 @@ class ClientesController extends REST_Controller
             $cliente = $this->clientes_model->getById($id);
 
             if ($cliente) {
-                $cliente->ordensServicos = $this->clientes_model->getOsByCliente($id);
+                $cliente->ordensServicos = $this->clientes_model->getAllOsByClient($id);
                 $this->response([
                     'status' => true,
                     'message' => 'Detalhes do Cliente',
