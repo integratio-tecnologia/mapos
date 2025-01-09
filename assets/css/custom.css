@@ -81,6 +81,27 @@
     box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6) !important;
 }
 
+.controls.observacoes,
+.trumbowyg-box,
+.trumbowyg-editor {
+    max-width: calc(100% - 5px);
+    overflow: hidden;
+    min-width: fit-content;
+    min-height: 20vh;
+}
+
+.trumbowyg-box {
+    border: 1px solid !important;
+    border-radius: 5px;
+}
+
+/* Inserir no css matrix-style.css */
+select:focus, div.previews:focus, .trumbowyg-box:focus, input:focus, textarea:focus {
+    outline: none !important;
+    border-color: rgba(82, 168, 236, 0.8) !important;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6) !important;
+}
+
 textarea {
         resize: vertical;
 }

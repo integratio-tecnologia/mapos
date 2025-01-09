@@ -10,7 +10,7 @@ input[type="text"],
 input[type="number"],
 select[class*="span"],
 .row-fluid select[class*="span"],
-div.dropzone {
+div.previews {
   background  : #ffffff;
   border-color: #d2d4de;
 }
@@ -166,7 +166,7 @@ body {
   opacity: 1;
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07 {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     padding        : 3px;
     padding        : 3px;
     border-radius  : 35%;
@@ -177,12 +177,12 @@ body {
     justify-content: center;
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07 {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     border    : none !important;
     background: #ffffff54 !important;
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07:hover {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07:hover, .lord-icon08:hover {
     opacity: 0.8;
 }
 

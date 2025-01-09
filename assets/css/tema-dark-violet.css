@@ -9,7 +9,7 @@ input[type="text"],
 input[type="number"],
 select[class*="span"],
 .row-fluid select[class*="span"],
-div.dropzone {
+div.previews {
   background  : var(--dark-violet-cont);
   border-color: var(--dark-viol);
   color: var(--branco);
@@ -211,14 +211,14 @@ body {
 }
 
 .cardBox .card:nth-child(1) {
-    background: var(--dark-violet-widg);
-    border-right: 1px solid var(--dark-violet-cont) ;
+    background   : var(--dark-violet-widg);
+    border-right : 1px solid var(--dark-violet-cont) ;
     border-radius: 15px 0 0 15px;
   }
 
   .cardBox .card:nth-child(2) {
-    background: var(--dark-violet-widg);
-    border-right: 1px solid var(--dark-violet-cont) ;
+    background   : var(--dark-violet-widg);
+    border-right : 1px solid var(--dark-violet-cont) ;
     border-radius: 0;
   }
 
@@ -241,11 +241,24 @@ body {
 }
 
 .cardBox .card:nth-child(6) {
-    background: var(--dark-violet-widg);
+    background   : var(--dark-violet-widg);
+    border-right : 1px solid var(--dark-violet-cont) ;
+    border-radius: 0;
+}
+
+.cardBox .card:nth-child(7) {
+  background   : var(--dark-violet-widg);
+  border-right : 1px solid var(--dark-violet-cont) ;
+  border-radius: 0;
+}
+
+.cardBox .card:nth-child(8) {
+    background   : var(--dark-violet-widg);
+    border-right : 1px solid var(--dark-violet-cont);
     border-radius: 0 15px 15px 0;
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06 {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     padding        : 3px;
     background     : var(--dark-violet-cont);
     padding        : 3px;
@@ -257,7 +270,7 @@ body {
     justify-content: center;
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06 {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     border: 0px solid #ffffff3b !important;
 }
 
@@ -266,7 +279,9 @@ body {
 .cardBox .card .iconBx03,
 .cardBox .card .iconBx04,
 .cardBox .card .iconBx05,
-.cardBox .card .iconBx06 {
+.cardBox .card .iconBx06,
+.cardBox .card .iconBx07,
+.cardBox .card .iconBx08 {
     font-size  : 2.5em;
 }
 
@@ -292,6 +307,14 @@ body {
 
 .cardBox .card .iconBx06 {
     color: #f7f137;
+}
+
+.cardBox .card .iconBx07 {
+  color: #aa37f7;
+}
+
+.cardBox .card .iconBx08 {
+  color: #3774f7;
 }
 
 .cardBox .card .numbers {
@@ -434,7 +457,9 @@ hr {
 .btn-nwe3,
 .btn-nwe4,
 .btn-nwe5,
-.btn-nwe6 {
+.btn-nwe6,
+.btn-nwe7,
+.btn-nwe8 {
   text-shadow: 1 1 3px rgba(66, 62, 62, 0.549);
   /* font-size: ; */
 }
@@ -466,8 +491,18 @@ hr {
 }
 
 .btn-nwe6 {
-  color      : #91949b;
-  text-shadow: 0 0 3px rgba(16, 36, 51, 0.8);
+  color      : rgba(150, 145, 155, 0.8);
+  text-shadow: 0 0 3px rgba(84, 72, 95, 0.8);
+}
+
+.btn-nwe7 {
+  color      : rgba(155, 145, 154, 0.8);
+  text-shadow: 0 0 3px rgba(97, 75, 95, 0.8);
+}
+
+.btn-nwe8 {
+  color      : rgba(145, 155, 154, 0.8);
+  text-shadow: 0 0 3px rgba(76, 99, 96, 0.8);
 }
 
 .btn-nwe:hover,
@@ -504,6 +539,16 @@ hr {
 .btn-nwe6.hovered {
   color      : #466072;
   text-shadow: 0 0 3px rgba(166, 179, 188, 0.5);
+}
+
+.btn-nwe7:hover {
+  color      : #9b919a;
+  text-shadow: 0 0 3px rgba(97, 75, 95, 0.5);
+}
+
+.btn-nwe8:hover {
+  color      : #919b9a;
+  text-shadow: 0 0 3px rgba(76, 99, 96, 0.5);
 }
 
 /* RODAPÉ */
@@ -645,6 +690,18 @@ textarea, .uneditable-input {
     }
 
     .cardBox .card:nth-child(6) {
+      background   : var(--dark-violet-widg);
+      border-right : 1px solid var(--dark-violet-cont) ;
+      border-radius: 15px 0 0 15px;
+    }
+
+    .cardBox .card:nth-child(7) {
+      background   : var(--dark-violet-widg);
+      border-right : 1px solid var(--dark-violet-cont) ;
+      border-radius: 15px 0 0 15px;
+    }
+
+    .cardBox .card:nth-child(8) {
     background: var(--dark-violet-widg);
     border-radius: 0 15px 15px 0;
     }
@@ -654,7 +711,9 @@ textarea, .uneditable-input {
     .iconBx03,
     .iconBx04,
     .iconBx05,
-    .iconBx06 {
+    .iconBx06,
+    .iconBx07,
+    .iconBx08 {
         font-size: 2.2em;
     }
 

@@ -9,7 +9,7 @@ input[type="text"],
 input[type="number"],
 select[class*="span"],
 .row-fluid select[class*="span"],
-div.dropzone {
+div.previews {
   background  : var(--dark-2);
   border-color: var(--dark-1);
   color       : var(--branco);
@@ -241,15 +241,15 @@ body {
 .cardBox .card:nth-child(1) {
     background: var(--wid-dark);
     box-shadow: 0 0 10px rgb(0 0 0 / 4%);
-  }
+}
 
-  .cardBox .card:nth-child(2) {
-    background: var(--wid-dark);
-  }
+.cardBox .card:nth-child(2) {
+    background   : var(--wid-dark);
+}
 
-  .cardBox .card:nth-child(3) {
-    background: var(--wid-dark);
-  }
+.cardBox .card:nth-child(3) {
+    background   : var(--wid-dark);
+}
 
 .cardBox .card:nth-child(4) {
     background   : var(--wid-dark);
@@ -260,10 +260,22 @@ body {
 }
 
 .cardBox .card:nth-child(6) {
-    background: var(--wid-dark);
+    background   : var(--wid-dark);
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06 {
+.cardBox .card:nth-child(7) {
+    background   : var(--wid-dark);
+}
+
+.cardBox .card:nth-child(8) {
+    background   : var(--wid-dark);
+}
+
+.cardBox .card:hover {
+    background   : var(--wid-dark-1);
+}
+
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     padding        : 3px;
     border         : 1px solid #ffffff1e !important;
     padding        : 3px;
@@ -276,33 +288,43 @@ body {
 }
 
 .lord-icon01 {
-    background: #53b6fcfa;
-    box-shadow: rgba(83, 182, 252, 24%) 0px 30px 40px -7px;
+    background: #53b6fcfa !important;
+    box-shadow: rgba(83, 182, 252, 18%) 0px 10px 40px 2px;
 }
 
 .lord-icon02 {
     background: #f8a455e3;
-    box-shadow: rgba(248, 164, 85, 24%) 0px 30px 40px -7px;
+    box-shadow: rgba(248, 164, 85, 18%) 0px 10px 40px 2px;
 }
 
 .lord-icon03 {
     background: #0cdbaee3;
-    box-shadow: rgba(12, 219, 174, 24%) 0px 30px 40px -7px;
+    box-shadow: rgba(12, 219, 174, 18%) 0px 10px 40px 2px;
 }
 
 .lord-icon04 {
     background: #fa3775e3;
-    box-shadow: rgba(250, 55, 117, 24%) 0px 30px 40px -7px;
+    box-shadow: rgba(250, 55, 117, 18%) 0px 10px 40px 2px;
 }
 
 .lord-icon05 {
     background: #8fff76e3;
-    box-shadow: rgba(143, 255, 118, 24%) 0px 30px 40px -7px;
+    box-shadow: rgba(143, 255, 118, 18%) 0px 10px 40px 2px;
 }
 
 .lord-icon06 {
     background: #f7f137e3;
-    box-shadow: rgba(247, 241, 55, 24%) 0px 30px 40px -7px;
+    box-shadow: rgba(247, 241, 55, 18%) 0px 10px 40px 2px;
+}
+
+.lord-icon07 {
+    background: #7040c9e3;
+    box-shadow: rgba(112, 64, 201, 18%) 0px 10px 40px 2px;
+}
+
+.lord-icon08 {
+    background: #e45353e3;
+    box-shadow: rgba(228, 83, 83, 18%) 0px 10px 40px 2px;
 }
 
 .cardBox .card .numbers {
@@ -387,6 +409,10 @@ body {
     color: var(--branco);
 }
 
+.table tr:hover {
+    background: var(--dark-3);
+}
+
 .table th,
 .table th:hover {
     background: transparent !important;
@@ -459,7 +485,9 @@ hr {
 .btn-nwe3,
 .btn-nwe4,
 .btn-nwe5,
-.btn-nwe6 {
+.btn-nwe6,
+.btn-nwe7,
+.btn-nwe8 {
   text-shadow: 1 1 3px rgba(66, 62, 62, 0.549);
 }
 
@@ -490,8 +518,13 @@ hr {
 }
 
 .btn-nwe6 {
-  color      : #91949b;
-  text-shadow: 0 10px 12px rgba(16, 36, 51, 0.8);
+  color      : rgba(145, 148, 155, 0.8);
+  text-shadow: 0 10px 12px rgba(76, 83, 99, 0.8);
+}
+
+.btn-nwe7 {
+  color      : rgba(172, 3, 172, 0.8);
+  text-shadow: 0 10px 12px rgba(116, 1, 116, 0.8);
 }
 
 .btn-nwe:hover,
@@ -528,6 +561,16 @@ hr {
 .btn-nwe6.hovered {
   color      : #466072;
   text-shadow: 0 0 3px rgba(166, 179, 188, 0.5);
+}
+
+.btn-nwe7 {
+  color      : #ac03ac;
+  text-shadow: 0 10px 12px rgba(116, 1, 116, 0.5);
+}
+
+.btn-nwe7 {
+  color      : #79ac03;
+  text-shadow: 0 10px 12px rgba(97, 138, 1, 0.5);
 }
 
 /* RODAPÉ */

@@ -9,7 +9,7 @@ input[type="text"],
 input[type="number"],
 select[class*="span"],
 .row-fluid select[class*="span"],
-div.dropzone {
+div.previews {
   background  : var(--dark-2);
   border-color: var(--dark-1);
   color       : var(--branco);
@@ -244,31 +244,46 @@ body {
 
 /* CARDS */
 .cardBox .card:nth-child(1) {
-    background: var(--dark-orange-widg);
+    background: var(--wid-dark);
     box-shadow: 0 0 10px rgb(0 0 0 / 4%);
   }
 
   .cardBox .card:nth-child(2) {
     background: var(--wid-dark);
+    box-shadow: 0 0 10px rgb(0 0 0 / 4%);
   }
 
   .cardBox .card:nth-child(3) {
     background: var(--wid-dark);
+    box-shadow: 0 0 10px rgb(0 0 0 / 4%);
   }
 
 .cardBox .card:nth-child(4) {
     background   : var(--wid-dark);
+    box-shadow: 0 0 10px rgb(0 0 0 / 4%);
 }
 
 .cardBox .card:nth-child(5) {
     background   : var(--wid-dark);
+    box-shadow: 0 0 10px rgb(0 0 0 / 4%);
 }
 
 .cardBox .card:nth-child(6) {
     background: var(--wid-dark);
+    box-shadow: 0 0 10px rgb(0 0 0 / 4%);
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06 {
+.cardBox .card:nth-child(7) {
+    background: var(--wid-dark);
+    box-shadow: 0 0 10px rgb(0 0 0 / 4%);
+}
+
+.cardBox .card:nth-child(8) {
+    background: var(--wid-dark);
+    box-shadow: 0 0 10px rgb(0 0 0 / 4%);
+}
+
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     padding        : 3px;
     border         : 0 solid #ffffff1e !important;
     background     : var(--dark-orange) !important;
@@ -346,6 +361,10 @@ table tr:last-child {
     color: var(--white-blak-tit);
 }
 
+table thead tr:hover {
+    background: var(--dark-orange-tit2);
+}
+
 table tbody tr:hover {
     background: var(--dark-2);
     color: var(--branco);
@@ -407,7 +426,9 @@ hr {
 .btn-nwe3,
 .btn-nwe4,
 .btn-nwe5,
-.btn-nwe6 {
+.btn-nwe6,
+.btn-new7,
+.btn-nwe8 {
   color      : var(--dark-orange) !important;
   text-shadow: 0 10px 12px rgb(222 121 2 / 27%) !important;
   font-size  : 1.5em !important;
@@ -440,6 +461,16 @@ hr {
 
 .btn-nwe6:hover,
 .btn-nwe6.hovered {
+    opacity: 0.8
+}
+
+.btn-nwe7:hover,
+.btn-nwe7.hovered {
+    opacity: 0.8
+}
+
+.btn-nwe8:hover,
+.btn-nwe8.hovered {
     opacity: 0.8
 }
 

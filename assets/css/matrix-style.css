@@ -28,9 +28,11 @@ body {
 
   /* === Tema pure dark === */
   --wid-dark  : #1c1d26;
+  --wid-dark-1: #2d2e3a;
   --dark-0    : #191a22;
   --dark-1    : #14141a;
   --dark-2    : #272835;
+  --dark-3    : #3b3d52;
   --dark-cinz : #8788a4;
   --dark-azul : #1086dd;
   --dark-viol : #52459f;
@@ -162,8 +164,7 @@ input[type="color"],
 .btn-group>.btn:first-child,
 .btn-group>.btn:last-child,
 .btn-group>.btn:last-child,
-.btn-group>.dropdown-toggle,
-.dropzone {
+.btn-group>.dropdown-toggle {
   box-shadow  : none;
 }
 
@@ -187,7 +188,7 @@ input[type="text"],
 .row-fluid input[class*="span"],
 input[type="number"],
 select[class*="span"],
-.dropzone {
+div.previews {
   background  : #e6e9f3;
   border-color: #b1b9be;
 }
@@ -592,8 +593,8 @@ hr {
 End hora certa */
 
 .cardBox .card .lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
-    border    : none !important;
-    background: #ffffff54 !important;
+    border    : none;
+    background: #ffffff54;
 }
 
 .lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
@@ -2863,23 +2864,6 @@ form {
   margin-bottom        : 19px;
   padding-right        : 5px;
   padding-left         : 5px;
-}
-
-/**********dropzone plugin*************/
-
-.dropzone {
-  display              : flex;
-  align-content        : center;
-  justify-content      : center;
-  align-items          : center;
-  border               : 2px dashed #ccc !important;
-  border-radius        : 5px !important;
-  margin               : 20px 0;
-}
-
-.dz-message {
-  text-align           : center;
-  font-size            : 1.5em;
 }
 
 /* Responsive design */

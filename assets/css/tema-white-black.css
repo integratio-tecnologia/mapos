@@ -9,7 +9,7 @@ input[type="text"],
 input[type="number"],
 select[class*="span"],
 .row-fluid select[class*="span"],
-div.dropzone {
+div.previews {
   background  : var(--white-blak-side);
   border-color: var(--cinza0);
   color: var(--white-blak);
@@ -236,7 +236,7 @@ body {
     box-shadow: 0 15px 21px rgb(0 0 0 / 5%);
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06 {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     padding        : 3px;
     background     : #f5f5fd;
     padding        : 3px;
@@ -248,7 +248,7 @@ body {
     justify-content: center;
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06 {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     border: 1px solid #525a6a17 !important;
 }
 

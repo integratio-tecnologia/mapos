@@ -9,7 +9,7 @@ input[type="text"],
 input[type="number"],
 select[class*="span"],
 .row-fluid select[class*="span"],
-div.dropzone {
+div.previews {
   background  : var(--white);
   border-color: var(--white-gre0);
   color: var(--white-gre2);
@@ -229,7 +229,7 @@ body {
     box-shadow   : none;
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06 {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     padding        : 3px;
     background     : var(--dark-violet-cont);
     padding        : 3px;
@@ -241,12 +241,12 @@ body {
     justify-content: center;
 }
 
-.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06 {
+.lord-icon01, .lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06, .lord-icon07, .lord-icon08 {
     border    : none !important;
     background: var(--white-gre0) !important;
 }
 
-.lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06:hover {
+.lord-icon02, .lord-icon03, .lord-icon04, .lord-icon05, .lord-icon06:hover, .lord-icon07:hover, .lord-icon08:hover {
     opacity: 0.8;
 }
 
