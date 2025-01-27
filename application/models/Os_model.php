@@ -219,6 +219,16 @@ class Os_model extends CI_Model
             foreach ($query->result_array() as $row) {
                 $row_set[] = ['label' => $row['nomeCliente'] . ' | Telefone: ' . $row['telefone'] . ' | Celular: ' . $row['celular'] . ' | Documento: ' . $row['documento'], 'id' => $row['idClientes']];
             }
+            $row_set[] = [
+                'label' => 'Adicionar cliente...',
+                'id' => '0'
+            ];
+            echo json_encode($row_set);
+        } else {
+            $row_set[] = [
+                'label' => 'Adicionar cliente...',
+                'id' => '0'
+            ];
             echo json_encode($row_set);
         }
     }
