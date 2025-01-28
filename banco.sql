@@ -65,7 +65,7 @@ DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `unidades` (
   `idUnidades` INT NOT NULL AUTO_INCREMENT,
-  `unidade` VARCHAR(45) NULL,
+  `unidade` VARCHAR(80) NOT NULL,
   `cadastro` DATE NULL,
   `situacao` TINYINT(1) NULL,
   PRIMARY KEY (`idUnidades`))
