@@ -66,9 +66,9 @@
 }
 
 /* Correção do Mini Caledário */
-.ui-datepicker {
+/* .ui-datepicker {
     z-index: 99999 !important;
-}
+} */
 
 .trumbowyg-box {
         margin-top: 0;
@@ -79,8 +79,8 @@ textarea {
         resize: vertical;
     }
 
-.ui-autocomplete, .ui-menu, .ui-menu-item, .ui-corner-all, .ui-widget, .ui-widget-header, .ui-widget-content {
-    z-index: 9999 !important;
+.ui-datepicker, .ui-autocomplete, .ui-menu, .ui-menu-item, .ui-corner-all, .ui-widget, .ui-widget-header, .ui-widget-content {
+    z-index: 100000 !important;
 }
 
 .ui-autocomplete-category {
