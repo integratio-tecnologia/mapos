@@ -222,6 +222,8 @@ class Os extends MY_Controller
                 'dataFinal' => $dataFinal,
                 'garantia' => $this->input->post('garantia'),
                 'garantias_id' => $termoGarantiaId,
+                'formaPagamento' => $this->input->post('formaPagamento'),
+                'prazoPagamento' => $this->input->post('prazoPagamento'),
                 'descricaoProduto' => $this->input->post('descricaoProduto'),
                 'defeito' => $this->input->post('defeito'),
                 'status' => $this->input->post('status'),
@@ -623,7 +625,7 @@ class Os extends MY_Controller
         $this->os_model->delete('anexos', 'os_id', $id);
         $this->os_model->delete('os', 'idOs', $id);
         if ((int) $os->faturado === 1) {
-            $this->os_model->delete('lancamentos', 'descricao', "Fatura de OS - #${id}");
+            $this->os_model->delete('lancamentos', 'descricao', "Fatura de OS - #$id");
         }
 
         log_info('Removeu uma OS. ID: ' . $id);

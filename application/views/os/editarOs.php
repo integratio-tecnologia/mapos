@@ -118,6 +118,27 @@
                                             <input id="garantias_id" class="span12" type="hidden" name="garantias_id" value="<?php echo $result->garantias_id ?>" />
                                         </div>
                                     </div>
+                                    <div class="span12" style="padding: 1%; margin-left: 0">
+                                        <div class="span3">
+                                            <label for="formaPagamento">Forma de Pagamento</label>
+                                            <select class="span12" name="formaPagamento" id="formaPagamento">
+                                                <option value="Dinheiro" <?php echo $result->formaPagamento == 'Dinheiro' ? 'selected' : '' ;?>>Dinheiro</option>
+                                                <option value="PIX" <?php echo $result->formaPagamento == 'PIX' ? 'selected' : '';?>>PIX</option>
+                                                <option value="Boleto" <?php echo $result->formaPagamento == 'Boleto' ? 'selected' : '' ;?>>Boleto Bancário</option>
+                                                <option value="Cartão Débito/Crédito" <?php echo $result->formaPagamento == 'Cartão Débito/Crédito' ? 'selected' : '' ;?>>Cartão Débito/Crédito</option>
+                                            </select>
+                                        </div>
+                                        <div class="span3">
+                                            <label for="prazoPagamento">Prazo de Pagamento</label>
+                                            <select class="span12" name="prazoPagamento" id="prazoPagamento">
+                                                <option value="À Vista" <?php echo $result->prazoPagamento == 'À Vista' ? 'selected' : '' ;?>>À Vista</option>
+                                                <option value="15 Dias" <?php echo $result->prazoPagamento == '15 Dias' ? 'selected' : '' ;?>>15 Dias</option>
+                                                <option value="30 Dias" <?php echo $result->prazoPagamento == '30 Dias' ? 'selected' : '' ;?>>30 Dias</option>
+                                                <option value="45 Dias" <?php echo $result->prazoPagamento == '45 Dias' ? 'selected' : '' ;?>>45 Dias</option>
+                                                <option value="Parcelado" <?php echo $result->prazoPagamento == 'Parcelado' ? 'selected' : '' ;?>>Parcelado</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="span6" style="padding: 1%; margin-left: 0">
                                         <label for="descricaoProduto"><h4>Descrição Produto/Serviço</h4></label>
                                         <textarea class="span12 editor" name="descricaoProduto" id="descricaoProduto" cols="30" rows="5"><?php echo $result->descricaoProduto ?></textarea>
