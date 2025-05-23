@@ -3432,11 +3432,9 @@ form {
     text-overflow: ellipsis;
   }
 
-  .ph3 {
-    display: none;
-  }
-
-  .ph4 {
+  .ph3,
+  .ph4,
+  .ph5 {
     display: none;
   }
 
@@ -3686,7 +3684,8 @@ form {
   .ph1,
   .ph2,
   .ph3,
-  .ph4 {
+  .ph4,
+  .ph5 {
     display: none;
   }
 
