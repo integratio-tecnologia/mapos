@@ -312,6 +312,18 @@
                             </table>
                         <?php } ?>
                         <table class="table table-bordered table-condensed">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: right;">
+                                        <b>Forma de Pagamento:
+                                        <?php echo strtoupper($result->formaPagamento) ?><br>
+                                        Prazo: 
+                                        <?php echo strtoupper($result->prazoPagamento) ?></b>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-bordered table-condensed">
                             <?php if ($totalProdutos != 0 || $totalServico != 0) {
                                 if ($result->valor_desconto != 0) {
                                     echo "<td>";
