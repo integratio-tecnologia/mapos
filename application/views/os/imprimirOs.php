@@ -222,6 +222,25 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr class="table-secondary">
+                                            <th colspan="2">INFORMAÇÕES DE PAGAMENTO</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="text-align: center;">
+                                                FORMA: <?= $result->formaPagamento ?>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                PRAZO: <?= $result->prazoPagamento ?>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="tabela">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr class="table-secondary">
                                             <th colspan="2">RESUMO DOS VALORES</th>
                                         </tr>
                                     </thead>
