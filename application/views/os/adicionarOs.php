@@ -72,6 +72,27 @@
                                             <input id="garantias_id" class="span12" type="hidden" name="garantias_id" value="" />
                                         </div>
                                     </div>
+                                    <div class="span12" style="padding: 1%; margin-left: 0">
+                                        <div class="span3">
+                                            <label for="formaPagamento">Forma de Pagamento</label>
+                                            <select class="span12" name="formaPagamento" id="formaPagamento" value="">
+                                                <option value="Dinheiro">Dinheiro</option>
+                                                <option value="PIX">PIX</option>
+                                                <option value="Boleto">Boleto Bancário</option>
+                                                <option value="Cartão Débito/Crédito">Cartão Débito/Crédito</option>
+                                            </select>
+                                        </div>
+                                        <div class="span3">
+                                            <label for="prazoPagamento">Prazo de Pagamento</label>
+                                            <select class="span12" name="prazoPagamento" id="prazoPagamento" value="">
+                                                <option value="À Vista">À Vista</option>
+                                                <option value="15 Dias">15 Dias</option>
+                                                <option value="30 Dias">30 Dias</option>
+                                                <option value="45 Dias">45 Dias</option>
+                                                <option value="Parcelado">Parcelado</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="span6" style="padding: 1%; margin-left: 0">
                                         <label for="descricaoProduto">
                                             <h4>Descrição Produto/Serviço</h4>
