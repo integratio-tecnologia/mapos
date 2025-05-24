@@ -6,14 +6,14 @@ use Libraries\Gateways\Contracts\PaymentGateway;
 
 abstract class BasePaymentGateway implements PaymentGateway
 {
-    public function gerarCobranca($id, $tipo, $metodoPagamento, $data = [])
+    public function gerarCobranca($id, $tipo, $vencimento, $metodoPagamento, $data = [])
     {
         switch ($metodoPagamento) {
             case PaymentGateway::PAYMENT_METHOD_BILLET:
-                return $this->gerarCobrancaBoleto($id, $tipo);
+                return $this->gerarCobrancaBoleto($id, $tipo, $vencimento);
                 break;
             case PaymentGateway::PAYMENT_METHOD_LINK:
-                return $this->gerarCobrancaLink($id, $tipo);
+                return $this->gerarCobrancaLink($id, $tipo, $vencimento);
                 break;
             default:
                 throw new \Exception('Método de pagamento inválido!');
@@ -78,7 +78,7 @@ abstract class BasePaymentGateway implements PaymentGateway
         throw new \Exception('Não implementado');
     }
 
-    abstract protected function gerarCobrancaBoleto($id, $tipo);
+    abstract protected function gerarCobrancaBoleto($id, $tipo, $vencimento = null);
 
-    abstract protected function gerarCobrancaLink($id, $tipo);
+    abstract protected function gerarCobrancaLink($id, $tipo, $vencimento = null);
 }

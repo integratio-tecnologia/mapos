@@ -160,7 +160,7 @@ class Asaas extends BasePaymentGateway
         return $this->atualizarDados($id);
     }
 
-    protected function gerarCobrancaBoleto($id, $tipo)
+    protected function gerarCobrancaBoleto($id, $tipo, $vencimento = null)
     {
         $entity = $this->findEntity($id, $tipo);
         $produtos = $tipo === PaymentGateway::PAYMENT_TYPE_OS
@@ -219,8 +219,16 @@ class Asaas extends BasePaymentGateway
             throw new \Exception($err);
         }
 
-        $expirationDate = (new DateTime())->add(new DateInterval($this->asaasConfig['boleto_expiration']));
-        $expirationDate = ($expirationDate->format('Y-m-d'));
+        // $expirationDate = (new DateTime())->add(new DateInterval($this->asaasConfig['boleto_expiration']));
+        // $expirationDate = ($expirationDate->format('Y-m-d'));
+        $expirationDate = $vencimento ? date('Y-m-d', strtotime($vencimento)) : (new DateTime())->add(new DateInterval($this->asaasConfig['boleto_expiration']))->format('Y-m-d');
+        if ($vencimento && $vencimento < date('Y-m-d')) {
+            throw new \Exception('Data de vencimento não pode ser menor que a data atual!');
+        }
+        // if ($vencimento && $vencimento > date('Y-m-d', strtotime($this->asaasConfig['boleto_expiration']))) {
+        //     throw new \Exception('Data de vencimento não pode ser maior que ' . $this->asaasConfig['boleto_expiration'] . ' dias!');
+        // }
+        
         $body = [
             'customer' => $this->criarOuRetornarClienteAsaasId($entity->clientes_id),
             'billingType' => 'BOLETO',
@@ -276,7 +284,7 @@ class Asaas extends BasePaymentGateway
         return $data;
     }
 
-    protected function gerarCobrancaLink($id, $tipo)
+    protected function gerarCobrancaLink($id, $tipo, $vencimento = null)
     {
         $entity = $this->findEntity($id, $tipo);
         $produtos = $tipo === PaymentGateway::PAYMENT_TYPE_OS

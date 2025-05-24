@@ -4,6 +4,7 @@ $this->load->config('payment_gateways');
 
 <script>
     var paymentGatewaysConfig = JSON.parse("<?php echo addslashes(json_encode($this->config->item('payment_gateways'))); ?>");
+    console.log(paymentGatewaysConfig);
 </script>
 
 <div class="modal fade" id="modal-gerar-pagamento" tabindex="-1" role="dialog">
@@ -29,6 +30,8 @@ $this->load->config('payment_gateways');
                             <label id="label_forma_pagamento" for="forma_pagamento" hidden>Forma de Pagamento: </label>
                             <select id="forma_pagamento" class="form-control span12" name="forma_pagamento" required hidden>
                             </select>
+                            <label for="data_vencimento">Data de Vencimento</label>
+                            <input type="date" class="form-control" id="data_vencimento" name="data_vencimento" value="<?php echo date('Y-m-d') ;?>" required>
                         </div>
                     </div>
                 </div>

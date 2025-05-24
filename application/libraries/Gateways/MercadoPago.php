@@ -160,7 +160,7 @@ class MercadoPago extends BasePaymentGateway
         return $this->atualizarDados($id);
     }
 
-    protected function gerarCobrancaBoleto($id, $tipo)
+    protected function gerarCobrancaBoleto($id, $tipo, $vencimento = null)
     {
         $entity = $this->findEntity($id, $tipo);
         $produtos = $tipo === PaymentGateway::PAYMENT_TYPE_OS
@@ -219,14 +219,24 @@ class MercadoPago extends BasePaymentGateway
 
         $clientNameParts = explode(' ', $entity->nomeCliente);
         $documento = preg_replace('/[^0-9]/', '', $entity->documento);
-        $expirationDate = (new DateTime())->add(new DateInterval($this->mercadoPagoConfig['boleto_expiration']));
+        // $expirationDate = (new DateTime())->add(new DateInterval($this->mercadoPagoConfig['boleto_expiration']));
+        $expirationDate = new DateTime($vencimento);
+        if ($expirationDate === false) {
+            throw new \Exception('Data de vencimento inválida!');
+        }
+        if ($expirationDate < new DateTime()) {
+            throw new \Exception('Data de vencimento não pode ser menor que a data atual!');
+        }
+        // if ($expirationDate > (new DateTime())->add(new DateInterval('P30D'))) {
+        //     throw new \Exception('Data de vencimento não pode ser maior que 30 dias!');
+        // }
         $expirationDate = ($expirationDate->format(DateTime::RFC3339_EXTENDED));
 
         $payment = new Payment();
         $payment->transaction_amount = floatval($this->valorTotal($totalProdutos, $totalServicos, $totalDesconto, $tipoDesconto));
         $payment->description = PaymentGateway::PAYMENT_TYPE_OS ? "OS #$id" : "Venda #$id";
         $payment->payment_method_id = 'bolbradesco';
-        $payment->notification_url = 'http://mapos.com.br/';
+        $payment->notification_url = 'https://admin.integratiotec.com.br/index.php/mercadopago/notification';
         $payment->date_of_expiration = $expirationDate;
         $payment->payer = [
             'email' => $entity->email,
@@ -280,7 +290,7 @@ class MercadoPago extends BasePaymentGateway
         return $data;
     }
 
-    protected function gerarCobrancaLink($id, $tipo)
+    protected function gerarCobrancaLink($id, $tipo, $vencimento = null)
     {
         throw new Exception('MercadoPago não suporta gerar link pela API, somente pelo painel!');
     }
