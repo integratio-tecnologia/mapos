@@ -49,6 +49,11 @@ class MercadoPago extends BasePaymentGateway
             throw new \Exception($payment->Error());
         }
 
+        // Se o status for 'cancelled', não podemos cancelar novamente
+        if ($payment->status === 'cancelled') {
+            return $this->atualizarDados($id);
+        }
+
         $payment->status = 'cancelled';
         $payment->update();
         if ($payment->Error()) {
@@ -219,17 +224,17 @@ class MercadoPago extends BasePaymentGateway
 
         $clientNameParts = explode(' ', $entity->nomeCliente);
         $documento = preg_replace('/[^0-9]/', '', $entity->documento);
-        // $expirationDate = (new DateTime())->add(new DateInterval($this->mercadoPagoConfig['boleto_expiration']));
         $expirationDate = new DateTime($vencimento);
+
         if ($expirationDate === false) {
             throw new \Exception('Data de vencimento inválida!');
         }
         if ($expirationDate < new DateTime()) {
             throw new \Exception('Data de vencimento não pode ser menor que a data atual!');
         }
-        // if ($expirationDate > (new DateTime())->add(new DateInterval('P30D'))) {
-        //     throw new \Exception('Data de vencimento não pode ser maior que 30 dias!');
-        // }
+        if ($expirationDate > (new DateTime())->add(new DateInterval('P29D'))) {
+            throw new \Exception('Data de vencimento não pode ser maior que 29 dias!');
+        }
         $expirationDate = ($expirationDate->format(DateTime::RFC3339_EXTENDED));
 
         $payment = new Payment();

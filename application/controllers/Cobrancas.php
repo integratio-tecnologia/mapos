@@ -39,7 +39,7 @@ class Cobrancas extends MY_Controller
             $id = $this->input->post('id');
             $tipo = $this->input->post('tipo');
             $formaPagamento = $this->input->post('forma_pagamento');
-            $vencimento = $this->input->post('data_vencimento');
+            $vencimento = date('Y-m-d', strtotime($this->input->post('data_vencimento')));
             $gatewayDePagamento = $this->input->post('gateway_de_pagamento');
 
             $this->load->model('Os_model');
