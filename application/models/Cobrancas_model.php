@@ -32,6 +32,7 @@ class Cobrancas_model extends CI_Model
         $this->db->select('cobrancas.*, clientes.*');
         $this->db->from('cobrancas');
         $this->db->where('cobrancas.idCobranca', $id);
+        $this->db->or_where('cobrancas.charge_id', $id);
         $this->db->join('clientes', 'clientes.idClientes = cobrancas.clientes_id');
         $this->db->limit(1);
 
