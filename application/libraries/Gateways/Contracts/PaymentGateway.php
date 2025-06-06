@@ -25,4 +25,6 @@ interface PaymentGateway
     public function confirmarPagamento($id);
 
     public function errosCadastro($entity);
+
+    public function processarWebhooks();
 }

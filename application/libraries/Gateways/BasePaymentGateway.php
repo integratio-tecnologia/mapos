@@ -78,7 +78,15 @@ abstract class BasePaymentGateway implements PaymentGateway
         throw new \Exception('Não implementado');
     }
 
+    public function processarWebhooks()
+    {
+        // Processar o webhook para o provedor específico
+        return $this->processarWebhook();
+    }
+
     abstract protected function gerarCobrancaBoleto($id, $tipo);
 
     abstract protected function gerarCobrancaLink($id, $tipo);
+
+    abstract protected function processarWebhook();
 }
