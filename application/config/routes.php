@@ -50,5 +50,10 @@ if (filter_var($_ENV['API_ENABLED'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
     require APPPATH . 'config/routes_api.php';
 }
 
+// Rotas do Webhooks
+if (filter_var($_ENV['WEBHOOK_ENABLED'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
+    require APPPATH . 'config/routes_webhooks.php';
+}
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
