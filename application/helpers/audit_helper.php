@@ -1,13 +1,15 @@
 <?php
 
 // log info
-function log_info($task)
+function log_info($task, $user = null)
 {
     $ci = &get_instance();
     $ci->load->model('Audit_model');
 
     $data = [
-        'usuario' => $ci->session->userdata('nome_admin'),
+        'usuario' => empty($ci->session->userdata('nome_admin'))
+            ? (empty($user) ? 'Desconhecido' : $user)
+            : $ci->session->userdata('nome_admin'),
         'ip' => $ci->input->ip_address(),
         'tarefa' => $task,
         'data' => date('Y-m-d'),
