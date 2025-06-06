@@ -50,14 +50,12 @@ class MercadoPago extends BasePaymentGateway
         }
 
         // Se o status for 'cancelled', não podemos cancelar novamente
-        if ($payment->status === 'cancelled') {
-            return $this->atualizarDados($id);
-        }
-
-        $payment->status = 'cancelled';
-        $payment->update();
-        if ($payment->Error()) {
-            throw new \Exception($payment->Error());
+        if ($payment->status !== 'cancelled') {
+            $payment->status = 'cancelled';
+            $payment->update();
+            if ($payment->Error()) {
+                throw new \Exception($payment->Error());
+            }
         }
 
         return $this->atualizarDados($id);
@@ -122,26 +120,28 @@ class MercadoPago extends BasePaymentGateway
             throw new \Exception($payment->Error());
         }
 
-        // Cobrança foi paga ou foi confirmada de forma manual, então damos baixa
-        if ($payment->status === 'approved') {
-            // TODO: dar baixa no lançamento caso exista
-        }
-
-        $databaseResult = $this->ci->cobrancas_model->edit(
-            'cobrancas',
-            [
-                'status' => $payment->status,
-            ],
-            'idCobranca',
-            $id
-        );
-
-        if ($databaseResult == true) {
-            $this->ci->session->set_flashdata('success', 'Cobrança atualizada com sucesso!');
-            log_info('Alterou um status de cobrança. ID' . $id);
-        } else {
-            $this->ci->session->set_flashdata('error', 'Erro ao atualizar cobrança!');
-            throw new \Exception('Erro ao atualizar cobrança!');
+        if ($payment->status !== $cobranca->status) {
+            // Cobrança foi paga ou foi confirmada de forma manual, então damos baixa
+            if ($payment->status === 'approved') {
+                // TODO: dar baixa no lançamento caso exista
+            }
+    
+            $databaseResult = $this->ci->cobrancas_model->edit(
+                'cobrancas',
+                [
+                    'status' => $payment->status,
+                ],
+                'idCobranca',
+                $id
+            );
+    
+            if ($databaseResult == true) {
+                $this->ci->session->set_flashdata('success', 'Cobrança atualizada com sucesso!');
+                log_info('Alterou um status de cobrança. ID' . $id);
+            } else {
+                $this->ci->session->set_flashdata('error', 'Erro ao atualizar cobrança!');
+                throw new \Exception('Erro ao atualizar cobrança!');
+            }
         }
     }
 
