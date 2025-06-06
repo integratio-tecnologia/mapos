@@ -114,6 +114,16 @@
                                 <span class="help-inline">Chave Pix para Recebimento de Pagamentos</span>
                             </div>
                         </div>
+                        <div class="control-group">
+                            <label for="WEBHOOK_ENABLED" class="control-label">Receber Notificações Webhook</label>
+                            <div class="controls">
+                                <select name="WEBHOOK_ENABLED" id="WEBHOOK_ENABLED">
+                                    <option value="true" <?= !filter_var($_ENV['WEBHOOK_ENABLED'] ?? true, FILTER_VALIDATE_BOOLEAN) ? 'selected' : ''; ?>>Ativado</option>
+                                    <option value="false" <?= !filter_var($_ENV['WEBHOOK_ENABLED'] ?? false, FILTER_VALIDATE_BOOLEAN) ? 'selected' : ''; ?>>Desativado</option>
+                                </select>
+                                <span class="help-inline">Ativar ou desativar o recebimento de notificações atualizações de pagamentos via Webhook.</span>
+                            </div>
+                        </div>
 
                         <!-- Configrações do EFI -->
                         <hr>
@@ -139,6 +149,13 @@
                             <label for="EFI_CREDENTIAIS_CLIENT_SECRET" class="control-label">CLIENT_SECRET</label>
                             <div class="controls">
                                 <input type="text" name="PAYMENT_GATEWAYS_EFI_CREDENTIAIS_CLIENT_SECRET" value="<?= $_ENV['PAYMENT_GATEWAYS_EFI_CREDENTIAIS_CLIENT_SECRET'] ?>" id="EFI_CREDENTIAIS_CLIENT_SECRET">
+                                <span class="help-inline">Pode ser encontrado no menu <a href="https://app.sejaefi.com.br/api/aplicacoes" target="_blank" rel="noopener noreferrer">"API" -> "Aplicações"</a></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="EFI_CREDENTIAIS_SIGNATURE_SECRET" class="control-label">WEBHOOK_SIGNATURE_SECRET</label>
+                            <div class="controls">
+                                <input type="text" name="PAYMENT_GATEWAYS_EFI_CREDENTIAIS_SIGNATURE_SECRET" value="<?= $_ENV['PAYMENT_GATEWAYS_EFI_CREDENTIAIS_SIGNATURE_SECRET'] ?>" id="EFI_CREDENTIAIS_SIGNATURE_SECRET">
                                 <span class="help-inline">Pode ser encontrado no menu <a href="https://app.sejaefi.com.br/api/aplicacoes" target="_blank" rel="noopener noreferrer">"API" -> "Aplicações"</a></span>
                             </div>
                         </div>
@@ -188,6 +205,13 @@
                             </div>
                         </div>
                         <div class="control-group">
+                            <label for="MERCADO_PAGO_CREDENTIALS_SIGNATURE_SECRET" class="control-label">WEBHOOK_SIGNATURE_SECRET</label>
+                            <div class="controls">
+                                <input type="text" name="PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_SIGNATURE_SECRET" value="<?= $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_SIGNATURE_SECRET'] ?>" id="MERCADO_PAGO_CREDENTIALS_SIGNATURE_SECRET">
+                                <span class="help-inline">Pode ser encontrado no menu <a href="https://www.mercadopago.com.br/developers/panel/app" target="_blank" rel="noopener noreferrer">"Sua Integração" -> "Notificações Webhooks" -> "Configurar notificações"</a></span>
+                            </div>
+                        </div>
+                        <div class="control-group">
                             <label for="MERCADO_PAGO_BOLETO_EXPIRATION" class="control-label">Dias para vencimento do boleto</label>
                             <div class="controls">
                                 <select name="PAYMENT_GATEWAYS_MERCADO_PAGO_BOLETO_EXPIRATION" id="MERCADO_PAGO_BOLETO_EXPIRATION">
@@ -229,6 +253,13 @@
                             <div class="controls">
                                 <input type="text" name="PAYMENT_GATEWAYS_ASAAS_CREDENTIAIS_API_KEY" value="<?= $_ENV['PAYMENT_GATEWAYS_ASAAS_CREDENTIAIS_API_KEY'] ?>" id="ASAAS_CREDENTIAIS_API_KEY">
                                 <span class="help-inline">Pode ser encontrado no menu "Minha Conta", clique em "Integração" e depois em "Gerar API Key"</span>
+                            </div>
+                        </div>
+                        <div class="control-group">
+                            <label for="ASAAS_CREDENTIAIS_WEBHOOK_TOKEN" class="control-label">WEBHOOK_TOKEN</label>
+                            <div class="controls">
+                                <input type="text" name="PAYMENT_GATEWAYS_ASAAS_CREDENTIAIS_WEBHOOK_TOKEN" value="<?= $_ENV['PAYMENT_GATEWAYS_ASAAS_CREDENTIAIS_WEBHOOK_TOKEN'] ?>" id="ASAAS_CREDENTIAIS_WEBHOOK_TOKEN">
+                                <span class="help-inline">Pode ser encontrado no menu "Minha Conta", clique em "Integração" e depois clique na guia "Webhooks" e no botão "Adicionar Webhook" </span>
                             </div>
                         </div>
                         <div class="control-group">

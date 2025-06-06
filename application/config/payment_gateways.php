@@ -12,6 +12,7 @@ $config['payment_gateways'] = [
         'credentials' => [
             'client_id' => $_ENV['PAYMENT_GATEWAYS_EFI_CREDENTIAIS_CLIENT_ID'] ?? '',
             'client_secret' => $_ENV['PAYMENT_GATEWAYS_EFI_CREDENTIAIS_CLIENT_SECRET'] ?? '',
+            'signature_secret' => $_ENV['PAYMENT_GATEWAYS_EFI_CREDENTIAIS_SIGNATURE_SECRET'] ?? '',
         ],
         'timeout' => $_ENV['PAYMENT_GATEWAYS_EFI_TIMEOUT'] ?? 30,
         'boleto_expiration' => $_ENV['PAYMENT_GATEWAYS_EFI_BOLETO_EXPIRATION'] ?? 'P3D',
@@ -53,6 +54,7 @@ $config['payment_gateways'] = [
             'integrator_id' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_INTEGRATOR_ID'] ?? '',
             'platform_id' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_PLATFORM_ID'] ?? '',
             'corporation_id' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_CORPORATION_ID'] ?? '',
+            'signature_secret' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_SIGNATURE_SECRET'] ?? '',
         ],
         'boleto_expiration' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_BOLETO_EXPIRATION'] ?? 'P3D',
         'payment_methods' => [
@@ -80,6 +82,7 @@ $config['payment_gateways'] = [
         'notify' => isset($_ENV['PAYMENT_GATEWAYS_ASAAS_NOTIFY']) ? filter_var($_ENV['PAYMENT_GATEWAYS_ASAAS_NOTIFY'], FILTER_VALIDATE_BOOLEAN) : false,
         'credentials' => [
             'api_key' => $_ENV['PAYMENT_GATEWAYS_ASAAS_CREDENTIAIS_API_KEY'] ?? '',
+            'signature_secret' => $_ENV['PAYMENT_GATEWAYS_ASAAS_CREDENTIAIS_WEBHOOK_TOKEN'] ?? '',
         ],
         'boleto_expiration' => $_ENV['PAYMENT_GATEWAYS_ASAAS_BOLETO_EXPIRATION'] ?? 'P3D',
         'payment_methods' => [
