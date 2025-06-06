@@ -231,7 +231,7 @@ class MercadoPago extends BasePaymentGateway
         $payment->transaction_amount = floatval($this->valorTotal($totalProdutos, $totalServicos, $totalDesconto, $tipoDesconto));
         $payment->description = PaymentGateway::PAYMENT_TYPE_OS ? "OS #$id" : "Venda #$id";
         $payment->payment_method_id = 'bolbradesco';
-        $payment->notification_url = 'http://mapos.com.br/';
+        $payment->notification_url = base_url() . 'index.php/api/v1/webhooks/mercadopago';
         $payment->date_of_expiration = $expirationDate;
         $payment->payer = [
             'email' => $entity->email,
