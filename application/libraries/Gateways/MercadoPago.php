@@ -12,6 +12,8 @@ class MercadoPago extends BasePaymentGateway
 
     private $mercadoPagoConfig;
 
+    private $signatureSecretKey;
+
     public function __construct()
     {
         $this->ci = &get_instance();
@@ -35,6 +37,8 @@ class MercadoPago extends BasePaymentGateway
         $mercadoPagoApi->setCorporationId($mercadoPagoConfig['credentials']['corporation_id']);
 
         $this->mercadoPagoApi = $mercadoPagoApi;
+
+        $this->signatureSecretKey = $mercadoPagoConfig['credentials']['signature_secret'] ?? null;
     }
 
     public function cancelar($id)
@@ -301,5 +305,103 @@ class MercadoPago extends BasePaymentGateway
         }
 
         return ($produtosValor + $servicosValor) - $def_desconto;
+    }
+
+    /**
+     * Processa notificações de pagamento do Mercado Pago.
+     */
+
+    protected function processarWebhook() : bool
+    {
+        $request_body = file_get_contents('php://input');
+        $notification = json_decode($request_body, true);
+
+        $x_signature_header = isset($_SERVER['HTTP_X_SIGNATURE']) ? $_SERVER['HTTP_X_SIGNATURE'] : null;
+        $x_request_id_header = isset($_SERVER['HTTP_X_REQUEST_ID']) ? $_SERVER['HTTP_X_REQUEST_ID'] : null;
+
+        if (!$x_signature_header) {
+            log_info('Erro: Header X-Signature ausente.', 'MercadoPago Webhooks');
+            return false;
+        }
+
+        if (!$notification || !isset($notification['data']['id']) || !isset($notification['type']) || !isset($notification['action'])) {
+            log_info('Erro: Notificação inválida.', 'MercadoPago Webhooks');
+            return false;
+        }
+
+        if (!$this->validarAssinaturaNotificacao($x_signature_header, $request_body, $notification['data']['id'], $x_request_id_header)) {
+            log_info('Erro: Assinatura inválida.', 'MercadoPago Webhooks');
+            return false;
+        }
+
+        if (! $this->handleWebhookEvent($notification)) {
+            return false;
+        };
+
+        return true;
+    }
+
+    /**
+     * Valida a assinatura do webhook.
+     */
+
+    private function validarAssinaturaNotificacao($signature, $payload, $id, $x_request_id = null) : bool
+    {
+        if (!$this->signatureSecretKey) {
+            log_info('Erro: Chave secreta de assinatura não configurada.', 'MercadoPago Webhooks');
+            return false;
+        }
+
+        $parts = explode(',', $signature);
+        $ts = null;
+        $hash_from_mp = null;
+
+        foreach ($parts as $part) {
+            list($key, $value) = explode('=', trim($part), 2);
+            if ($key === 'ts') {
+                $ts = $value;
+            } elseif ($key === 'v1') {
+                $hash_from_mp = $value;
+            }
+        }
+
+        if ($ts === null || $hash_from_mp === null) {
+            log_info('Erro: ts ou hash não encontrado no header X-Signature: ' . $signature, 'MercadoPago Webhooks');
+            return false;
+        }
+
+        $manifest = "id:{$id};request-id:{$x_request_id};ts:{$ts};";
+        $calculated_hash = hash_hmac('sha256', $manifest, $this->signatureSecretKey);
+
+        if (!hash_equals($calculated_hash, $hash_from_mp)) {
+            log_info("Erro: SIGNATURE_SECRET inválido.", 'MercadoPago Webhooks');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Manipula o evento do webhook.
+     */
+
+    private function handleWebhookEvent($notification) : bool
+    {   
+        if ($notification['type'] === 'payment' && $notification['action'] === 'payment.updated') {
+
+            $cobranca = $this->ci->cobrancas_model->getById($notification['data']['id']);
+            if (! $cobranca) {
+                log_info("Erro: Cobrança não encontrada no banco de dados. ID: {$notification['data']['id']}", 'MercadoPago Webhooks');
+                return false;
+            }
+
+            // Atualiza dados da cobrança com o status do pagamento.
+            $this->atualizarDados($cobranca->idCobranca);
+
+            log_info("Notificação de pagamento recebida e processada com sucesso. ID Recurso: {$notification['data']['id']}, Tipo: {$notification['type']}, Ação: {$notification['action']}", 'MercadoPago Webhooks');
+            return true;
+        } else {
+            log_info("Atenção: Evento não suportado ou não implementado. Tipo: {$notification['type']}, Ação: {$notification['action']}", 'MercadoPago Webhooks');
+            return false;
+        }
     }
 }
