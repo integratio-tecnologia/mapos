@@ -476,7 +476,7 @@ class GerencianetSdk extends BasePaymentGateway
             
             $statusAtual = $status["current"];
 
-            if (! in_array($status, $this->webhookEvents)) {
+            if (! in_array($statusAtual, $this->webhookEvents)) {
                 log_info("Erro: Evento não suportado. ID Cobrança: {$charge_id}, Evento: {$status}", 'Efipay (Gerencianet)');
                 throw new \Exception('Evento não suportado', WebhooksController::ERROR_UNSUPPORTED_EVENT);
             }
