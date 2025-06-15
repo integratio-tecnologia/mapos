@@ -12,10 +12,13 @@ class MercadoPago extends BasePaymentGateway
 
     private $mercadoPagoConfig;
 
+    private $webhookEvents = [];
+
     public function __construct()
     {
         $this->ci = &get_instance();
         $this->ci->load->config('payment_gateways');
+        $this->ci->load->config('webhook_providers');
         $this->ci->load->model('Os_model');
         $this->ci->load->model('vendas_model');
         $this->ci->load->model('cobrancas_model');
@@ -23,7 +26,10 @@ class MercadoPago extends BasePaymentGateway
         $this->ci->load->model('email_model');
 
         $mercadoPagoConfig = $this->ci->config->item('payment_gateways')['MercadoPago'];
+        $webhookEvents = $this->ci->config->item('webhook_providers')['MercadoPago']['events'];
+        $webhookEvents = array_keys($webhookEvents);
         $this->mercadoPagoConfig = $mercadoPagoConfig;
+        $this->webhookEvents = $webhookEvents;
 
         $mercadoPagoApi = new SDK();
         $mercadoPagoApi->setAccessToken($mercadoPagoConfig['credentials']['access_token']);
@@ -50,14 +56,12 @@ class MercadoPago extends BasePaymentGateway
         }
 
         // Se o status for 'cancelled', não podemos cancelar novamente
-        if ($payment->status === 'cancelled') {
-            return $this->atualizarDados($id);
-        }
-
-        $payment->status = 'cancelled';
-        $payment->update();
-        if ($payment->Error()) {
-            throw new \Exception($payment->Error());
+        if ($payment->status !== 'cancelled') {
+            $payment->status = 'cancelled';
+            $payment->update();
+            if ($payment->Error()) {
+                throw new \Exception($payment->Error());
+            }
         }
 
         return $this->atualizarDados($id);
@@ -122,26 +126,28 @@ class MercadoPago extends BasePaymentGateway
             throw new \Exception($payment->Error());
         }
 
-        // Cobrança foi paga ou foi confirmada de forma manual, então damos baixa
-        if ($payment->status === 'approved') {
-            // TODO: dar baixa no lançamento caso exista
-        }
-
-        $databaseResult = $this->ci->cobrancas_model->edit(
-            'cobrancas',
-            [
-                'status' => $payment->status,
-            ],
-            'idCobranca',
-            $id
-        );
-
-        if ($databaseResult == true) {
-            $this->ci->session->set_flashdata('success', 'Cobrança atualizada com sucesso!');
-            log_info('Alterou um status de cobrança. ID' . $id);
-        } else {
-            $this->ci->session->set_flashdata('error', 'Erro ao atualizar cobrança!');
-            throw new \Exception('Erro ao atualizar cobrança!');
+        if ($payment->status !== $cobranca->status) {
+            // Cobrança foi paga ou foi confirmada de forma manual, então damos baixa
+            if ($payment->status === 'approved') {
+                // TODO: dar baixa no lançamento caso exista
+            }
+    
+            $databaseResult = $this->ci->cobrancas_model->edit(
+                'cobrancas',
+                [
+                    'status' => $payment->status,
+                ],
+                'idCobranca',
+                $cobranca->idCobranca
+            );
+    
+            if ($databaseResult == true) {
+                $this->ci->session->set_flashdata('success', 'Cobrança atualizada com sucesso!');
+                log_info('Alterou um status de cobrança. ID' . $id);
+            } else {
+                $this->ci->session->set_flashdata('error', 'Erro ao atualizar cobrança!');
+                throw new \Exception('Erro ao atualizar cobrança!');
+            }
         }
     }
 
@@ -231,7 +237,7 @@ class MercadoPago extends BasePaymentGateway
         $payment->transaction_amount = floatval($this->valorTotal($totalProdutos, $totalServicos, $totalDesconto, $tipoDesconto));
         $payment->description = PaymentGateway::PAYMENT_TYPE_OS ? "OS #$id" : "Venda #$id";
         $payment->payment_method_id = 'bolbradesco';
-        $payment->notification_url = 'http://mapos.com.br/';
+        $payment->notification_url = base_url() . 'index.php/api/v1/webhooks/client/mercadopago';
         $payment->date_of_expiration = $expirationDate;
         $payment->payer = [
             'email' => $entity->email,
@@ -301,5 +307,104 @@ class MercadoPago extends BasePaymentGateway
         }
 
         return ($produtosValor + $servicosValor) - $def_desconto;
+    }
+
+    protected function validarToken(): void
+    {
+        $request_body = file_get_contents('php://input');
+        $notification = json_decode($request_body, true);
+        
+        $x_signature = $this->ci->input->get_request_header('x-signature');
+        $x_request_id = $this->ci->input->get_request_header('x-request-id');
+
+        if (!$x_signature || !$notification || !isset($notification['data']['id'])) {
+            LogContext::set('error_type', 'missing_signature');
+            throw new \Exception('Dados de assinatura inválidos', WebhooksController::ERROR_MISSING_TOKEN);
+        }
+
+        if (!$this->validarAssinatura($x_signature, $request_body, $notification['data']['id'], $x_request_id)) {
+            LogContext::set('error_type', 'invalid_signature');
+            throw new \Exception('Assinatura inválida', WebhooksController::ERROR_INVALID_SIGNATURE);
+        }
+
+        LogContext::set('signature_validated', true);
+    }
+
+    protected function validarPayload(): void
+    {
+        $data = $this->ci->input->post();
+        
+        if (empty($data)) {
+            LogContext::set('error_type', 'empty_payload');
+            throw new \Exception('Payload inválido', WebhooksController::ERROR_INVALID_PAYLOAD);
+        }
+
+        $requiredFields = $this->config['payload_schema']['required_for_payments'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                LogContext::set('error_type', 'missing_required_field');
+                LogContext::set('field', $field);
+                throw new \Exception("Campo obrigatório não encontrado: {$field}", WebhooksController::ERROR_MISSING_REQUIRED_FIELD);
+            }
+        }
+
+        if (!isset($this->config['events'][$data['action']])) {
+            LogContext::set('error_type', 'invalid_event');
+            LogContext::set('event', $data['action']);
+            throw new \Exception('Evento não suportado', WebhooksController::ERROR_UNSUPPORTED_EVENT);
+        }
+
+        LogContext::set('payload', $data);
+        LogContext::set('event', $data['action']);
+        LogContext::set('payload_validated', true);
+    }
+
+    public function processarNotificacao(): void
+    {
+        $payload = $this->ci->input->post();
+        $paymentId = $payload['data']['id'];
+
+        LogContext::set('notification_received', true);
+        
+        $this->atualizarDados($paymentId);
+        
+        LogContext::set('notification_processed', true);
+        log_info("Notificação processada com sucesso. ID Pagamento: {$paymentId}", 'MercadoPago Webhook');
+    }
+
+    private function validarAssinatura($signature, $payload, $id, $x_request_id = null) : bool
+    {
+        if (!$this->mercadoPagoConfig['credentials']['signature_secret']) {
+            log_info('Erro: Chave secreta de assinatura não configurada.', 'MercadoPago Webhooks');
+            return false;
+        }
+
+        $parts = explode(',', $signature);
+        $ts = null;
+        $hash_from_mp = null;
+
+        foreach ($parts as $part) {
+            list($key, $value) = explode('=', trim($part), 2);
+            if ($key === 'ts') {
+                $ts = $value;
+            } elseif ($key === 'v1') {
+                $hash_from_mp = $value;
+            }
+        }
+
+        if ($ts === null || $hash_from_mp === null) {
+            log_info('Erro: ts ou hash não encontrado no header X-Signature: ' . $signature, 'MercadoPago Webhooks');
+            return false;
+        }
+
+        $manifest = "id:{$id};request-id:{$x_request_id};ts:{$ts};";
+        $calculated_hash = hash_hmac('sha256', $manifest, $this->mercadoPagoConfig['credentials']['signature_secret']);
+
+        if (!hash_equals($calculated_hash, $hash_from_mp)) {
+            log_info("Erro: SIGNATURE_SECRET inválido.", 'MercadoPago Webhooks');
+            return false;
+        }
+
+        return true;
     }
 }

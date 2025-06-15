@@ -11,10 +11,13 @@ class Asaas extends BasePaymentGateway
 
     private $asaasConfig;
 
+    private $webhookEvents = [];
+
     public function __construct()
     {
         $this->ci = &get_instance();
         $this->ci->load->config('payment_gateways');
+        $this->ci->load->config('webhook_providers');
         $this->ci->load->model('Os_model');
         $this->ci->load->model('vendas_model');
         $this->ci->load->model('cobrancas_model');
@@ -23,7 +26,10 @@ class Asaas extends BasePaymentGateway
         $this->ci->load->model('clientes_model');
 
         $asaasConfig = $this->ci->config->item('payment_gateways')['Asaas'];
+        $webhookEvents = $this->ci->config->item('webhook_providers')['Asaas']['events'];
+        $webhookEvents = array_keys($webhookEvents);
         $this->asaasConfig = $asaasConfig;
+        $this->webhookEvents = $webhookEvents;
         $this->asaasApi = new AsaasSdk(
             $asaasConfig['credentials']['api_key'],
             $asaasConfig['production'] === true ? 'producao' : 'homologacao'
@@ -106,14 +112,13 @@ class Asaas extends BasePaymentGateway
             throw new Exception('Devido à limitação da Asaas, somente é possível atualizar cobranças com boletos!');
         }
 
-        // Verifica se a cobrança já foi deletada
-        if ($result->deleted) {
-            // Atribui o valor DELETED ao status para atualizar o status no banco de dados
-            $result->status = 'DELETED';
+        if (! $result) {
+            throw new \Exception('Cobrança não encontrada na Asaas!');
         }
+
+        $result->status = $result->deleted ? 'DELETED' : $result->status;
         
-        // Cobrança foi paga ou foi confirmada de forma manual, então damos baixa
-        if ($result->status == 'RECEIVED' || $result->status == 'CONFIRMED' || $result->status == 'DUNNING_RECEIVED') {
+        if (in_array($result->status, ['RECEIVED', 'CONFIRMED', 'ANTICIPATED'])) {
             // TODO: dar baixa no lançamento caso exista
         }
 
@@ -123,7 +128,7 @@ class Asaas extends BasePaymentGateway
                 'status' => $result->status,
             ],
             'idCobranca',
-            $id
+            $cobranca->idCobranca
         );
 
         if ($databaseResult == true) {
@@ -459,5 +464,64 @@ class Asaas extends BasePaymentGateway
         } else {
             throw new Exception('Erro ao criar cliente na Asaas!');
         }
+    }
+
+    protected function validarToken(): void
+    {
+        $access_token_header = $this->ci->input->get_request_header('asaas-access-token');
+        
+        if (!$access_token_header) {
+            LogContext::set('error_type', 'missing_token');
+            throw new \Exception('Token não encontrado no header', WebhooksController::ERROR_MISSING_TOKEN);
+        }
+
+        if ($access_token_header !== $this->asaasConfig['credentials']['webhook_token']) {
+            LogContext::set('error_type', 'invalid_token');
+            throw new \Exception('Assinatura inválida', WebhooksController::ERROR_INVALID_SIGNATURE);
+        }
+
+        LogContext::set('token_validated', true);
+    }
+
+    protected function validarPayload(): void
+    {
+        $data = $this->ci->input->post();
+        
+        if (empty($data)) {
+            LogContext::set('error_type', 'empty_payload');
+            throw new \Exception('Payload inválido', WebhooksController::ERROR_INVALID_PAYLOAD);
+        }
+
+        $requiredFields = $this->config['payload_schema']['required_for_payment'];
+        foreach ($requiredFields as $field) {
+            if (!isset($data[$field])) {
+                LogContext::set('error_type', 'missing_required_field');
+                LogContext::set('field', $field);
+                throw new \Exception("Campo obrigatório não encontrado: {$field}", WebhooksController::ERROR_MISSING_REQUIRED_FIELD);
+            }
+        }
+
+        if (!isset($this->config['events'][$data['event']])) {
+            LogContext::set('error_type', 'invalid_event');
+            LogContext::set('event', $data['event']);
+            throw new \Exception('Evento não suportado', WebhooksController::ERROR_UNSUPPORTED_EVENT);
+        }
+
+        LogContext::set('payload', $data);
+        LogContext::set('event', $data['event']);
+        LogContext::set('payload_validated', true);
+    }
+
+    public function processarNotificacao(): void
+    {
+        $payload = $this->ci->input->post();
+        $id = $payload['payment']['id'];
+
+        LogContext::set('notification_received', true);
+
+        $this->atualizarDados($id);
+        
+        LogContext::set('notification_processed', true);
+        log_info("Notificação processada com sucesso. ID Cobrança: {$id}", 'Asaas Webhook');
     }
 }

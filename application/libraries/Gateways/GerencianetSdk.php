@@ -11,6 +11,8 @@ class GerencianetSdk extends BasePaymentGateway
 
     private $gerenciaNetConfig;
 
+    private $webhookEvents;
+
     public function __construct()
     {
         $this->ci = &get_instance();
@@ -20,8 +22,10 @@ class GerencianetSdk extends BasePaymentGateway
         $this->ci->load->model('cobrancas_model');
         $this->ci->load->model('mapos_model');
         $this->ci->load->model('email_model');
-
+        
         $gerenciaNetConfig = $this->ci->config->item('payment_gateways')['GerencianetSdk'];
+        $webhookEvents = $this->ci->config->item('webhook_providers')['GerencianetSdk']['events'];
+        $webhookEvents = array_keys($webhookEvents);
         $this->gerenciaNetConfig = $gerenciaNetConfig;
         $this->gerenciaNetApi = new EfiPay([
             'client_id' => $gerenciaNetConfig['credentials']['client_id'],
@@ -116,7 +120,7 @@ class GerencianetSdk extends BasePaymentGateway
                 'status' => $result['data']['status'],
             ],
             'idCobranca',
-            $id
+            $cobranca->idCobranca
         );
 
         if ($databaseResult == true) {
@@ -258,7 +262,7 @@ class GerencianetSdk extends BasePaymentGateway
                 ],
             ],
             'metadata' => [
-                'notification_url' => 'http://mapos.com.br/',
+                'notification_url' => base_url() . 'index.php/api/v1/webhooks/client/gerencianetsdk',
             ],
             'payment' => [
                 'banking_billet' => [
@@ -377,7 +381,7 @@ class GerencianetSdk extends BasePaymentGateway
         ];
 
         $metadata = [
-            "notification_url" => "http://mapos.com.br/"
+            "notification_url" => base_url() . "index.php/webhooks/client/gerencianetsdk"
         ];
 
         $settings = [
@@ -426,5 +430,64 @@ class GerencianetSdk extends BasePaymentGateway
         }
 
         return $data;
+    }
+
+    protected function validarToken(): void
+    {
+        $notification = $this->ci->input->post('notification');
+
+        if (!$notification) {
+            LogContext::set('error_type', 'missing_notification');
+            throw new \Exception('Token de notificação não encontrado', WebhooksController::ERROR_MISSING_TOKEN);
+        }
+
+        LogContext::set('notification_token', $notification);
+        LogContext::set('token_validated', true);
+    }
+
+    protected function validarPayload(): void
+    {
+        // Efípay não requer validação de payload pois envia apenas o token
+        // A validação real acontece ao consultar a API com o token
+        return;
+    }
+
+    public function processarNotificacao(): void
+    {
+        $notification = LogContext::get('notification_token');
+        
+        $params = [
+            'token' => $notification,
+        ];
+
+        LogContext::set('notification_received', true);
+
+        try {
+            $chargeNotification = $this->gerenciaNetApi->getNotification($params, []);
+
+            $i = count($chargeNotification["data"]);
+
+            $ultimoStatus = $chargeNotification["data"][$i-1];
+            
+            $status = $ultimoStatus["status"];
+            
+            $charge_id = $ultimoStatus["identifiers"]["charge_id"];
+            
+            $statusAtual = $status["current"];
+
+            if (! in_array($status, $this->webhookEvents)) {
+                log_info("Erro: Evento não suportado. ID Cobrança: {$charge_id}, Evento: {$status}", 'Efipay (Gerencianet)');
+                throw new \Exception('Evento não suportado', WebhooksController::ERROR_UNSUPPORTED_EVENT);
+            }
+            
+            $this->atualizarDados($charge_id);
+            
+            LogContext::set('notification_processed', true);
+            log_info("Notificação processada com sucesso. ID Pagamento: {$charge_id}", 'Efípay Webhook');
+        } catch (Exception $e) {
+            LogContext::set('error_type', 'api_error');
+            LogContext::set('api_error', $e->getMessage());
+            throw new \Exception('Erro ao consultar notificação: ' . $e->getMessage(), WebhooksController::ERROR_PROVIDER_CONFIG_NOT_FOUND);
+        }
     }
 }

@@ -53,6 +53,7 @@ $config['payment_gateways'] = [
             'integrator_id' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_INTEGRATOR_ID'] ?? '',
             'platform_id' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_PLATFORM_ID'] ?? '',
             'corporation_id' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_CORPORATION_ID'] ?? '',
+            'signature_secret' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_CREDENTIALS_SIGNATURE_SECRET'] ?? '',
         ],
         'boleto_expiration' => $_ENV['PAYMENT_GATEWAYS_MERCADO_PAGO_BOLETO_EXPIRATION'] ?? 'P3D',
         'payment_methods' => [
@@ -80,6 +81,7 @@ $config['payment_gateways'] = [
         'notify' => isset($_ENV['PAYMENT_GATEWAYS_ASAAS_NOTIFY']) ? filter_var($_ENV['PAYMENT_GATEWAYS_ASAAS_NOTIFY'], FILTER_VALIDATE_BOOLEAN) : false,
         'credentials' => [
             'api_key' => $_ENV['PAYMENT_GATEWAYS_ASAAS_CREDENTIAIS_API_KEY'] ?? '',
+            'webhook_token' => $_ENV['PAYMENT_GATEWAYS_ASAAS_CREDENTIAIS_WEBHOOK_TOKEN'] ?? '',
         ],
         'boleto_expiration' => $_ENV['PAYMENT_GATEWAYS_ASAAS_BOLETO_EXPIRATION'] ?? 'P3D',
         'payment_methods' => [
@@ -107,6 +109,8 @@ $config['payment_gateways'] = [
             'DUNNING_RECEIVED' => 'Recuperada',
             'AWAITING_RISK_ANALYSIS' => 'Pagamento em análise',
             'DELETED' => 'Cobrança excluída ou cancelada',
+            'BANK_SLIP_VIEWED' => 'Boleto da cobrança visualizado pelo cliente.',
+            'CHECKOUT_VIEWED' => 'Fatura da cobrança visualizada pelo cliente.',
         ],
     ],
 ];

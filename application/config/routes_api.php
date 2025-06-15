@@ -48,3 +48,12 @@ $route['api/v1/client/compras/(:num)'] = 'api/v1/client/ClientComprasController/
 
 $route['api/v1/client/cobrancas'] = 'api/v1/client/ClientCobrancasController/index';
 
+// Routes for Webhook Providers
+if (filter_var($_ENV['WEBHOOK_ENABLED'] ?? false, FILTER_VALIDATE_BOOLEAN)) {
+
+    $route['api/v1/webhooks/admin/cache/clear'] = 'api/v1/WebhooksController/clearCache';
+    $route['api/v1/webhooks/client/(:any)/(:any)'] = 'api/v1/WebhooksController/index/$1/$2'; // Endpoint destinado a webhook services que enviam somente um token, como no caso da GerenciaNet.
+    $route['api/v1/webhooks/client/(:any)'] = 'api/v1/WebhooksController/index/$1';
+
+}
+

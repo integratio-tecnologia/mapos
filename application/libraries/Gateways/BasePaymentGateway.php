@@ -6,6 +6,16 @@ use Libraries\Gateways\Contracts\PaymentGateway;
 
 abstract class BasePaymentGateway implements PaymentGateway
 {
+    protected $ci;
+    protected $config;
+    
+    public function __construct()
+    {
+        $this->ci =& get_instance();
+        $this->ci->config->load('webhook_providers');
+        $this->config = $this->ci->config->item('webhook_providers')[get_class($this)];
+    }
+
     public function gerarCobranca($id, $tipo, $metodoPagamento, $data = [])
     {
         switch ($metodoPagamento) {
@@ -78,7 +88,26 @@ abstract class BasePaymentGateway implements PaymentGateway
         throw new \Exception('Não implementado');
     }
 
+    public function validarNotificacao(): void 
+    {
+        $this->validarToken();
+        $this->validarPayload();
+    }
+
     abstract protected function gerarCobrancaBoleto($id, $tipo);
 
     abstract protected function gerarCobrancaLink($id, $tipo);
+
+    /**
+     * Valida token/assinatura da requisição
+     * @throws \Exception
+     */
+    abstract protected function validarToken(): void;
+
+    /**
+     * Valida payload da requisição
+     * @throws \Exception
+     */
+    abstract protected function validarPayload(): void;
+
 }
