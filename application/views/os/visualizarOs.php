@@ -430,40 +430,75 @@
         });
     });
 
-    $('#copyButton').on('click', function() {
-        var $qrCodeImage = $('#qrCodeImage');
-        var canvas = document.createElement('canvas');
+    $('#copyButton').on('click', function(e) {
+        e.preventDefault();
+        
+        // Captura e decodificação do QR Code
+        const $qrCodeImage = $('#qrCodeImage');
+        const canvas = document.createElement('canvas');
         canvas.width = $qrCodeImage.width();
         canvas.height = $qrCodeImage.height();
-        var context = canvas.getContext('2d');
-        context.drawImage($qrCodeImage[0], 0, 0, $qrCodeImage.width(), $qrCodeImage.height());
-        var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        var code = jsQR(imageData.data, imageData.width, imageData.height);
-        if (code) {
-            navigator.clipboard.writeText(code.data).then(function() {
-                $('#modal-pix').modal('hide');
-                swal({
-                    type: "success",
-                    title: "Sucesso!",
-                    text: "QR Code copiado com sucesso: " + code.data,
-                    icon: "success",
-                    timer: 3000,
-                    showConfirmButton: false,
-                });
+        const context = canvas.getContext('2d');
+        
+        try {
+            // Tenta decodificar o QR Code
+            context.drawImage($qrCodeImage[0], 0, 0, $qrCodeImage.width(), $qrCodeImage.height());
+            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            const code = jsQR(imageData.data, imageData.width, imageData.height);
 
-            }).catch(function(err) {
-                swal({
-                    type: "error",
-                    title: "Atenção",
-                    text: "Erro ao copiar QR Code: ",
-                    err
-                });
-            });
-        } else {
+            if (code) {
+                function fallbackCopyToClipboard(text) {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    
+                    // Configurações otimizadas do textarea
+                    textarea.style.cssText = 'position:fixed;left:-9999px;top:0;opacity:0;';
+                    document.body.appendChild(textarea);
+                    
+                    try {
+                        // Seleção e cópia otimizada
+                        textarea.select();
+                        textarea.setSelectionRange(0, textarea.value.length);
+                        textarea.focus();
+                        
+                        const successful = document.execCommand('copy');
+                        document.body.removeChild(textarea);
+                        
+                        if (successful) {
+                            $('#modal-pix').modal('hide');
+                            swal({
+                                type: "success",
+                                title: "Sucesso!",
+                                text: "Chave PIX copiada com sucesso!",
+                                icon: "success",
+                                timer: 3000,
+                                showConfirmButton: false
+                            });
+                        } else {
+                            throw new Error('Falha ao copiar para área de transferência');
+                        }
+                    } catch (err) {
+                        document.body.removeChild(textarea);
+                        console.error('Erro ao copiar:', err);
+                        swal({
+                            type: "error",
+                            title: "Atenção",
+                            text: "Erro ao copiar: " + err.message
+                        });
+                    }
+                }
+
+                fallbackCopyToClipboard(code.data);
+                
+            } else {
+                throw new Error('QR Code não encontrado ou inválido');
+            }
+        } catch (err) {
+            console.error('Erro ao processar QR Code:', err);
             swal({
                 type: "error",
                 title: "Atenção",
-                text: "Não foi possível decodificar o QR Code.",
+                text: "Não foi possível decodificar o QR Code."
             });
         }
     });

