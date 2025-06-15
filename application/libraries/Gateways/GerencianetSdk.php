@@ -17,6 +17,7 @@ class GerencianetSdk extends BasePaymentGateway
     {
         $this->ci = &get_instance();
         $this->ci->load->config('payment_gateways');
+        $this->ci->load->config('webhook_providers');
         $this->ci->load->model('Os_model');
         $this->ci->load->model('vendas_model');
         $this->ci->load->model('cobrancas_model');
